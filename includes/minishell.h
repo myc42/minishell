@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 19:02:12 by macoulib          #+#    #+#             */
-/*   Updated: 2025/10/11 18:54:16 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/10/11 19:49:23 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ typedef struct s_data
 	int		infile_fd;
 	int		outfile_fd;
 	int		error_fd;
-	int		fd[2];
 }			t_data;
 
 int			ft_isspace(char c);
