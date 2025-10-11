@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 15:42:54 by macoulib          #+#    #+#             */
-/*   Updated: 2025/10/10 13:06:50 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/10/11 19:26:09 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	redirection_detected(char **av)
 int	is_redirection_operator(char *av)
 {
 	if (ft_strcmp(av, "<") == 0 || ft_strcmp(av, ">") == 0 || ft_strcmp(av,
-			">>") == 0 || ft_strcmp(av, "2>") == 0 || ft_strcmp(av, "|") == 0)
+			">>") == 0 || ft_strcmp(av, "2>") == 0)
 		return (1);
 	return (0);
 }

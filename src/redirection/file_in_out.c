@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 16:39:06 by macoulib          #+#    #+#             */
-/*   Updated: 2025/10/11 16:35:00 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/10/11 19:34:07 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,8 @@ int	redirect_and_cmds(t_data *data, int ac, char **envp)
 			return (-1);
 		i++;
 	}
-	create_cmd_tab(data);
+	only_cmd_tab(data);
+	
 	create_pipeline_tab(data);
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 18:23:42 by macoulib          #+#    #+#             */
-/*   Updated: 2025/10/10 14:59:21 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/10/11 18:53:45 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	count_cmd_elements(t_data *data)
 	return (count);
 }
 
-int	create_cmd_tab(t_data *data)
+int	only_cmd_tab(t_data *data)
 {
 	int	i;
 	int	j;
