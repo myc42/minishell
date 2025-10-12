@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 18:23:42 by macoulib          #+#    #+#             */
-/*   Updated: 2025/10/11 18:53:45 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/10/12 17:50:11 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,3 @@ int	only_cmd_tab(t_data *data)
 	data->argv_only_cmd[j] = NULL;
 	return (1);
 }
-
-
-

@@ -6,19 +6,25 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 20:09:52 by macoulib          #+#    #+#             */
-/*   Updated: 2025/10/11 21:00:10 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/10/12 18:24:17 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	first_argv_in_tab(t_data *data, char *input)
+void	first_argv_in_tab(t_data *data, char *input, char **env)
 {
 	int		i;
 	char	**av;
+	char	*expan;
+	char	*strtrim;
+	char	*mult_space;
 
 	i = 0;
-	av = argv_valid_tab(input);
+	strtrim = ft_strtrim(input, " ");
+	mult_space = delete_multiple_space(strtrim);
+	expan = expand_variables_in_string(mult_space, env);
+	av = argv_valid_tab(expan);
 	while (av[i])
 		i++;
 	data->argv = malloc(sizeof(char *) * (i + 1));
@@ -32,19 +38,23 @@ void	first_argv_in_tab(t_data *data, char *input)
 	}
 	data->argv[i] = NULL;
 }
+
 void	exe_cmd(t_data *data, int *i, char **envp)
 {
 	char	**split_cmd;
 	char	*cmd_path;
 
 	split_cmd = ft_split(data->argv_pipeline[*i][0], ' ');
-	// if (!split_cmd[0] || !split_cmd)
-	// print_error_and_exit("Error split command");
+	if (!split_cmd[0] || !split_cmd)
+	{
+		ft_putstr_fd("Error split command: ", 2);
+		return ;
+	}
 	cmd_path = find_path(envp, split_cmd[0]);
 	if (cmd_path == NULL)
 		ft_putstr_fd("command not found: ", 2);
 	execve(cmd_path, data->argv_pipeline[*i], envp);
-	// print_error_and_exit("execve");
+	ft_putstr_fd("execve: ", 2);
 }
 
 void	exe(t_data *data, char *input, int ac, char **env)
@@ -52,30 +62,31 @@ void	exe(t_data *data, char *input, int ac, char **env)
 	int		i;
 	int		pipeline_nb;
 	int		prev_pipe_read_fd;
-	int		status;
 	int		fds[2];
 	pid_t	pid;
+	int		status;
 
-	prev_pipe_read_fd = 0;
 	i = 0;
-	first_argv_in_tab(data, input);
+	prev_pipe_read_fd = -1;
+	first_argv_in_tab(data, input, env);
 	redirect_and_cmds(data, ac, env);
-	pipeline_nb = count_pipeline(data);
-	if (pipeline_nb < 1)
-		pipeline_nb = 1;
+	pipeline_nb = count_pipeline(data) + 1;
 	while (i < pipeline_nb)
 	{
 		if (i < pipeline_nb - 1)
 		{
 			if (pipe(fds) == -1)
+			{
 				perror("pipe");
+				return ;
+			}
 		}
 		pid = fork();
 		if (pid == -1)
 			return ;
 		if (pid == 0)
 		{
-			if (prev_pipe_read_fd != 0)
+			if (prev_pipe_read_fd != -1)
 			{
 				dup2(prev_pipe_read_fd, 0);
 				close(prev_pipe_read_fd);
@@ -86,22 +97,38 @@ void	exe(t_data *data, char *input, int ac, char **env)
 				close(data->infile_fd);
 			}
 			if (i < pipeline_nb - 1)
+			{
+				close(fds[0]);
 				dup2(fds[1], 1);
+				close(fds[1]);
+			}
 			else if (data->outfile_fd != -1)
 			{
 				dup2(data->outfile_fd, 1);
 				close(data->outfile_fd);
 			}
 			exe_cmd(data, &i, env);
+			exit(EXIT_FAILURE);
 		}
 		else
 		{
-			if (prev_pipe_read_fd != 0)
+			if (prev_pipe_read_fd != -1)
 				close(prev_pipe_read_fd);
-			prev_pipe_read_fd = fds[0];
-			close(fds[1]);
-			waitpid(pid, &status, 0);
+			if (i < pipeline_nb - 1)
+			{
+				prev_pipe_read_fd = fds[0];
+				close(fds[1]);
+			}
+			else
+			{
+				prev_pipe_read_fd = -1;
+			}
+			i++;
 		}
-		i++;
+		if (data->infile_fd != -1)
+			close(data->infile_fd);
+		if (data->outfile_fd != -1)
+			close(data->outfile_fd);
+		waitpid(pid, &status, 0);
 	}
 }
