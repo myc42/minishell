@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 20:09:52 by macoulib          #+#    #+#             */
-/*   Updated: 2025/10/12 18:24:17 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/10/13 20:32:10 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,13 @@ void	first_argv_in_tab(t_data *data, char *input, char **env)
 	int		i;
 	char	**av;
 	char	*expan;
-	char	*strtrim;
+	//char	*strtrim;
 	char	*mult_space;
 
 	i = 0;
-	strtrim = ft_strtrim(input, " ");
-	mult_space = delete_multiple_space(strtrim);
+	/* strtrim = ft_strtrim(input, " ");
+	mult_space = delete_multiple_space(strtrim); */
+	mult_space = clean_space(input);
 	expan = expand_variables_in_string(mult_space, env);
 	av = argv_valid_tab(expan);
 	while (av[i])
@@ -52,9 +53,11 @@ void	exe_cmd(t_data *data, int *i, char **envp)
 	}
 	cmd_path = find_path(envp, split_cmd[0]);
 	if (cmd_path == NULL)
-		ft_putstr_fd("command not found: ", 2);
+	{
+		ft_putstr_fd("command not found: \n", 2);
+		exit(127);
+	}
 	execve(cmd_path, data->argv_pipeline[*i], envp);
-	ft_putstr_fd("execve: ", 2);
 }
 
 void	exe(t_data *data, char *input, int ac, char **env)

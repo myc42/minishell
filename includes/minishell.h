@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 19:02:12 by macoulib          #+#    #+#             */
-/*   Updated: 2025/10/12 18:01:12 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/10/13 18:52:08 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,5 +61,8 @@ int			redirection_detected(char **av);
 void		create_pipeline_tab(t_data *data);
 void		exe(t_data *data, char *input, int ac, char **env);
 int			count_pipeline(t_data *data);
+void		pipeline_space(char *str, char *dest);
+void		init_variables_to_zero(int *i, int *j, int *k, int *l);
+char		*clean_space(char *str);
 
 #endif
