@@ -6,11 +6,13 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 20:09:52 by macoulib          #+#    #+#             */
-/*   Updated: 2025/10/14 21:26:11 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/10/14 22:14:54 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+
 
 void	first_argv_in_tab(t_data *data, char *input, char **env)
 {
@@ -69,6 +71,7 @@ void	exe(t_data *data, char *input, int ac, char **env)
 	i = 0;
 	prev_pipe_read_fd = -1;
 	first_argv_in_tab(data, input, env);
+	
 	if (!handle_builtin(data))
 	{
 		redirect_and_cmds(data, ac, env);
