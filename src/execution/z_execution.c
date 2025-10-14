@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 20:09:52 by macoulib          #+#    #+#             */
-/*   Updated: 2025/10/13 20:32:10 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/10/14 18:50:13 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,9 @@ void	first_argv_in_tab(t_data *data, char *input, char **env)
 	int		i;
 	char	**av;
 	char	*expan;
-	//char	*strtrim;
 	char	*mult_space;
 
 	i = 0;
-	/* strtrim = ft_strtrim(input, " ");
-	mult_space = delete_multiple_space(strtrim); */
 	mult_space = clean_space(input);
 	expan = expand_variables_in_string(mult_space, env);
 	av = argv_valid_tab(expan);
@@ -72,66 +69,69 @@ void	exe(t_data *data, char *input, int ac, char **env)
 	i = 0;
 	prev_pipe_read_fd = -1;
 	first_argv_in_tab(data, input, env);
-	redirect_and_cmds(data, ac, env);
-	pipeline_nb = count_pipeline(data) + 1;
-	while (i < pipeline_nb)
+	if (execute_builtin(data) == -1)
 	{
-		if (i < pipeline_nb - 1)
+		redirect_and_cmds(data, ac, env);
+		pipeline_nb = count_pipeline(data) + 1;
+		while (i < pipeline_nb)
 		{
-			if (pipe(fds) == -1)
+			if (i < pipeline_nb - 1)
 			{
-				perror("pipe");
+				if (pipe(fds) == -1)
+				{
+					perror("pipe");
+					return ;
+				}
+			}
+			pid = fork();
+			if (pid == -1)
 				return ;
-			}
-		}
-		pid = fork();
-		if (pid == -1)
-			return ;
-		if (pid == 0)
-		{
-			if (prev_pipe_read_fd != -1)
+			if (pid == 0)
 			{
-				dup2(prev_pipe_read_fd, 0);
-				close(prev_pipe_read_fd);
-			}
-			else if (i == 0 && data->infile_fd != -1)
-			{
-				dup2(data->infile_fd, 0);
-				close(data->infile_fd);
-			}
-			if (i < pipeline_nb - 1)
-			{
-				close(fds[0]);
-				dup2(fds[1], 1);
-				close(fds[1]);
-			}
-			else if (data->outfile_fd != -1)
-			{
-				dup2(data->outfile_fd, 1);
-				close(data->outfile_fd);
-			}
-			exe_cmd(data, &i, env);
-			exit(EXIT_FAILURE);
-		}
-		else
-		{
-			if (prev_pipe_read_fd != -1)
-				close(prev_pipe_read_fd);
-			if (i < pipeline_nb - 1)
-			{
-				prev_pipe_read_fd = fds[0];
-				close(fds[1]);
+				if (prev_pipe_read_fd != -1)
+				{
+					dup2(prev_pipe_read_fd, 0);
+					close(prev_pipe_read_fd);
+				}
+				else if (i == 0 && data->infile_fd != -1)
+				{
+					dup2(data->infile_fd, 0);
+					close(data->infile_fd);
+				}
+				if (i < pipeline_nb - 1)
+				{
+					close(fds[0]);
+					dup2(fds[1], 1);
+					close(fds[1]);
+				}
+				else if (data->outfile_fd != -1)
+				{
+					dup2(data->outfile_fd, 1);
+					close(data->outfile_fd);
+				}
+				exe_cmd(data, &i, env);
+				exit(EXIT_FAILURE);
 			}
 			else
 			{
-				prev_pipe_read_fd = -1;
+				if (prev_pipe_read_fd != -1)
+					close(prev_pipe_read_fd);
+				if (i < pipeline_nb - 1)
+				{
+					prev_pipe_read_fd = fds[0];
+					close(fds[1]);
+				}
+				else
+				{
+					prev_pipe_read_fd = -1;
+				}
+				i++;
 			}
-			i++;
+			if (data->infile_fd != -1)
+				close(data->infile_fd);
+			if (data->outfile_fd != -1)
+				close(data->outfile_fd);
+			waitpid(pid, &status, 0);
 		}
-		if (data->infile_fd != -1)
-			close(data->infile_fd);
-		if (data->outfile_fd != -1)
-			close(data->outfile_fd);
-		waitpid(pid, &status, 0);
 	}
 }

@@ -6,7 +6,7 @@
 #    By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/22 18:56:36 by macoulib          #+#    #+#              #
-#    Updated: 2025/10/08 12:11:05 by macoulib         ###   ########.fr        #
+#    Updated: 2025/10/14 17:57:31 by macoulib         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ NAME        =   minishell
 # --- Chemins des sources ---
 SRC_DIR     =   ./src
 SRC_MAIN    =   $(SRC_DIR)/minishell.c
-SRC_SUBDIRS =   parsing redirection utils execution # Liste des sous-dossiers
+SRC_SUBDIRS =   parsing redirection utils execution bultin signaux
 
 # Récupère tous les fichiers .c des sous-dossiers (e.g., parsing/file.c)
 SRC_SUB = $(foreach dir, $(SRC_SUBDIRS), $(wildcard $(SRC_DIR)/$(dir)/*.c))

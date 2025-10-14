@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 18:57:07 by macoulib          #+#    #+#             */
-/*   Updated: 2025/10/13 15:46:28 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/10/14 18:47:24 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ int	main(int ac, char **av, char **envp)
 	data = malloc(sizeof(*data));
 	if (!data)
 		return (0);
+	init_data(data, envp);
 	while (1)
 	{
 		input = readline("minishell$ ");
