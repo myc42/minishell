@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 18:57:07 by macoulib          #+#    #+#             */
-/*   Updated: 2025/10/14 18:54:52 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/10/14 20:45:15 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ int	main(int ac, char **av, char **envp)
 	t_data	*data;
 
 	(void)av;
-	(void)ac;
 	data = malloc(sizeof(*data));
 	if (!data)
 		return (0);

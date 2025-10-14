@@ -25,7 +25,7 @@ void init_data(t_data *data, char **envp)
 	}
 	setup_signals();
 }
-
+/*
 void	start_data(t_data *shell)
 {
 	char	*input;
@@ -48,4 +48,4 @@ void	start_data(t_data *shell)
 void	cleanup_shell(t_data *shell)
 {
 	ft_free_split(shell->envp);
-}
+} */

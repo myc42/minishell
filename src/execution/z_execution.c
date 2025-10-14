@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 20:09:52 by macoulib          #+#    #+#             */
-/*   Updated: 2025/10/14 20:25:09 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/10/14 21:26:11 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ void	exe(t_data *data, char *input, int ac, char **env)
 	int		fds[2];
 	pid_t	pid;
 	int		status;
-	char	*cmd;
 
 	i = 0;
 	prev_pipe_read_fd = -1;

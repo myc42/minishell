@@ -21,7 +21,7 @@ int	builtin_env(char **envp)
 	int i;
 
 	i = 0;
-	while (envp[1])
+	while (envp[i])
 	{
 		if (ft_strchr(envp[i], '='))
 		{
@@ -67,7 +67,8 @@ int	builtin_export(t_data *data, char ***envp)
 	i = 1;
 	while (data->argv[i])
 	{
-		if (ft_strchr(data->argv[i], '=') || !is_valid_identifier(data->argv[i]))
+		if (ft_strchr(data->argv[i], '=')
+			|| !is_valid_identifier(data->argv[i]))
 		{
 			ft_putstr_fd("minishell: export: invalid format: ", 2);
 			ft_putstr_fd(data->argv[i], 2);
