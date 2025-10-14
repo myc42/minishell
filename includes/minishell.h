@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 19:02:12 by macoulib          #+#    #+#             */
-/*   Updated: 2025/10/14 18:16:06 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/10/14 19:47:55 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,7 @@ void							init_variable(int *argv, int *i, int *count,
 void							is_word(int *argv, int *count, int s, int d);
 char							**argv_valid_tab(char *str);
 int								ft_strcmp(char *s1, char *s2);
-int								ft_parsing(char *str, t_data *data,
-									char **envp);
+int								ft_parsing(char *str, t_data *data);
 int								creat_fd_infile(t_data *data, int *i);
 int								creat_fd_outfile(t_data *data, int *i);
 int								is_redirection_operator(char *av);
@@ -78,7 +77,7 @@ void							pipeline_space(char *str, char *dest);
 void							init_variables_to_zero(int *i, int *j, int *k,
 									int *l);
 char							*clean_space(char *str);
-// ----
+// ---- kamel
 void							ft_free_split(char **tab);
 void							execute_command(char *input, t_data *shell);
 char							*find_command_path(char *cmd, t_data *shell);
@@ -86,7 +85,7 @@ int								execute_builtin(t_data *data);
 char							**copy_envp(char **envp);
 char							*get_env_value(char **envp, char *name);
 char							*search_in_path(char **paths, char *cmd);
-int								handle_builtin(char **argv, t_data *shell);
+int								handle_builtin(t_data *shell);
 char							*resolve_command(char *cmd, t_data *shell);
 void							update_status_from_signal(int st,
 									t_data *shell);
@@ -108,6 +107,7 @@ void							reset_signals_child(void);
 char							**realloc_env(char **envp, char *new_var);
 int								env_var_index(char **envp, char *name);
 int								is_valid_identifier(char *s);
+char							*ft_strjoin_kamel(char *s1, char *s2);
 
 extern volatile sig_atomic_t	g_signal;
 

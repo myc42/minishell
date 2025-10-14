@@ -76,13 +76,13 @@ static char	*path_join_cmd(char *dir, char *cmd)
 	len = ft_strlen(dir);
 	if (len > 0 && dir[len - 1] == '/')
 	{
-		full = ft_strjoin(dir, cmd);
+		full = ft_strjoin_kamel(dir, cmd);
 		return (full);
 	}
-	tmp = ft_strjoin(dir, "/");
+	tmp = ft_strjoin_kamel(dir, "/");
 	if (!tmp)
 		return (NULL);
-	full = ft_strjoin(tmp, cmd);
+	full = ft_strjoin_kamel(tmp, cmd);
 	free(tmp);
 	return (full);
 }
@@ -154,7 +154,7 @@ void	print_cmd_error(char *cmd, int has_slash)
 	}
 }
 
-int	handle_builtin(char **argv, t_data *data)
+int	handle_builtin(t_data *data)
 {
 	int status;
 
@@ -162,7 +162,7 @@ int	handle_builtin(char **argv, t_data *data)
 	if (status != -1)
 	{
 		data->last_status = status;
-		ft_free_split(argv);
+		ft_free_split((char **)data->argv);
 		return (1);
 	}
 	return (0);
@@ -182,7 +182,7 @@ char	*resolve_command(char *cmd, t_data *shell)
 	return (cmd_path);
 }
 
-void	update_status_from_signal(int st, t_data *shell)
+void	update_status_from_signal(int st, t_data *data)
 {
 	int sig;
 
@@ -193,10 +193,10 @@ void	update_status_from_signal(int st, t_data *shell)
 			ft_putstr_fd("Quit (core dumped)\n", 2);
 		else if (sig == SIGINT)
 			ft_putstr_fd("\n", 1);
-		shell->last_status = 128 + sig;
+		data->last_status = 128 + sig;
 	}
 	else
-		shell->last_status = WEXITSTATUS(st);
+		data->last_status = WEXITSTATUS(st);
 }
 
 void	exec_child_process(char *cmd, char **argv, t_data *shell)
@@ -206,6 +206,7 @@ void	exec_child_process(char *cmd, char **argv, t_data *shell)
 	perror("execve");
 	exit(126);
 }
+
 
 void	execute_command(char *input, t_data *shell)
 {
@@ -219,7 +220,7 @@ void	execute_command(char *input, t_data *shell)
 	argv = ft_split(input, ' ');
 	if (!argv || !argv[0] || argv[0][0] == '\0')
 		return (ft_free_split(argv));
-	if (handle_builtin(argv, shell))
+	if (handle_builtin(shell))
 		return ;
 	cmd = resolve_command(argv[0], shell);
 	if (!cmd)

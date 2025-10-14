@@ -2,11 +2,11 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   utilis.c                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+        
+/*                                                    +:+ +:+
 	+:+     */
-/*   By: macoulib <macoulib@student.42.fr>          +#+  +:+      
+/*   By: macoulib <macoulib@student.42.fr>          +#+  +:+
 	+#+        */
-/*                                                +#+#+#+#+#+  
+/*                                                +#+#+#+#+#+
 	+#+           */
 /*   Created: 2025/10/14 17:38:58 by macoulib          #+#    #+#             */
 /*   Updated: 2025/10/14 17:38:58 by macoulib         ###   ########.fr       */
@@ -70,4 +70,22 @@ int	is_valid_identifier(char *s)
 		i++;
 	}
 	return (1);
+}
+
+char	*ft_strjoin_kamel(char *s1, char *s2)
+{
+	size_t s1len;
+	size_t s2len;
+	char *join;
+
+	if (!s1 || !s2)
+		return (NULL);
+	s1len = ft_strlen(s1);
+	s2len = ft_strlen(s2);
+	join = (char *)malloc((s1len + s2len + 1) * sizeof(char));
+	if (!join)
+		return (NULL);
+	ft_strlcpy(join, s1, s1len + 1);
+	ft_strlcpy(join + s1len, s2, s2len + 1);
+	return (join);
 }

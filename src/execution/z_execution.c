@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 20:09:52 by macoulib          #+#    #+#             */
-/*   Updated: 2025/10/14 18:50:13 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/10/14 20:25:09 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,11 +65,12 @@ void	exe(t_data *data, char *input, int ac, char **env)
 	int		fds[2];
 	pid_t	pid;
 	int		status;
+	char	*cmd;
 
 	i = 0;
 	prev_pipe_read_fd = -1;
 	first_argv_in_tab(data, input, env);
-	if (execute_builtin(data) == -1)
+	if (!handle_builtin(data))
 	{
 		redirect_and_cmds(data, ac, env);
 		pipeline_nb = count_pipeline(data) + 1;
@@ -88,6 +89,7 @@ void	exe(t_data *data, char *input, int ac, char **env)
 				return ;
 			if (pid == 0)
 			{
+				reset_signals_child();
 				if (prev_pipe_read_fd != -1)
 				{
 					dup2(prev_pipe_read_fd, 0);
@@ -131,7 +133,11 @@ void	exe(t_data *data, char *input, int ac, char **env)
 				close(data->infile_fd);
 			if (data->outfile_fd != -1)
 				close(data->outfile_fd);
+			signal(SIGINT, SIG_IGN);
+			signal(SIGQUIT, SIG_IGN);
 			waitpid(pid, &status, 0);
+			setup_signals();
+			update_status_from_signal(status, data);
 		}
 	}
 }

@@ -2,11 +2,11 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+        
+/*                                                    +:+ +:+
 	+:+     */
-/*   By: macoulib <macoulib@student.42.fr>          +#+  +:+      
+/*   By: macoulib <macoulib@student.42.fr>          +#+  +:+
 	+#+        */
-/*                                                +#+#+#+#+#+  
+/*                                                +#+#+#+#+#+
 	+#+           */
 /*   Created: 2025/10/14 17:38:50 by macoulib          #+#    #+#             */
 /*   Updated: 2025/10/14 17:38:50 by macoulib         ###   ########.fr       */

@@ -16,6 +16,9 @@
 #include "../../includes/minishell.h"
 
 
+
+
+
 char	**copy_envp(char **envp)
 
 {
@@ -51,20 +54,6 @@ int	builtin_pwd(void)
 	return (1);
 }
 
-void	print_arg(t_data *data)
-{
-	char *code;
-
-	if (ft_strncmp(data->argv[0], "$?", 3) == 0)
-	{
-		code = ft_itoa(data->last_status);
-		ft_putstr_fd(code, 1);
-		free(code);
-	}
-	else
-		ft_putstr_fd(data->argv[0], 1);
-}
-
 void	update_pwd(char **envp)
 {
 	char cwd[1024];
@@ -79,7 +68,7 @@ void	update_pwd(char **envp)
 	if (!prefix)
 		return ;
 
-	new_pwd = ft_strjoin(prefix, cwd);
+	new_pwd = ft_strjoin_kamel(prefix, cwd);
 	free(prefix);
 	if (!new_pwd)
 		return ;
@@ -95,6 +84,46 @@ void	update_pwd(char **envp)
 		i++;
 	}
 }
+
+void	print_arg(t_data *data)
+{
+	char *code;
+
+	if (ft_strncmp(data->argv[0], "$?", 3) == 0)
+	{
+		code = ft_itoa(data->last_status);
+		ft_putstr_fd(code, 1);
+		free(code);
+	}
+	else
+		ft_putstr_fd(data->argv[0], 1);
+}
+
+int	builtin_echo(char **argv, t_data *data)
+{
+	int i;
+	int newline;
+
+	i = 1;
+	newline = 1;
+
+	if (argv[1] && ft_strncmp(argv[1], "-n", 3) == 0)
+	{
+		newline = 0;
+		i = 2;
+	}
+	while (argv[i])
+	{
+		print_arg(data);
+		if (argv[i + 1])
+			ft_putstr_fd(" ", 1);
+		i++;
+	}
+	if (newline)
+		ft_putstr_fd("\n", 1);
+	return (0);
+}
+
 int	builtin_cd(t_data *data, char **envp)
 {
 	if (!data->argv[1])
@@ -122,10 +151,17 @@ int	builtin_cd(t_data *data, char **envp)
 
 int	execute_builtin(t_data *data)
 {
+	if (ft_strncmp(data->argv[0], "pwd", 4) == 0)
+		return (builtin_pwd());
+	if (ft_strncmp(data->argv[0], "echo", 5) == 0)
+		return (builtin_echo((char **)data->argv, data));
 	if (ft_strncmp(data->argv[0], "cd", 3) == 0)
 		return (builtin_cd(data, data->envp));
+	if (ft_strncmp(data->argv[0], "env", 4) == 0)
+		return (builtin_env(data->envp));
 	if (ft_strncmp(data->argv[0], "export", 7) == 0)
 		return (builtin_export(data, &data->envp));
+
 	if (ft_strncmp(data->argv[0], "unset", 6) == 0)
 		return (builtin_unset(data, &data->envp));
 	if (ft_strncmp(data->argv[0], "exit", 5) == 0)
