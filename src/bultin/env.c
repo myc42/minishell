@@ -16,19 +16,16 @@
 #include "../../includes/minishell.h"
 
 
-int	builtin_env(char **envp)
+int	builtin_env(t_data *data, char **envp)
 {
-	int i;
-
-	i = 0;
-	while (envp[i])
+	while (envp[data->len_env])
 	{
-		if (ft_strchr(envp[i], '='))
+		if (ft_strchr(envp[data->len_env],'='))
 		{
-			ft_putstr_fd(envp[i], 1);
+			ft_putstr_fd(envp[data->len_env], 1);
 			write(1, "\n", 1);
 		}
-		i++;
+		data->len_env++;
 	}
 	return (0);
 }
@@ -63,11 +60,11 @@ int	builtin_export(t_data *data, char ***envp)
 	int i;
 
 	if (!data->argv[1])
-		return (builtin_env(*envp));
+		return (builtin_env(data,*envp));
 	i = 1;
 	while (data->argv[i])
 	{
-		if (ft_strchr(data->argv[i], '=')
+		if (!ft_strchr(data->argv[i], '=')
 			|| !is_valid_identifier(data->argv[i]))
 		{
 			ft_putstr_fd("minishell: export: invalid format: ", 2);
@@ -90,6 +87,7 @@ int	builtin_unset(t_data *data, char ***envp)
 		return (1);
 	i = 0;
 	j = 0;
+
 	while ((*envp[i]))
 	{
 		len = ft_strlen(data->argv[1]);
@@ -97,7 +95,9 @@ int	builtin_unset(t_data *data, char ***envp)
 			&& (*envp)[i][len] == '=')
 			free((*envp)[i]);
 		else
-			(*envp)[j++] = (*envp)[i];
+		{
+			(*envp)[j++] = (*envp)[data->len_env - 1];
+		}
 		i++;
 	}
 	(*envp)[j] = NULL;

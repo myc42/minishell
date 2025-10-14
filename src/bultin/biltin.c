@@ -82,7 +82,7 @@ void	update_pwd(char **envp)
 	}
 }
 
-void	print_arg(t_data *data)
+void	print_arg(t_data *data, int i)
 {
 	char *code;
 
@@ -93,7 +93,9 @@ void	print_arg(t_data *data)
 		free(code);
 	}
 	else
-		ft_putstr_fd(data->argv[0], 1);
+	{
+		ft_putstr_fd(data->argv[i], 1);
+	}
 }
 
 int	builtin_echo(char **argv, t_data *data)
@@ -111,7 +113,7 @@ int	builtin_echo(char **argv, t_data *data)
 	}
 	while (argv[i])
 	{
-		print_arg(data);
+		print_arg(data, i);
 		if (argv[i + 1])
 			ft_putstr_fd(" ", 1);
 		i++;
@@ -150,10 +152,12 @@ int	execute_builtin(t_data *data)
 {
 	if (ft_strncmp(data->argv[0], "pwd", 4) == 0)
 		return (builtin_pwd());
+	if (ft_strncmp(data->argv[0], "echo", 5) == 0)
+		return (builtin_echo((char **)data->argv, data));
 	if (ft_strncmp(data->argv[0], "cd", 3) == 0)
 		return (builtin_cd(data, data->envp));
 	if (ft_strncmp(data->argv[0], "env", 4) == 0)
-		return (builtin_env(data->envp));
+		return (builtin_env(data,data->envp));
 	if (ft_strncmp(data->argv[0], "export", 7) == 0)
 		return (builtin_export(data, &data->envp));
 	if (ft_strncmp(data->argv[0], "unset", 6) == 0)

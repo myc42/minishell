@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 19:02:12 by macoulib          #+#    #+#             */
-/*   Updated: 2025/10/14 19:47:55 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/10/15 01:21:07 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ typedef struct s_data
 	int							outfile_fd;
 	int							error_fd;
 	int							last_status;
+	int							len_env;
 }								t_data;
 
 int								ft_isspace(char c);
@@ -93,7 +94,7 @@ void							exec_child_process(char *cmd, char **argv,
 									t_data *shell);
 int								is_numeric(char *s);
 int								builtin_exit(t_data *data);
-int								builtin_env(char **envp);
+int								builtin_env(t_data *data, char **envp);
 void							update_or_add_var(char *arg, char ***envp);
 int								builtin_export(t_data *data, char ***envp);
 int								builtin_unset(t_data *data, char ***envp);
