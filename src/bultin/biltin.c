@@ -82,20 +82,18 @@ void	update_pwd(char **envp)
 	}
 }
 
-void	print_arg(t_data *data, int i)
+void	print_arg(char *arg, t_data *data)
 {
 	char *code;
 
-	if (ft_strncmp(data->argv[0], "$?", 3) == 0)
+	if (ft_strncmp(arg, "$?", 3) == 0)
 	{
 		code = ft_itoa(data->last_status);
 		ft_putstr_fd(code, 1);
 		free(code);
 	}
 	else
-	{
-		ft_putstr_fd(data->argv[i], 1);
-	}
+		ft_putstr_fd(arg, 1);
 }
 
 int	builtin_echo(char **argv, t_data *data)
@@ -113,7 +111,7 @@ int	builtin_echo(char **argv, t_data *data)
 	}
 	while (argv[i])
 	{
-		print_arg(data, i);
+		print_arg(argv[i], data);
 		if (argv[i + 1])
 			ft_putstr_fd(" ", 1);
 		i++;
@@ -157,11 +155,11 @@ int	execute_builtin(t_data *data)
 	if (ft_strncmp(data->argv[0], "cd", 3) == 0)
 		return (builtin_cd(data, data->envp));
 	if (ft_strncmp(data->argv[0], "env", 4) == 0)
-		return (builtin_env(data,data->envp));
+		return (builtin_env(data, data->envp));
 	if (ft_strncmp(data->argv[0], "export", 7) == 0)
 		return (builtin_export(data, &data->envp));
 	if (ft_strncmp(data->argv[0], "unset", 6) == 0)
-		return (builtin_unset(data, &data->envp));
+		return (builtin_unset(data->argv, &data->envp));
 	if (ft_strncmp(data->argv[0], "exit", 5) == 0)
 		return (builtin_exit(data));
 	return (-1);

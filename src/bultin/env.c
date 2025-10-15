@@ -20,7 +20,7 @@ int	builtin_env(t_data *data, char **envp)
 {
 	while (envp[data->len_env])
 	{
-		if (ft_strchr(envp[data->len_env],'='))
+		if (ft_strchr(envp[data->len_env], '='))
 		{
 			ft_putstr_fd(envp[data->len_env], 1);
 			write(1, "\n", 1);
@@ -60,7 +60,7 @@ int	builtin_export(t_data *data, char ***envp)
 	int i;
 
 	if (!data->argv[1])
-		return (builtin_env(data,*envp));
+		return (builtin_env(data, *envp));
 	i = 1;
 	while (data->argv[i])
 	{
@@ -77,27 +77,27 @@ int	builtin_export(t_data *data, char ***envp)
 	return (0);
 }
 
-int	builtin_unset(t_data *data, char ***envp)
+int	builtin_unset(char **argv, char ***envp)
 {
 	int i;
 	int j;
 	size_t len;
+	char *efe;
+	efe =malloc(100);
 
-	if (!data->argv[1])
+	if (!argv[1])
 		return (1);
 	i = 0;
 	j = 0;
-
+	printf(":edfeffefe") ;
 	while ((*envp[i]))
 	{
-		len = ft_strlen(data->argv[1]);
-		if (ft_strncmp((*envp)[i], data->argv[1], len) == 0
+		len = ft_strlen(argv[1]);
+		if (ft_strncmp((*envp)[i], argv[1], len) == 0
 			&& (*envp)[i][len] == '=')
-			free((*envp)[i]);
+			free(efe);
 		else
-		{
-			(*envp)[j++] = (*envp)[data->len_env - 1];
-		}
+			(*envp)[j++] = (*envp)[i];
 		i++;
 	}
 	(*envp)[j] = NULL;

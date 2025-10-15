@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 19:02:12 by macoulib          #+#    #+#             */
-/*   Updated: 2025/10/15 01:21:07 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/10/15 14:53:08 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ int								builtin_exit(t_data *data);
 int								builtin_env(t_data *data, char **envp);
 void							update_or_add_var(char *arg, char ***envp);
 int								builtin_export(t_data *data, char ***envp);
-int								builtin_unset(t_data *data, char ***envp);
+int								builtin_unset(char **argv, char ***envp);
 void							init_data(t_data *data, char **envp);
 void							start_data(t_data *shell);
 void							cleanup_shell(t_data *shell);
