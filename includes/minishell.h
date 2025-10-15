@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 19:02:12 by macoulib          #+#    #+#             */
-/*   Updated: 2025/10/15 14:53:08 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/10/15 19:45:27 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,17 @@
 # include <termios.h>
 # include <unistd.h>
 
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 42
+# endif
+
 typedef struct s_data
 {
 	char						**envp;
 	char						**argv;
 	char						**argv_only_cmd;
 	char						***argv_pipeline;
+	char						*limiter;
 	int							infile_fd;
 	int							outfile_fd;
 	int							error_fd;
@@ -78,6 +83,11 @@ void							pipeline_space(char *str, char *dest);
 void							init_variables_to_zero(int *i, int *j, int *k,
 									int *l);
 char							*clean_space(char *str);
+char							*get_next_line(int fd);
+void							alloc_without_liniter(t_data *data);
+
+void							tab_without_limiter(t_data *data);
+int								find_limiter(t_data *data);
 // ---- kamel
 void							ft_free_split(char **tab);
 void							execute_command(char *input, t_data *shell);
@@ -109,6 +119,7 @@ char							**realloc_env(char **envp, char *new_var);
 int								env_var_index(char **envp, char *name);
 int								is_valid_identifier(char *s);
 char							*ft_strjoin_kamel(char *s1, char *s2);
+int								builtin_heredoc(t_data *data);
 
 extern volatile sig_atomic_t	g_signal;
 
