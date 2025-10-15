@@ -77,25 +77,22 @@ int	builtin_export(t_data *data, char ***envp)
 	return (0);
 }
 
-int	builtin_unset(char **argv, char ***envp)
+int builtin_unset(char **argv, char ***envp)
 {
-	int i;
-	int j;
-	size_t len;
-	char *efe;
-	efe =malloc(100);
+	int		i;
+	int		j;
+	size_t	len;
 
 	if (!argv[1])
 		return (1);
 	i = 0;
 	j = 0;
-	printf(":edfeffefe") ;
 	while ((*envp[i]))
 	{
 		len = ft_strlen(argv[1]);
 		if (ft_strncmp((*envp)[i], argv[1], len) == 0
 			&& (*envp)[i][len] == '=')
-			free(efe);
+			free((*envp)[i]);
 		else
 			(*envp)[j++] = (*envp)[i];
 		i++;
