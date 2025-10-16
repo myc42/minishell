@@ -148,7 +148,7 @@ int	builtin_cd(t_data *data, char **envp)
 
 int	execute_builtin(t_data *data)
 {
-	int i = 0;
+	
 	
 
 	if (ft_strncmp(data->argv[0], "pwd", 4) == 0)
@@ -158,14 +158,14 @@ int	execute_builtin(t_data *data)
 	if (ft_strncmp(data->argv[0], "cd", 3) == 0)
 		return (builtin_cd(data, data->envp));
 	if (ft_strncmp(data->argv[0], "env", 4) == 0)
-		return (builtin_env(data, data->envp));
+		return (builtin_env(data->envp));
 	if (ft_strncmp(data->argv[0], "export", 7) == 0)
-		return (builtin_export(data, &data->envp));
+		return (builtin_export(data->argv, &data->envp));
 	if (ft_strncmp(data->argv[0], "unset", 6) == 0)
 		return (builtin_unset(data->argv, &data->envp));
 	if (ft_strncmp(data->argv[0], "exit", 5) == 0)
 		return (builtin_exit(data));
-
+/* 
 	while (data->argv[i])
 	{
 		
@@ -177,6 +177,6 @@ int	execute_builtin(t_data *data)
 		}
 		i++;
 	}
-
+*/
 	return (-1);
 }

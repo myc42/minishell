@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 19:02:12 by macoulib          #+#    #+#             */
-/*   Updated: 2025/10/15 19:45:27 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/10/16 22:17:59 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,9 +104,7 @@ void							exec_child_process(char *cmd, char **argv,
 									t_data *shell);
 int								is_numeric(char *s);
 int								builtin_exit(t_data *data);
-int								builtin_env(t_data *data, char **envp);
 void							update_or_add_var(char *arg, char ***envp);
-int								builtin_export(t_data *data, char ***envp);
 int								builtin_unset(char **argv, char ***envp);
 void							init_data(t_data *data, char **envp);
 void							start_data(t_data *shell);
@@ -120,6 +118,8 @@ int								env_var_index(char **envp, char *name);
 int								is_valid_identifier(char *s);
 char							*ft_strjoin_kamel(char *s1, char *s2);
 int								builtin_heredoc(t_data *data);
+int								builtin_env(char **envp);
+int								builtin_export(char **argv, char ***envp);
 
 extern volatile sig_atomic_t	g_signal;
 
