@@ -6,13 +6,13 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/15 19:23:27 by macoulib          #+#    #+#             */
-/*   Updated: 2025/10/15 19:56:16 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/10/16 22:47:06 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	alloc_without_liniter(t_data *data)
+void	alloc_without_limiter(t_data *data)
 {
 	int	i;
 	int	count;

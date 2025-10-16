@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 19:02:12 by macoulib          #+#    #+#             */
-/*   Updated: 2025/10/16 22:17:59 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/10/16 22:48:31 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void							init_variables_to_zero(int *i, int *j, int *k,
 									int *l);
 char							*clean_space(char *str);
 char							*get_next_line(int fd);
-void							alloc_without_liniter(t_data *data);
+void							alloc_without_limiter(t_data *data);
 
 void							tab_without_limiter(t_data *data);
 int								find_limiter(t_data *data);
@@ -120,6 +120,7 @@ char							*ft_strjoin_kamel(char *s1, char *s2);
 int								builtin_heredoc(t_data *data);
 int								builtin_env(char **envp);
 int								builtin_export(char **argv, char ***envp);
+void							exe_here_doc(t_data *data , int *fd );
 
 extern volatile sig_atomic_t	g_signal;
 

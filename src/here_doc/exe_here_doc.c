@@ -6,13 +6,13 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/15 19:50:49 by macoulib          #+#    #+#             */
-/*   Updated: 2025/10/16 22:14:22 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/10/16 22:45:07 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	exe_here_doc(t_data *data, char **env)
+void	exe_here_docx(t_data *data)
 {
 	int		i;
 	int		pipeline_nb;
@@ -22,7 +22,6 @@ void	exe_here_doc(t_data *data, char **env)
 	int		status;
 
 	i = 0;
-	(void)env;
 	create_pipeline_tab(data);
 	pipeline_nb = count_pipeline(data) + 1;
 	while (i < pipeline_nb)
