@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/15 19:23:27 by macoulib          #+#    #+#             */
-/*   Updated: 2025/10/16 22:47:06 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/10/17 14:45:19 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,5 +74,6 @@ int	find_limiter(t_data *data)
 	}
 	return (data->limiter != NULL);
 }
+
 
 
