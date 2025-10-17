@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 19:02:12 by macoulib          #+#    #+#             */
-/*   Updated: 2025/10/16 22:48:31 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/10/18 00:13:05 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,7 @@ int								builtin_heredoc(t_data *data);
 int								builtin_env(char **envp);
 int								builtin_export(char **argv, char ***envp);
 void							exe_here_doc(t_data *data , int *fd );
+void	exe_cmd(t_data *data, int *i, char **envp);
 
 extern volatile sig_atomic_t	g_signal;
 
