@@ -148,6 +148,7 @@ int	builtin_cd(t_data *data, char **envp)
 
 int	execute_builtin(t_data *data)
 {
+	int i = 0;
 	if (ft_strncmp(data->argv[0], "pwd", 4) == 0)
 		return (builtin_pwd());
 	if (ft_strncmp(data->argv[0], "echo", 5) == 0)
@@ -162,15 +163,11 @@ int	execute_builtin(t_data *data)
 		return (builtin_unset(data->argv, &data->envp));
 	if (ft_strncmp(data->argv[0], "exit", 5) == 0)
 		return (builtin_exit(data));
-
-	int i = 0;
 	while (data->argv[i])
 	{
 		if (ft_strncmp(data->argv[i], "<<", 3) == 0)
 			return (builtin_heredoc(data));
-
 		i++;
 	}
-
 	return (-1);
 }

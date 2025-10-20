@@ -6,101 +6,30 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/15 15:15:41 by macoulib          #+#    #+#             */
-/*   Updated: 2025/10/20 03:07:38 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/10/20 04:22:51 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	exe_heredoc(t_data *data, int outfile)
-{
-	pid_t	pid;
-	int		pipeline_nb;
-	int		prev_pipe_read_fd;
-	int		fds[2];
-	int		i;
-	int		status;
 
-	i = 0;
-	prev_pipe_read_fd = -1;
-	pipeline_nb = count_pipeline(data) + 1;
-	while (i < pipeline_nb)
-	{
-		if (i < pipeline_nb - 1)
-		{
-			if (pipe(fds) == -1)
-			{
-				perror("pipe");
-				return ;
-			}
-		}
-		pid = fork();
-		if (pid == -1)
-			return ;
-		if (pid == 0)
-		{
-			if (prev_pipe_read_fd != -1)
-			{
-				dup2(prev_pipe_read_fd, 0);
-				close(prev_pipe_read_fd);
-			}
-			else if (i == 0)
-			{
-				dup2(outfile, 0);
-				close(outfile);
-			}
-			if (i < pipeline_nb - 1)
-			{
-				close(fds[0]);
-				dup2(fds[1], 1);
-				close(fds[1]);
-			}
-			else if (data->outfile_fd != -1)
-			{
-				dup2(data->outfile_fd, 1);
-				close(data->outfile_fd);
-			}
-			exe_cmd(data, &i, data->envp);
-			exit(EXIT_FAILURE);
-		}
-		else
-		{
-			if (prev_pipe_read_fd != -1)
-				close(prev_pipe_read_fd);
-			if (i < pipeline_nb - 1)
-			{
-				prev_pipe_read_fd = fds[0];
-				close(fds[1]);
-			}
-			else
-			{
-				prev_pipe_read_fd = -1;
-			}
-			i++;
-		}
-		waitpid(pid, &status, 0);
-	}
-	unlink("outfilex.txt");
-}
-int	builtin_heredoc(t_data *data)
+
+void	find_cpy_redirect(t_data *data)
 {
-	int		outfile;
-	char	*line;
 	char	**rien;
-	size_t	len_lim;
-	int		i;
 
-	i = 0;
 	rien = NULL;
 	find_limiter(data);
 	alloc_without_limiter(data);
 	tab_without_limiter(data);
 	cpy_here_doc_argv(data);
 	redirect_and_cmds(data, 5, rien);
-	len_lim = ft_strlen(data->limiter);
-	outfile = open("outfilex.txt", O_WRONLY | O_CREAT | O_APPEND, 0644);
-	if (outfile == -1)
-		return (0);
+}
+
+void	stock_to_here_doc(t_data *data, size_t len_lim, int outfilefd)
+{
+	char	*line;
+
 	while (1)
 	{
 		write(1, "pipe here_doc > ", 16);
@@ -111,9 +40,23 @@ int	builtin_heredoc(t_data *data)
 			free(line);
 			break ;
 		}
-		write(outfile, line, ft_strlen(line));
+		write(outfilefd, line, ft_strlen(line));
 		free(line);
 	}
+}
+int	builtin_heredoc(t_data *data)
+{
+	int		outfile;
+	size_t	len_lim;
+	int		i;
+
+	i = 0;
+	find_cpy_redirect(data);
+	len_lim = ft_strlen(data->limiter);
+	outfile = open("outfilex.txt", O_WRONLY | O_CREAT | O_APPEND, 0644);
+	if (outfile == -1)
+		return (0);
+	stock_to_here_doc(data, len_lim, outfile);
 	close(outfile);
 	outfile = open("outfilex.txt", O_RDONLY);
 	if (outfile == -1)

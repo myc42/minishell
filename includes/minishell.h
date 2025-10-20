@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 19:02:12 by macoulib          #+#    #+#             */
-/*   Updated: 2025/10/20 01:51:40 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/10/20 04:23:36 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ void							alloc_without_limiter(t_data *data);
 void							tab_without_limiter(t_data *data);
 int								find_limiter(t_data *data);
 void							cpy_here_doc_argv(t_data *data);
+void							exe_heredoc(t_data *data, int outfile);
 // ---- kamel
 void							ft_free_split(char **tab);
 void							execute_command(char *input, t_data *shell);
