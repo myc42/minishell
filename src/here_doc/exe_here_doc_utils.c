@@ -1,23 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   z_redirection.c                                    :+:      :+:    :+:   */
+/*   exe_here_doc_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/29 17:46:46 by macoulib          #+#    #+#             */
-/*   Updated: 2025/10/20 16:36:29 by macoulib         ###   ########.fr       */
+/*   Created: 2025/10/20 15:29:02 by macoulib          #+#    #+#             */
+/*   Updated: 2025/10/20 15:47:00 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	fd_and_cmd_tab(t_data *data)
+void	ft_waitpid(pid_t pid)
 {
-	data->infile_fd = -1;
-	data->outfile_fd = -1;
-	data->error_fd = -1;
-	if (!redirect_and_cmds(data))
-		return (0);
-	return (1);
+	int	status;
+
+	waitpid(pid, &status, 0);
+}
+
+void	pipe_fd(int *fds)
+{
+	if (pipe(fds) == -1)
+	{
+		perror("pipe");
+		return ;
+	}
+}
+
+void	init_var_heredoc(t_data *data, int *prev_pipe_read_fd, int *pipeline_nb,
+		int *i)
+{
+	*i = 0;
+	*prev_pipe_read_fd = -1;
+	*pipeline_nb = count_pipeline(data) + 1;
 }

@@ -6,24 +6,19 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/15 15:15:41 by macoulib          #+#    #+#             */
-/*   Updated: 2025/10/20 04:22:51 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/10/20 16:35:35 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-
-
 void	find_cpy_redirect(t_data *data)
 {
-	char	**rien;
-
-	rien = NULL;
 	find_limiter(data);
 	alloc_without_limiter(data);
 	tab_without_limiter(data);
 	cpy_here_doc_argv(data);
-	redirect_and_cmds(data, 5, rien);
+	redirect_and_cmds(data);
 }
 
 void	stock_to_here_doc(t_data *data, size_t len_lim, int outfilefd)

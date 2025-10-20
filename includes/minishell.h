@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 19:02:12 by macoulib          #+#    #+#             */
-/*   Updated: 2025/10/20 04:23:36 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/10/20 16:37:41 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,17 +68,14 @@ int								ft_parsing(char *str, t_data *data);
 int								creat_fd_infile(t_data *data, int *i);
 int								creat_fd_outfile(t_data *data, int *i);
 int								is_redirection_operator(char *av);
-int								redirect_and_cmds(t_data *data, int ac,
-									char **envp);
+int								redirect_and_cmds(t_data *data);
 int								count_cmd_elements(t_data *data);
 int								only_cmd_tab(t_data *data);
 int								direction_error(char *str, t_data *data);
-int								fd_and_cmd_tab(t_data *data, char **av, int ac,
-									char **envp);
+int								fd_and_cmd_tab(t_data *data);
 int								redirection_detected(char **av);
 void							create_pipeline_tab(t_data *data);
-void							exe(t_data *data, char *input, int ac,
-									char **env);
+void							exe(t_data *data, char *input, char **env);
 int								count_pipeline(t_data *data);
 void							pipeline_space(char *str, char *dest);
 void							init_variables_to_zero(int *i, int *j, int *k,
@@ -91,6 +88,26 @@ void							tab_without_limiter(t_data *data);
 int								find_limiter(t_data *data);
 void							cpy_here_doc_argv(t_data *data);
 void							exe_heredoc(t_data *data, int outfile);
+void							init_var_heredoc(t_data *data,
+									int *prev_pipe_read_fd, int *pipeline_nb,
+									int *i);
+void							pipe_fd(int *fds);
+void							ft_waitpid(pid_t pid);
+void							free_data_argv(t_data *data);
+void							ft_forkpid(pid_t *pid);
+void							signal_and_waitpid(t_data *data, pid_t pid);
+void							pipe_fd(int *fds);
+void							exe_pid_zero_one(int prev_pipe_read_fd, int i,
+									t_data *data, int pipeline_nb, int *fds);
+void							exe_pid_parent(int *prev_pipe_read_fd,
+									int pipeline_nb, int *fds, int *i);
+void							close_infile_outfile(t_data *data, pid_t pid);
+void							init_var_exe(int *i, int *prev_pipe_read_fd,
+									t_data *data, char *input, char **env);
+void							first_argv_in_tab(t_data *data, char *input,
+									char **env);
+void							update_cmd_pipenbr(t_data *data,
+									int *pipeline_nb);
 // ---- kamel
 void							ft_free_split(char **tab);
 void							execute_command(char *input, t_data *shell);

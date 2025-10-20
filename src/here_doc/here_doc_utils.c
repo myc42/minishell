@@ -6,12 +6,26 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/15 19:23:27 by macoulib          #+#    #+#             */
-/*   Updated: 2025/10/20 01:55:05 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/10/20 15:52:09 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+void	free_data_argv(t_data *data)
+{
+	int	i;
+
+	i = 0;
+	while (data->argv[i])
+	{
+		free(data->argv[i]);
+		data->argv[i] = NULL;
+		i++;
+	}
+	free(data->argv);
+	data->argv = NULL;
+}
 void	alloc_without_limiter(t_data *data)
 {
 	int	i;
@@ -82,14 +96,7 @@ void	cpy_here_doc_argv(t_data *data)
 	i = 0;
 	if (!data->argv)
 		return ;
-	while (data->argv[i])
-	{
-		free(data->argv[i]);
-		data->argv[i] = NULL;
-		i++;
-	}
-	free(data->argv);
-	data->argv = NULL;
+	free_data_argv(data);
 	i = 0;
 	while (data->here_doc_argv[i] && data->here_doc_argv)
 		i++;

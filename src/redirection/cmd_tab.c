@@ -6,12 +6,20 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 18:23:42 by macoulib          #+#    #+#             */
-/*   Updated: 2025/10/12 17:50:11 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/10/20 16:43:03 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+void	cpy_to_argv_onlycmd(t_data *data, int *i, int *j)
+{
+	data->argv_only_cmd[*j] = ft_strdup(data->argv[*i]);
+	if (!data->argv_only_cmd[*j])
+		return ;
+	(*j)++;
+	(*i)++;
+}
 int	count_cmd_elements(t_data *data)
 {
 	int	i;
@@ -57,13 +65,7 @@ int	only_cmd_tab(t_data *data)
 				i += 1;
 		}
 		else
-		{
-			data->argv_only_cmd[j] = ft_strdup(data->argv[i]);
-			if (!data->argv_only_cmd[j])
-				return (0);
-			j++;
-			i++;
-		}
+			cpy_to_argv_onlycmd(data, &i, &j);
 	}
 	data->argv_only_cmd[j] = NULL;
 	return (1);

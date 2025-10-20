@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 16:39:06 by macoulib          #+#    #+#             */
-/*   Updated: 2025/10/14 21:59:17 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/10/20 16:31:35 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,12 +57,11 @@ int	creat_fd_outfile(t_data *data, int *i)
 	return (1);
 }
 
-int	redirect_and_cmds(t_data *data, int ac, char **envp)
+int	redirect_and_cmds(t_data *data)
 {
 	int	i;
 
-	(void)envp;
-	(void)ac;
+	
 	i = 0;
 	data->infile_fd = -1;
 	data->outfile_fd = -1;
