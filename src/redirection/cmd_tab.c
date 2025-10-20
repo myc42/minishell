@@ -6,11 +6,33 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 18:23:42 by macoulib          #+#    #+#             */
-/*   Updated: 2025/10/20 16:43:03 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/10/20 17:29:23 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+void	alloc_for_onlycmd(t_data *data)
+{
+	int	nbr_cmd;
+
+	nbr_cmd = count_cmd_elements(data);
+	if (nbr_cmd < 1)
+	{
+		data->argv = malloc(sizeof(char *) * (2));
+		data->argv[0] = ft_strdup("cat");
+		data->argv[1] = NULL;
+		data->argv_only_cmd = malloc(sizeof(char *) * (2));
+		if (!data->argv_only_cmd)
+			return ;
+	}
+	else
+	{
+		data->argv_only_cmd = malloc(sizeof(char *) * (nbr_cmd + 1));
+		if (!data->argv_only_cmd)
+			return ;
+	}
+}
 
 void	cpy_to_argv_onlycmd(t_data *data, int *i, int *j)
 {
@@ -49,12 +71,7 @@ int	only_cmd_tab(t_data *data)
 
 	i = 0;
 	j = 0;
-	if (!data->argv || !data->argv[0])
-		return (data->argv_only_cmd = NULL, 0);
-	data->argv_only_cmd = malloc(sizeof(char *) * (count_cmd_elements(data)
-				+ 1));
-	if (!data->argv_only_cmd)
-		return (0);
+	alloc_for_onlycmd(data);
 	while (data->argv[i])
 	{
 		if (is_redirection_operator(data->argv[i]))
