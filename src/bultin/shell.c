@@ -25,27 +25,3 @@ void init_data(t_data *data, char **envp)
 	}
 	setup_signals();
 }
-/*
-void	start_data(t_data *shell)
-{
-	char	*input;
-
-	while (1)
-	{
-		input = readline("minishell$ ");
-		if (!input)
-		{
-			ft_putstr_fd("exit\n", 1);
-			break;
-		}
-		if (*input)
-			add_history(input);
-		execute_command(input, shell);
-		free(input);
-	}
-}
-
-void	cleanup_shell(t_data *shell)
-{
-	ft_free_split(shell->envp);
-} */

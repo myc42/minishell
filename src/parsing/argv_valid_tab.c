@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 17:00:21 by macoulib          #+#    #+#             */
-/*   Updated: 2025/10/08 22:59:05 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/10/20 17:04:05 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,17 +93,3 @@ char	**argv_valid_tab(char *str)
 	return (argv_tab);
 }
 
-/*
-int	main(void)
-{
-	char str[] = "uno 'je suis cool' \"je suis cool trois\"                 xxx";
-	char **result = argv_valid_tab(str);
-	if (result != NULL)
-	{
-		for (int i = 0; result[i] != NULL; i++)
-		{
-			printf("Partie %d: %s\n", i + 1, result[i]);
-		}
-	}
-	return (0);
-} */

@@ -33,20 +33,7 @@ int	builtin_env(char **envp)
 	return (0);
 }
 
-/*
-int	builtin_env(t_data *data, char **envp)
-{
-	while (envp[data->len_env])
-	{
-		if (ft_strchr(envp[data->len_env], '='))
-		{
-			ft_putstr_fd(envp[data->len_env], 1);
-			write(1, "\n", 1);
-		}
-		data->len_env++;
-	}
-	return (0);
-} */
+
 
 void	update_or_add_var(char *arg, char ***envp)
 {

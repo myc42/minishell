@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 15:53:18 by macoulib          #+#    #+#             */
-/*   Updated: 2025/10/20 16:36:59 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/10/20 16:53:58 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,18 +73,4 @@ void	close_infile_outfile(t_data *data, pid_t pid)
 	if (data->outfile_fd != -1)
 		close(data->outfile_fd);
 	signal_and_waitpid(data, pid);
-}
-
-void	init_var_exe(int *i, int *prev_pipe_read_fd, t_data *data, char *input,
-		char **env)
-{
-	*i = 0;
-	*prev_pipe_read_fd = -1;
-	first_argv_in_tab(data, input, env);
-}
-
-void	update_cmd_pipenbr(t_data *data, int *pipeline_nb)
-{
-	redirect_and_cmds(data);
-	*pipeline_nb = count_pipeline(data) + 1;
 }

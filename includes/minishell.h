@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 19:02:12 by macoulib          #+#    #+#             */
-/*   Updated: 2025/10/20 16:37:41 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/10/20 17:02:17 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,7 +142,14 @@ int								builtin_env(char **envp);
 int								builtin_export(char **argv, char ***envp);
 void							exe_here_doc(t_data *data, int *fd);
 void							exe_cmd(t_data *data, int *i, char **envp);
-
+char							*get_env_value(char **envp, char *name);
+int								has_slash(const char *s);
+int								is_executable_file(char *path);
+char							*search_in_path(char **paths, char *cmd);
 extern volatile sig_atomic_t	g_signal;
-
+char							**copy_envp(char **envp);
+int								builtin_pwd(void);
+void							update_pwd(char **envp);
+void							print_arg(char *arg, t_data *data);
+int								builtin_echo(char **argv, t_data *data);
 #endif

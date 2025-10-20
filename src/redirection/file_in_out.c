@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 16:39:06 by macoulib          #+#    #+#             */
-/*   Updated: 2025/10/20 16:31:35 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/10/20 16:48:15 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,17 @@ int	creat_fd_infile(t_data *data, int *i)
 			return (perror("no such file or directory"), -1);
 		(*i)++;
 	}
+	return (1);
+}
+
+int	outfile_management(t_data *data, int *i)
+{
+	if (data->outfile_fd != -1)
+		close(data->outfile_fd);
+	data->outfile_fd = open(data->argv[*i + 1], O_WRONLY | O_CREAT | O_TRUNC,
+			0644);
+	if (data->outfile_fd == -1)
+		return (0);
 	return (1);
 }
 
@@ -46,11 +57,7 @@ int	creat_fd_outfile(t_data *data, int *i)
 	}
 	else if (ft_strncmp(data->argv[*i], ">", 1) == 0 && data->argv[*i + 1])
 	{
-		if (data->outfile_fd != -1)
-			close(data->outfile_fd);
-		data->outfile_fd = open(data->argv[*i + 1],
-				O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		if (data->outfile_fd == -1)
+		if (!outfile_management(data, i))
 			return (perror(data->argv[*i + 1]), -1);
 		(*i)++;
 	}
@@ -61,7 +68,6 @@ int	redirect_and_cmds(t_data *data)
 {
 	int	i;
 
-	
 	i = 0;
 	data->infile_fd = -1;
 	data->outfile_fd = -1;

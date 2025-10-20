@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 19:58:53 by macoulib          #+#    #+#             */
-/*   Updated: 2025/10/15 19:24:50 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/10/20 17:03:30 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,17 +118,3 @@ char	*get_next_line(int fd)
 	staticbuffer = therest(staticbuffer);
 	return (line);
 }
-/*
- int main() {
-	int fd = open("read_error.txt", O_RDONLY);
-
-		char *line;
-while	((line = get_next_line(fd)) != NULL)
-{
-	printf("%s", line);
-	free(line);
-}
-
-	close(fd);
-	return (0);
- } */
