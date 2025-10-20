@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/15 19:50:49 by macoulib          #+#    #+#             */
-/*   Updated: 2025/10/16 22:45:07 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/10/20 03:07:02 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	exe_here_docx(t_data *data)
 				dup2(data->outfile_fd, 1);
 				close(data->outfile_fd);
 			}
-			// exe_cmd(data, &i, env);
+			//exe_cmd(data, &i, env);
 			exit(EXIT_FAILURE);
 		}
 		else

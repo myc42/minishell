@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/15 19:23:27 by macoulib          #+#    #+#             */
-/*   Updated: 2025/10/17 14:45:19 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/10/20 01:55:05 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ void	alloc_without_limiter(t_data *data)
 		count++;
 		i++;
 	}
-	data->argv_only_cmd = malloc(sizeof(char *) * (count + 1));
-	if (!data->argv_only_cmd)
+	data->here_doc_argv = malloc(sizeof(char *) * (count + 1));
+	if (!data->here_doc_argv)
 	{
 		perror("malloc");
 		exit(1);
@@ -51,10 +51,10 @@ void	tab_without_limiter(t_data *data)
 			i += 2;
 			continue ;
 		}
-		data->argv_only_cmd[j++] = ft_strdup(data->argv[i]);
+		data->here_doc_argv[j++] = ft_strdup(data->argv[i]);
 		i++;
 	}
-	data->argv_only_cmd[j] = NULL;
+	data->here_doc_argv[j] = NULL;
 }
 
 int	find_limiter(t_data *data)
@@ -75,5 +75,34 @@ int	find_limiter(t_data *data)
 	return (data->limiter != NULL);
 }
 
+void	cpy_here_doc_argv(t_data *data)
+{
+	int	i;
 
-
+	i = 0;
+	if (!data->argv)
+		return ;
+	while (data->argv[i])
+	{
+		free(data->argv[i]);
+		data->argv[i] = NULL;
+		i++;
+	}
+	free(data->argv);
+	data->argv = NULL;
+	i = 0;
+	while (data->here_doc_argv[i] && data->here_doc_argv)
+		i++;
+	data->argv = malloc(sizeof(char *) * (i + 1));
+	if (!data->argv)
+		return ;
+	i = 0;
+	while (data->here_doc_argv[i])
+	{
+		data->argv[i] = ft_strdup(data->here_doc_argv[i]);
+		if (!data->argv[i])
+			return ;
+		i++;
+	}
+	data->argv[i] = NULL;
+}

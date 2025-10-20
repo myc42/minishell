@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 20:09:52 by macoulib          #+#    #+#             */
-/*   Updated: 2025/10/16 22:12:03 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/10/20 02:44:53 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	exe(t_data *data, char *input, int ac, char **env)
 	if (!handle_builtin(data))
 	{
 		redirect_and_cmds(data, ac, env);
-		pipeline_nb = count_pipeline(data) + 1;
+		pipeline_nb = count_pipeline(data) + 1 ;
 		while (i < pipeline_nb)
 		{
 			if (i < pipeline_nb - 1)

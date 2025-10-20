@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 19:02:12 by macoulib          #+#    #+#             */
-/*   Updated: 2025/10/18 00:13:05 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/10/20 01:51:40 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ typedef struct s_data
 	char						**envp;
 	char						**argv;
 	char						**argv_only_cmd;
+	char						**here_doc_argv;
 	char						***argv_pipeline;
 	char						*limiter;
 	int							infile_fd;
@@ -88,6 +89,7 @@ void							alloc_without_limiter(t_data *data);
 
 void							tab_without_limiter(t_data *data);
 int								find_limiter(t_data *data);
+void							cpy_here_doc_argv(t_data *data);
 // ---- kamel
 void							ft_free_split(char **tab);
 void							execute_command(char *input, t_data *shell);
@@ -120,8 +122,8 @@ char							*ft_strjoin_kamel(char *s1, char *s2);
 int								builtin_heredoc(t_data *data);
 int								builtin_env(char **envp);
 int								builtin_export(char **argv, char ***envp);
-void							exe_here_doc(t_data *data , int *fd );
-void	exe_cmd(t_data *data, int *i, char **envp);
+void							exe_here_doc(t_data *data, int *fd);
+void							exe_cmd(t_data *data, int *i, char **envp);
 
 extern volatile sig_atomic_t	g_signal;
 

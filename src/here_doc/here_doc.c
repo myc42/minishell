@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/15 15:15:41 by macoulib          #+#    #+#             */
-/*   Updated: 2025/10/18 00:59:19 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/10/20 03:07:38 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,15 @@
 
 void	exe_heredoc(t_data *data, int outfile)
 {
-	//char	**split_cmd;
-	//char	*cmd_path;
 	pid_t	pid;
 	int		pipeline_nb;
 	int		prev_pipe_read_fd;
 	int		fds[2];
 	int		i;
-	int status;
+	int		status;
 
 	i = 0;
 	prev_pipe_read_fd = -1;
-	create_pipeline_tab(data);
 	pipeline_nb = count_pipeline(data) + 1;
 	while (i < pipeline_nb)
 	{
@@ -58,6 +55,11 @@ void	exe_heredoc(t_data *data, int outfile)
 				dup2(fds[1], 1);
 				close(fds[1]);
 			}
+			else if (data->outfile_fd != -1)
+			{
+				dup2(data->outfile_fd, 1);
+				close(data->outfile_fd);
+			}
 			exe_cmd(data, &i, data->envp);
 			exit(EXIT_FAILURE);
 		}
@@ -78,25 +80,30 @@ void	exe_heredoc(t_data *data, int outfile)
 		}
 		waitpid(pid, &status, 0);
 	}
+	unlink("outfilex.txt");
 }
 int	builtin_heredoc(t_data *data)
 {
 	int		outfile;
 	char	*line;
+	char	**rien;
 	size_t	len_lim;
 	int		i;
 
 	i = 0;
+	rien = NULL;
 	find_limiter(data);
 	alloc_without_limiter(data);
 	tab_without_limiter(data);
-	create_pipeline_tab(data);
+	cpy_here_doc_argv(data);
+	redirect_and_cmds(data, 5, rien);
 	len_lim = ft_strlen(data->limiter);
 	outfile = open("outfilex.txt", O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (outfile == -1)
 		return (0);
 	while (1)
 	{
+		write(1, "pipe here_doc > ", 16);
 		line = get_next_line(0);
 		if (!line || (ft_strncmp(line, data->limiter, len_lim) == 0
 				&& ft_strlen(line) - 1 == len_lim))
