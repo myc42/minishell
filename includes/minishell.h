@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 19:02:12 by macoulib          #+#    #+#             */
-/*   Updated: 2025/10/20 17:02:17 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/10/21 15:12:57 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,16 +48,15 @@ typedef struct s_data
 
 int								ft_isspace(char c);
 int								closed_quotes(char *str);
-char							*expand_variables_in_string(char *str,
-									char **envp);
+
 char							*find_path(char **env, char *cmd);
 char							*delete_multiple_space(char *str);
 int								ft_strncmps(const char *s1, const char *s2,
 									size_t n);
 char							*search_expansion_replacement(char *str,
-									char **envp);
+									t_data *data);
 char							*expand_variables_in_string(char *str,
-									char **envp);
+									t_data *data);
 int								count_argv(char *str);
 void							init_variable(int *argv, int *i, int *count,
 									int *s, int *d);
@@ -108,6 +107,8 @@ void							first_argv_in_tab(t_data *data, char *input,
 									char **env);
 void							update_cmd_pipenbr(t_data *data,
 									int *pipeline_nb);
+void							expansion_here_doc(int fdin, int fdout,
+									t_data *data);
 // ---- kamel
 void							ft_free_split(char **tab);
 void							execute_command(char *input, t_data *shell);

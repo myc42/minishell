@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 17:00:21 by macoulib          #+#    #+#             */
-/*   Updated: 2025/10/20 17:04:05 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/10/20 22:36:28 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,4 +92,3 @@ char	**argv_valid_tab(char *str)
 	argv_tab[j] = NULL;
 	return (argv_tab);
 }
-

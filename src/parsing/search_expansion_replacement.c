@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 14:22:10 by macoulib          #+#    #+#             */
-/*   Updated: 2025/09/24 20:29:34 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/10/21 14:22:56 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,19 +30,26 @@ int	ft_strncmps(const char *s1, const char *s2, size_t n)
 	return (0);
 }
 
-char	*search_expansion_replacement(char *var_name, char **envp)
+char	*search_expansion_replacement(char *var_name, t_data *data)
 {
 	char	*value;
 	int		i;
+	int		j;
 
 	i = 0;
+	j = 0;
 	value = ft_strdup(" ");
 	if (!value)
 		return (NULL);
-	while (envp[i] != NULL)
+	if (!ft_strcmp(var_name, "?"))
 	{
-		if (ft_strncmps(envp[i], var_name, ft_strlen(var_name)) == 0)
-			value = ft_strdup(envp[i] + ft_strlen(var_name) + 1);
+		value = ft_strdup(ft_itoa(data->last_status));
+		return (value);
+	}
+	while (data->envp[i] != NULL)
+	{
+		if (ft_strncmps(data->envp[i], var_name, ft_strlen(var_name)) == 0)
+			value = ft_strdup(data->envp[i] + ft_strlen(var_name) + 1);
 		i++;
 	}
 	if (!value)

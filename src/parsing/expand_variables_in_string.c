@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 19:07:39 by macoulib          #+#    #+#             */
-/*   Updated: 2025/10/08 21:55:50 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/10/20 23:43:38 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char	*copy_normal(char c, char *result, char *temp)
 	return (temp);
 }
 
-char	*copy_variable(char *str, int *i, char *result, char *temp, char **envp)
+char	*copy_variable(char *str, int *i, char *result, char *temp, t_data *data)
 {
 	char	*var_name;
 	char	*replacement;
@@ -49,7 +49,7 @@ char	*copy_variable(char *str, int *i, char *result, char *temp, char **envp)
 	var_name = ft_substr(str, *i, j);
 	if (!var_name)
 		return (NULL);
-	replacement = search_expansion_replacement(var_name, envp);
+	replacement = search_expansion_replacement(var_name, data);
 	free(var_name);
 	if (replacement)
 	{
@@ -62,7 +62,7 @@ char	*copy_variable(char *str, int *i, char *result, char *temp, char **envp)
 	return (result);
 }
 
-char	*expand_variables_in_string(char *str, char **envp)
+char	*expand_variables_in_string(char *str, t_data *data)
 {
 	int		i;
 	int		in_single_quotes;
@@ -88,7 +88,7 @@ char	*expand_variables_in_string(char *str, char **envp)
 			if (ft_isspace(str[i]) || !str[i])
 				result = space_or_null_after_sign(temp, result);
 			else
-				result = copy_variable(str, &i, result, temp, envp);
+				result = copy_variable(str, &i, result, temp, data);
 		}
 		else
 			result = copy_normal(str[i++], result, temp);

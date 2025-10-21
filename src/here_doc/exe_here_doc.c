@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/15 19:50:49 by macoulib          #+#    #+#             */
-/*   Updated: 2025/10/20 15:49:04 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/10/21 15:40:18 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,5 +90,6 @@ void	exe_heredoc(t_data *data, int outfile)
 			pid_parent_zero(&prev_pipe_read_fd, pipeline_nb, &i, fds);
 		ft_waitpid(pid);
 	}
-	unlink("outfilex.txt");
+	unlink(".test");
+	unlink(".test2");
 }
