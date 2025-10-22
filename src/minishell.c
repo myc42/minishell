@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 18:57:07 by macoulib          #+#    #+#             */
-/*   Updated: 2025/10/20 23:28:26 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/10/21 15:57:01 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	main(int ac, char **av, char **envp)
 		if (*input)
 			add_history(input);
 		if (ft_parsing(input, data))
-			exe(data, input, (char **)data->envp);
+			exe(data, data->input_clean, (char **)data->envp);
 	}
 	return (0);
 }

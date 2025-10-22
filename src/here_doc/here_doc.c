@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/15 15:15:41 by macoulib          #+#    #+#             */
-/*   Updated: 2025/10/21 15:42:17 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/10/22 03:25:52 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ void	stock_to_here_doc(t_data *data, size_t len_lim, int outfilefd)
 		free(line);
 	}
 }
+
+
 int	builtin_heredoc(t_data *data)
 {
 	int	outfile;
@@ -64,5 +66,6 @@ int	builtin_heredoc(t_data *data)
 	if (outfile == -1)
 		return (0);
 	exe_heredoc(data, infile);
+	free(data->limiter);
 	return (1);
 }

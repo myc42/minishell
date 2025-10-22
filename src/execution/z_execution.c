@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 20:09:52 by macoulib          #+#    #+#             */
-/*   Updated: 2025/10/20 23:45:06 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/10/22 03:08:33 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,10 @@ void	first_argv_in_tab(t_data *data, char *input, char **env)
 {
 	int		i;
 	char	**av;
-	char	*expan;
-	char	*mult_space;
 
 	i = 0;
 	(void)env;
-	mult_space = clean_space(input);
-	expan = expand_variables_in_string(mult_space, data);
-	av = argv_valid_tab(expan);
+	av = argv_valid_tab(input);
 	while (av[i])
 		i++;
 	data->argv = malloc(sizeof(char *) * (i + 1));

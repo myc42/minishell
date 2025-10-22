@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/21 14:36:39 by macoulib          #+#    #+#             */
-/*   Updated: 2025/10/21 15:17:30 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/10/22 02:57:27 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,3 +75,4 @@ void	expansion_here_doc(int fdin, int fdout, t_data *data)
 	}
 	free(status_str);
 }
+

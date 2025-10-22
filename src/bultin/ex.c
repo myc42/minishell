@@ -16,8 +16,6 @@
 #include "../../includes/minishell.h"
 
 
-
-
 char	*find_command_path(char *cmd, t_data *shell)
 {
 	char *path_env;

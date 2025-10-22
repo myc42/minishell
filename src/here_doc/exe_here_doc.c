@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/15 19:50:49 by macoulib          #+#    #+#             */
-/*   Updated: 2025/10/21 15:40:18 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/10/22 03:33:12 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,14 +81,19 @@ void	exe_heredoc(t_data *data, int outfile)
 		ft_forkpid(&pid);
 		if (pid == 0)
 		{
+			reset_signals_child();
+			signal_and_waitpid(data, pid);
 			if_pid_zero_one(prev_pipe_read_fd, i, outfile);
 			if_pid_zero_two(data, i, pipeline_nb, fds);
 			exe_cmd(data, &i, data->envp);
 			exit(EXIT_FAILURE);
 		}
 		else
+		{
 			pid_parent_zero(&prev_pipe_read_fd, pipeline_nb, &i, fds);
-		ft_waitpid(pid);
+			signal_and_waitpid(data, pid);
+		}
+		
 	}
 	unlink(".test");
 	unlink(".test2");
