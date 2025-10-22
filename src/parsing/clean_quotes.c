@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 22:47:54 by macoulib          #+#    #+#             */
-/*   Updated: 2025/10/22 22:48:14 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/10/22 23:25:53 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,8 @@ int	t_is_doublequotes(const char *arg)
 
 void	clean_quotes(t_data *data)
 {
-	int i;
-	char *strtrimm;
+	int		i;
+	char	*strtrimm;
 
 	i = 0;
 	while (data->argv[i])
@@ -79,4 +79,19 @@ void	clean_quotes(t_data *data)
 		i++;
 	}
 	data->argv_clean_quotes[i] = NULL;
+}
+
+void	cpy_clean_quotes_to_av(t_data *data)
+{
+	char **temp_old_argv;
+
+	clean_quotes(data);
+
+	temp_old_argv = data->argv;
+
+	data->argv = data->argv_clean_quotes;
+
+	data->argv_clean_quotes = NULL;
+
+	free_tab(temp_old_argv);
 }

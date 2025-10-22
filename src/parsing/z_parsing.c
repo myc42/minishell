@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 14:45:31 by macoulib          #+#    #+#             */
-/*   Updated: 2025/10/22 20:49:49 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/10/22 23:06:55 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	ft_parsing(char *str, t_data *data)
 {
 	int	quote;
-
+	char *expansion_str;
 	quote = closed_quotes(str);
 	if (!quote)
 	{
@@ -27,7 +27,8 @@ int	ft_parsing(char *str, t_data *data)
 		ft_putstr_fd("parse error near '\n", 2);
 		return (0);
 	}
-	data->input_clean = ft_strdup(clean_space(str));
+	expansion_str = expand_variables_in_string(str,data);
+	data->input_clean = ft_strdup(clean_space(expansion_str));
 	if (!data->input_clean)
 		return (0);
 	return (1);
