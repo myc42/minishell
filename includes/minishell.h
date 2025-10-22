@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 19:02:12 by macoulib          #+#    #+#             */
-/*   Updated: 2025/10/22 02:22:07 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/10/22 18:50:04 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,10 @@ void							update_cmd_pipenbr(t_data *data,
 void							expansion_here_doc(int fdin, int fdout,
 									t_data *data);
 void							free_all(t_data *data);
+
+void							free_tab(char **tab);
+
+
 int								pipe_after_limiter(t_data *data);
 
 // ---- kamel
