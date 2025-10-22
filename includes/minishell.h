@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 19:02:12 by macoulib          #+#    #+#             */
-/*   Updated: 2025/10/22 18:50:04 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/10/22 22:48:57 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ typedef struct s_data
 	char						**envp;
 	char						*input_clean;
 	char						**argv;
+	char						**argv_clean_quotes;
 	char						**argv_only_cmd;
 	char						**here_doc_argv;
 	char						***argv_pipeline;
@@ -111,11 +112,9 @@ void							update_cmd_pipenbr(t_data *data,
 void							expansion_here_doc(int fdin, int fdout,
 									t_data *data);
 void							free_all(t_data *data);
-
 void							free_tab(char **tab);
-
-
 int								pipe_after_limiter(t_data *data);
+void							clean_quotes(t_data *data);
 
 // ---- kamel
 void							ft_free_split(char **tab);
