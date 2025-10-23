@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 01:19:56 by macoulib          #+#    #+#             */
-/*   Updated: 2025/10/22 18:35:53 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/10/23 22:53:33 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,10 +72,5 @@ void	free_all(t_data *data)
 	{
 		free_tab3(data->argv_pipeline);
 		data->argv_pipeline = NULL;
-	}
-	if (data->envp)
-	{
-		free_tab(data->envp);
-		data->envp = NULL;
 	}
 }

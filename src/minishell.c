@@ -6,11 +6,22 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 18:57:07 by macoulib          #+#    #+#             */
-/*   Updated: 2025/10/22 19:02:30 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/10/23 23:12:05 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+int	redirect_av_enter(void)
+{
+	struct stat	st;
+
+	if (fstat(STDIN_FILENO, &st) == -1)
+		return (perror("fstat"), 1);
+	if (S_ISFIFO(st.st_mode) || S_ISREG(st.st_mode))
+		return (fprintf(stderr, "Erreur  pipe ou une redirection.\n"), 1);
+	return (0);
+}
 
 int	main(int ac, char **av, char **envp)
 {
@@ -19,6 +30,8 @@ int	main(int ac, char **av, char **envp)
 
 	(void)av;
 	(void)ac;
+	if (redirect_av_enter())
+		return (1);
 	data = malloc(sizeof(*data));
 	if (!data)
 		return (0);

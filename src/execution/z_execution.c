@@ -6,12 +6,19 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 20:09:52 by macoulib          #+#    #+#             */
-/*   Updated: 2025/10/23 18:39:45 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/10/23 22:53:14 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+void	close_signal(t_data *data, int prev_pipe_read_fd, pid_t pid)
+{
+	if (prev_pipe_read_fd != -1)
+		close(prev_pipe_read_fd);
+	close_infile_outfile(data, pid);
+	signal_and_waitpid(data, pid);
+}
 void	first_argv_in_tab(t_data *data, char *input, char **env)
 {
 	int		i;
@@ -73,7 +80,6 @@ void	exe(t_data *data, char *input, char **env)
 			ft_forkpid(&pid);
 			if (pid == 0)
 			{
-				reset_signals_child();
 				exe_pid_zero_one(prev_pipe_read_fd, i, data, pipeline_nb, fds);
 				exe_cmd(data, &i, env);
 				exit(EXIT_FAILURE);
@@ -81,9 +87,7 @@ void	exe(t_data *data, char *input, char **env)
 			else
 				exe_pid_parent(&prev_pipe_read_fd, pipeline_nb, fds, &i);
 		}
-		if (prev_pipe_read_fd != -1)
-			close(prev_pipe_read_fd);
-		close_infile_outfile(data, pid);
-		signal_and_waitpid(data, pid);
+		close_signal(data, prev_pipe_read_fd, pid);
 	}
+	free_all(data);
 }
