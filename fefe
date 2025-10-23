@@ -1,1 +1,4 @@
-feffefeffefefe
+Ce projet, Minishell, est une étape fondamentale dans le cursus 42. Son objectif est de créer notre propre interpréteur de commandes (shell),
+ fonctionnellement similaire à Bash (ou d'autres shells Unix courants).
+En recréant les mécanismes internes d'un shell, nous visons à maîtriser l'interaction entre un programme utilisateur 
+et le système d'exploitation, ainsi qu'à renforcer notre compréhension des concepts clés de la programmation système.

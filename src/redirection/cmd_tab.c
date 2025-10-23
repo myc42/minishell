@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 18:23:42 by macoulib          #+#    #+#             */
-/*   Updated: 2025/10/20 17:29:23 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/10/23 17:58:04 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,21 +17,9 @@ void	alloc_for_onlycmd(t_data *data)
 	int	nbr_cmd;
 
 	nbr_cmd = count_cmd_elements(data);
-	if (nbr_cmd < 1)
-	{
-		data->argv = malloc(sizeof(char *) * (2));
-		data->argv[0] = ft_strdup("cat");
-		data->argv[1] = NULL;
-		data->argv_only_cmd = malloc(sizeof(char *) * (2));
-		if (!data->argv_only_cmd)
-			return ;
-	}
-	else
-	{
-		data->argv_only_cmd = malloc(sizeof(char *) * (nbr_cmd + 1));
-		if (!data->argv_only_cmd)
-			return ;
-	}
+	data->argv_only_cmd = malloc(sizeof(char *) * (nbr_cmd + 1));
+	if (!data->argv_only_cmd)
+		return ;
 }
 
 void	cpy_to_argv_onlycmd(t_data *data, int *i, int *j)
@@ -53,7 +41,10 @@ int	count_cmd_elements(t_data *data)
 	{
 		if (is_redirection_operator(data->argv[i]))
 		{
-			i += 2;
+			if (data->argv[i + 1])
+				i += 2;
+			else
+				i += 1;
 		}
 		else
 		{
@@ -66,8 +57,8 @@ int	count_cmd_elements(t_data *data)
 
 int	only_cmd_tab(t_data *data)
 {
-	int	i;
-	int	j;
+	int i;
+	int j;
 
 	i = 0;
 	j = 0;
@@ -78,6 +69,7 @@ int	only_cmd_tab(t_data *data)
 		{
 			if (data->argv[i + 1])
 				i += 2;
+
 			else
 				i += 1;
 		}

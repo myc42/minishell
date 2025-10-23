@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 19:02:12 by macoulib          #+#    #+#             */
-/*   Updated: 2025/10/22 23:27:25 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/10/23 18:45:56 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,7 @@ void							free_tab(char **tab);
 int								pipe_after_limiter(t_data *data);
 void							clean_quotes(t_data *data);
 void							cpy_clean_quotes_to_av(t_data *data);
+char							*remove_quotes(const char *str);
 
 // ---- kamel
 void							ft_free_split(char **tab);

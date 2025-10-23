@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 20:09:52 by macoulib          #+#    #+#             */
-/*   Updated: 2025/10/23 00:18:10 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/10/23 18:39:45 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,10 @@ void	exe(t_data *data, char *input, char **env)
 			}
 			else
 				exe_pid_parent(&prev_pipe_read_fd, pipeline_nb, fds, &i);
-			close_infile_outfile(data, pid);
 		}
+		if (prev_pipe_read_fd != -1)
+			close(prev_pipe_read_fd);
+		close_infile_outfile(data, pid);
+		signal_and_waitpid(data, pid);
 	}
 }

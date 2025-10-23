@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 15:53:18 by macoulib          #+#    #+#             */
-/*   Updated: 2025/10/22 02:51:50 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/10/23 18:38:33 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,9 +68,10 @@ void	exe_pid_parent(int *prev_pipe_read_fd, int pipeline_nb, int *fds,
 
 void	close_infile_outfile(t_data *data, pid_t pid)
 {
+	(void)pid;
 	if (data->infile_fd != -1)
 		close(data->infile_fd);
 	if (data->outfile_fd != -1)
 		close(data->outfile_fd);
-	signal_and_waitpid(data, pid);
+	
 }
