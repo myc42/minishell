@@ -27,6 +27,7 @@ void	init_shell(t_data *data)
 	data->here_doc_argv = NULL;
 	data->argv_pipeline = NULL;
 	data->limiter = NULL;
+	data->limiter2 = NULL;
 	data->infile_fd = -1;
 	data->outfile_fd = -1;
 	data->error_fd = -1;

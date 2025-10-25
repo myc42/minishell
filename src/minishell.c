@@ -6,11 +6,17 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 18:57:07 by macoulib          #+#    #+#             */
-/*   Updated: 2025/10/23 23:12:05 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/10/25 01:02:55 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+void	acav_void(int ac, char **av)
+{
+	(void)av;
+	(void)ac;
+}
 
 int	redirect_av_enter(void)
 {
@@ -28,8 +34,7 @@ int	main(int ac, char **av, char **envp)
 	char	*input;
 	t_data	*data;
 
-	(void)av;
-	(void)ac;
+	acav_void(ac, av);
 	if (redirect_av_enter())
 		return (1);
 	data = malloc(sizeof(*data));
@@ -41,8 +46,7 @@ int	main(int ac, char **av, char **envp)
 		input = readline("minishell$ ");
 		if (!input)
 		{
-			ft_putstr_fd("exit", 1);
-			write(1, "\n", 1);
+			ft_putstr_fd("exit \n", 1);
 			break ;
 		}
 		if (*input)

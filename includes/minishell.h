@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 19:02:12 by macoulib          #+#    #+#             */
-/*   Updated: 2025/10/23 22:45:58 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/10/25 03:02:43 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ typedef struct s_data
 	char						**here_doc_argv;
 	char						***argv_pipeline;
 	char						*limiter;
+	char						*limiter2;
 	int							infile_fd;
 	int							outfile_fd;
 	int							error_fd;
@@ -50,7 +51,7 @@ typedef struct s_data
 
 int								ft_isspace(char c);
 int								closed_quotes(char *str);
-
+int								find_nbr_limiter(t_data *data);
 char							*find_path(char **env, char *cmd);
 char							*delete_multiple_space(char *str);
 int								ft_strncmps(const char *s1, const char *s2,
@@ -119,6 +120,10 @@ void							cpy_clean_quotes_to_av(t_data *data);
 char							*remove_quotes(const char *str);
 int								check_if_is_only_space(char *str);
 
+int								check_nbr_limiter(t_data *data);
+int								find_limiter(t_data *data);
+void							find_limiter_mult(t_data *data);
+
 // ---- kamel
 void							ft_free_split(char **tab);
 void							execute_command(char *input, t_data *shell);
@@ -164,4 +169,6 @@ void							update_pwd(char **envp);
 void							print_arg(char *arg, t_data *data);
 int								builtin_echo(char **argv, t_data *data);
 void							print_arg(char *arg, t_data *data);
+void							handle_sigint_heredoc(int sig);
+;
 #endif

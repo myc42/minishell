@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 20:09:52 by macoulib          #+#    #+#             */
-/*   Updated: 2025/10/23 22:53:14 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/10/25 00:44:52 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ void	first_argv_in_tab(t_data *data, char *input, char **env)
 		i++;
 	}
 	data->argv[i] = NULL;
+	free_tab(av);
 }
 
 void	exe_cmd(t_data *data, int *i, char **envp)
@@ -88,6 +89,7 @@ void	exe(t_data *data, char *input, char **env)
 				exe_pid_parent(&prev_pipe_read_fd, pipeline_nb, fds, &i);
 		}
 		close_signal(data, prev_pipe_read_fd, pid);
+		free_all(data);
 	}
 	free_all(data);
 }

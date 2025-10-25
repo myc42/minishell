@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/15 15:15:41 by macoulib          #+#    #+#             */
-/*   Updated: 2025/10/22 18:10:54 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/10/25 04:13:16 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,10 @@
 
 void	find_cpy_redirect(t_data *data)
 {
-	find_limiter(data);
+	if (!check_nbr_limiter(data))
+		find_limiter(data);
+	else
+		find_limiter_mult(data);
 	alloc_without_limiter(data);
 	tab_without_limiter(data);
 	cpy_here_doc_argv(data);
@@ -24,28 +27,39 @@ void	find_cpy_redirect(t_data *data)
 void	stock_to_here_doc(t_data *data, size_t len_lim, int outfilefd)
 {
 	char	*line;
+	int		x;
 
+	x = 0;
 	while (1)
 	{
 		write(1, "heredoc> ", 9);
 		line = get_next_line(0);
+		if (!line || (ft_strncmp(line, data->limiter2,
+					ft_strlen(data->limiter2)) == 0 && ft_strlen(line)
+				- 1 == ft_strlen(data->limiter2)))
+			x = 1;
 		if (!line || (ft_strncmp(line, data->limiter, len_lim) == 0
 				&& ft_strlen(line) - 1 == len_lim))
 		{
-			free(line);
-			break ;
+			if (x)
+			{
+				free(line);
+				break ;
+			}
 		}
-		write(outfilefd, line, ft_strlen(line));
+		if (x > 1)
+			write(outfilefd, line, ft_strlen(line));
+		if (x)
+			x += 1;
 		free(line);
 	}
 }
 
-
 int	builtin_heredoc(t_data *data)
 {
-	int	outfile;
-	int	i;
-	int	infile;
+	int outfile;
+	int i;
+	int infile;
 
 	i = 0;
 	find_cpy_redirect(data);
