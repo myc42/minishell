@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/15 15:15:41 by macoulib          #+#    #+#             */
-/*   Updated: 2025/10/25 04:13:16 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/10/26 15:25:00 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,43 +14,45 @@
 
 void	find_cpy_redirect(t_data *data)
 {
-	if (!check_nbr_limiter(data))
-		find_limiter(data);
-	else
-		find_limiter_mult(data);
+	find_all_limiters(data);
 	alloc_without_limiter(data);
 	tab_without_limiter(data);
 	cpy_here_doc_argv(data);
 	redirect_and_cmds(data);
 }
 
-void	stock_to_here_doc(t_data *data, size_t len_lim, int outfilefd)
+void	stock_to_here_doc(t_data *data, int outfilefd)
 {
 	char	*line;
-	int		x;
+	int		count;
+	int		current_limiter_index;
+	size_t	lim_len;
 
-	x = 0;
+	count = 0;
+	while (data->limiter && data->limiter[count])
+		count++;
+	current_limiter_index = 0;
 	while (1)
 	{
 		write(1, "heredoc> ", 9);
 		line = get_next_line(0);
-		if (!line || (ft_strncmp(line, data->limiter2,
-					ft_strlen(data->limiter2)) == 0 && ft_strlen(line)
-				- 1 == ft_strlen(data->limiter2)))
-			x = 1;
-		if (!line || (ft_strncmp(line, data->limiter, len_lim) == 0
-				&& ft_strlen(line) - 1 == len_lim))
+		if (!line)
+			break ;
+		lim_len = ft_strlen(data->limiter[current_limiter_index]);
+		if (ft_strncmp(line, data->limiter[current_limiter_index], lim_len) == 0
+			&& ft_strlen(line) - 1 == lim_len)
 		{
-			if (x)
+			if (current_limiter_index == count - 1)
 			{
 				free(line);
 				break ;
 			}
+			current_limiter_index++;
+			free(line);
+			continue ;
 		}
-		if (x > 1)
+		if (current_limiter_index == count - 1)
 			write(outfilefd, line, ft_strlen(line));
-		if (x)
-			x += 1;
 		free(line);
 	}
 }
@@ -69,7 +71,7 @@ int	builtin_heredoc(t_data *data)
 	outfile = open(".test", O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (outfile == -1)
 		return (0);
-	stock_to_here_doc(data, ft_strlen(data->limiter), outfile);
+	stock_to_here_doc(data, outfile);
 	close(outfile);
 	outfile = open(".test", O_RDONLY);
 	if (outfile == -1)

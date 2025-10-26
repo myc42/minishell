@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 19:02:12 by macoulib          #+#    #+#             */
-/*   Updated: 2025/10/25 03:02:43 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/10/26 15:09:22 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,7 @@ typedef struct s_data
 	char						**argv_only_cmd;
 	char						**here_doc_argv;
 	char						***argv_pipeline;
-	char						*limiter;
-	char						*limiter2;
+	char						**limiter;
 	int							infile_fd;
 	int							outfile_fd;
 	int							error_fd;
@@ -121,8 +120,7 @@ char							*remove_quotes(const char *str);
 int								check_if_is_only_space(char *str);
 
 int								check_nbr_limiter(t_data *data);
-int								find_limiter(t_data *data);
-void							find_limiter_mult(t_data *data);
+void							find_all_limiters(t_data *data);
 
 // ---- kamel
 void							ft_free_split(char **tab);
