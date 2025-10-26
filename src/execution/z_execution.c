@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 20:09:52 by macoulib          #+#    #+#             */
-/*   Updated: 2025/10/26 17:44:42 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/10/26 18:10:24 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,6 @@ void	first_argv_in_tab(t_data *data, char *input, char **env)
 	av = argv_valid_tab(input);
 	while (av[i])
 		i++;
-	if (ft_strcmp(av[0], "exit") == 0 && av[1])
-		j++;
 	data->argv = malloc(sizeof(char *) * (i + (1)));
 	if (!data->argv)
 		return ;
