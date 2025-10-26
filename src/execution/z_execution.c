@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 20:09:52 by macoulib          #+#    #+#             */
-/*   Updated: 2025/10/25 00:44:52 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/10/26 17:44:42 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,21 +22,26 @@ void	close_signal(t_data *data, int prev_pipe_read_fd, pid_t pid)
 void	first_argv_in_tab(t_data *data, char *input, char **env)
 {
 	int		i;
+	int		j;
 	char	**av;
 
 	i = 0;
+	j = 0;
 	(void)env;
 	av = argv_valid_tab(input);
 	while (av[i])
 		i++;
-	data->argv = malloc(sizeof(char *) * (i + 1));
+	if (ft_strcmp(av[0], "exit") == 0 && av[1])
+		j++;
+	data->argv = malloc(sizeof(char *) * (i + (1)));
 	if (!data->argv)
 		return ;
 	i = 0;
-	while (av[i])
+	while (av[j])
 	{
-		data->argv[i] = ft_strdup(av[i]);
+		data->argv[i] = ft_strdup(av[j]);
 		i++;
+		j++;
 	}
 	data->argv[i] = NULL;
 	free_tab(av);
@@ -91,5 +96,4 @@ void	exe(t_data *data, char *input, char **env)
 		close_signal(data, prev_pipe_read_fd, pid);
 		free_all(data);
 	}
-	free_all(data);
 }

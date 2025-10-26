@@ -20,7 +20,6 @@ void	init_shell(t_data *data)
 {
 	if (!data)
 		return ;
-	data->envp = NULL;
 	data->input_clean = NULL;
 	data->argv = NULL;
 	data->argv_only_cmd = NULL;
@@ -38,7 +37,7 @@ void	init_data(t_data *data, char **envp)
 {
 	init_shell(data);
 	data->envp = copy_envp(envp);
-	data->last_status = 0;
+
 	if (!data->envp)
 	{
 		ft_putstr_fd("Error: env copy failed\n", 2);

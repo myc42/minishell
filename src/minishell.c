@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 18:57:07 by macoulib          #+#    #+#             */
-/*   Updated: 2025/10/25 01:02:55 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/10/26 16:23:36 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,8 @@ int	main(int ac, char **av, char **envp)
 {
 	char	*input;
 	t_data	*data;
-
+	redirect_av_enter();
 	acav_void(ac, av);
-	if (redirect_av_enter())
-		return (1);
 	data = malloc(sizeof(*data));
 	if (!data)
 		return (0);
