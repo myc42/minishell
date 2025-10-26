@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/15 15:15:41 by macoulib          #+#    #+#             */
-/*   Updated: 2025/10/26 15:25:00 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/10/26 15:32:59 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,38 +20,34 @@ void	find_cpy_redirect(t_data *data)
 	cpy_here_doc_argv(data);
 	redirect_and_cmds(data);
 }
-
 void	stock_to_here_doc(t_data *data, int outfilefd)
 {
 	char	*line;
-	int		count;
-	int		current_limiter_index;
-	size_t	lim_len;
+	int		current;
+	int		total;
+	size_t	len;
 
-	count = 0;
-	while (data->limiter && data->limiter[count])
-		count++;
-	current_limiter_index = 0;
+	total = 0;
+	while (data->limiter && data->limiter[total])
+		total++;
+	current = 0;
 	while (1)
 	{
 		write(1, "heredoc> ", 9);
 		line = get_next_line(0);
 		if (!line)
 			break ;
-		lim_len = ft_strlen(data->limiter[current_limiter_index]);
-		if (ft_strncmp(line, data->limiter[current_limiter_index], lim_len) == 0
-			&& ft_strlen(line) - 1 == lim_len)
+		len = ft_strlen(data->limiter[current]);
+		if (ft_strncmp(line, data->limiter[current], len) == 0
+			&& ft_strlen(line) - 1 == len)
 		{
-			if (current_limiter_index == count - 1)
-			{
-				free(line);
-				break ;
-			}
-			current_limiter_index++;
+			current++;
 			free(line);
+			if (current == total)
+				break ;
 			continue ;
 		}
-		if (current_limiter_index == count - 1)
+		if (current == total - 1)
 			write(outfilefd, line, ft_strlen(line));
 		free(line);
 	}
