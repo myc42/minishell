@@ -53,31 +53,75 @@ void	stock_to_here_doc(t_data *data, int outfilefd)
 	}
 }
 
-int	builtin_heredoc(t_data *data)
+void	run_heredoc_child(t_data *data)
 {
-	int outfile;
-	int i;
-	int infile;
+	int	outfile;
+	int	infile;
 
-	i = 0;
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_IGN);
+
 	find_cpy_redirect(data);
 	infile = open(".test2", O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (infile == -1)
-		return (0);
+		exit (1);
 	outfile = open(".test", O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (outfile == -1)
-		return (0);
+		exit (1);
 	stock_to_here_doc(data, outfile);
 	close(outfile);
 	outfile = open(".test", O_RDONLY);
 	if (outfile == -1)
-		return (0);
+		exit (1);
 	expansion_here_doc(outfile, infile, data);
 	close(infile);
 	infile = open(".test2", O_RDONLY);
-	if (outfile == -1)
-		return (0);
+	if (infile == -1)
+		exit(1);
 	exe_heredoc(data, infile);
-	free(data->limiter);
+	exit(0);	
+}
+
+
+int	builtin_heredoc(t_data *data)
+{
+	int		status;
+	pid_t	pid;
+	int	sig;
+
+	pid = fork ();
+	if (pid == -1)
+	{
+		perror("minishell: fork");
+		data->last_status = 1;
+		return (0);
+	}
+	if (pid == 0)
+	{
+		run_heredoc_child(data);
+	}
+	else
+	{
+		signal(SIGINT, SIG_IGN);
+		signal(SIGQUIT, SIG_IGN);
+		waitpid(pid, &status, 0);
+		setup_signals();
+
+		if (WIFSIGNALED (status))
+			{
+				sig = WTERMSIG(status);
+				if (sig == SIGQUIT)
+				{
+					ft_putstr_fd("Quit (core dumped)\n", 2);
+					data->last_status = 130;
+				}
+				else if (sig == SIGINT)
+					ft_putstr_fd("\n", 1);
+				data->last_status = 130;
+				return (0);
+			}
+			else
+				data->last_status = WEXITSTATUS (status);
+	}
 	return (1);
 }

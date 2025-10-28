@@ -19,9 +19,13 @@
 int	c_pipe(t_data *data)
 {
 	int i = 0;
-	while (ft_strcmp(data->argv[i], "|") == 0)
-		return (1);
-	return (0);
+	while (data->argv[i])
+	{
+		if (ft_strcmp(data->argv[i], "|") == 0 || is_redirection_operator(data->argv[i]))
+		return (0);
+		i++;
+	}
+	return (1);
 }
 
 int	builtin_cd(t_data *data, char **envp)

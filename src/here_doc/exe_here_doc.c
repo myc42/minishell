@@ -6,12 +6,18 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/15 19:50:49 by macoulib          #+#    #+#             */
-/*   Updated: 2025/10/25 03:09:07 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/10/28 01:53:41 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+void	handle_sigint_heredoc(int sig)
+{
+	(void)sig;
+	write(1, "\n", 1);
+	close(STDIN_FILENO);
+}
 void	if_pid_zero_one(int prev_pipe_read_fd, int i, int outfile)
 {
 	if (prev_pipe_read_fd != -1)
@@ -62,17 +68,20 @@ void	ft_forkpid(pid_t *pid)
 {
 	*pid = fork();
 	if (*pid == -1)
-		return ;
+		perror("minishell: fork");
 }
 
 void	exe_heredoc(t_data *data, int outfile)
 {
-	pid_t	pid;
-	int		pipeline_nb;
-	int		prev_pipe_read_fd;
-	int		fds[2];
-	int		i;
+	pid_t pid;
+	int pipeline_nb;
+	int prev_pipe_read_fd;
+	int fds[2];
+	int i;
+	int status;
+	int sig;
 
+	(void)sig;
 	init_var_heredoc(data, &prev_pipe_read_fd, &pipeline_nb, &i);
 	while (i < pipeline_nb)
 	{
@@ -82,7 +91,7 @@ void	exe_heredoc(t_data *data, int outfile)
 		if (pid == 0)
 		{
 			reset_signals_child();
-			signal_and_waitpid(data, pid);
+			signal(SIGINT, handle_sigint_heredoc);
 			if_pid_zero_one(prev_pipe_read_fd, i, outfile);
 			if_pid_zero_two(data, i, pipeline_nb, fds);
 			exe_cmd(data, &i, data->envp);
@@ -91,7 +100,12 @@ void	exe_heredoc(t_data *data, int outfile)
 		else
 		{
 			pid_parent_zero(&prev_pipe_read_fd, pipeline_nb, &i, fds);
-			signal_and_waitpid(data, pid);
+			waitpid(pid, &status, 0);
+
+			if (WIFSIGNALED(status))
+				data->last_status = 128 + WTERMSIG(status);
+			else
+				data->last_status = WEXITSTATUS(status);
 		}
 	}
 	unlink(".test");

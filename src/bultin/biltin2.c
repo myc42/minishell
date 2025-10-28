@@ -94,6 +94,23 @@ void	print_arg(char *arg, t_data *data)
 		ft_putstr_fd(arg, 1);
 }
 
+int	is_n(char *arg)
+{
+	int	i;
+
+	if (!arg || arg[0] != '-')
+		return (0);
+	i = 1;
+	while (arg[i])
+	{
+		if (arg[i] != 'n')
+			return (0);
+		i++;
+	}
+	return (i > 1);
+}
+
+
 int	builtin_echo(char **argv, t_data *data)
 {
 	int i;
@@ -102,10 +119,10 @@ int	builtin_echo(char **argv, t_data *data)
 	i = 1;
 	newline = 1;
 
-	if (argv[1] && ft_strncmp(argv[1], "-n", 3) == 0)
+	while (argv[i] && is_n(argv[i]))
 	{
 		newline = 0;
-		i = 2;
+		i++;
 	}
 	while (argv[i])
 	{

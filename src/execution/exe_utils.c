@@ -6,21 +6,25 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 15:53:18 by macoulib          #+#    #+#             */
-/*   Updated: 2025/10/23 22:51:47 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/10/28 04:06:46 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+
 void	signal_and_waitpid(t_data *data, pid_t pid)
 {
 	int	status;
-
+	pid_t	wpid;
+	
+	(void)pid;
 	signal(SIGINT, SIG_IGN);
 	signal(SIGQUIT, SIG_IGN);
-	waitpid(pid, &status, 0);
+	while ((wpid = wait(&status)) > 0)
+		update_status_from_signal(status, data);
 	setup_signals();
-	update_status_from_signal(status, data);
+
 }
 
 void	exe_pid_zero_one(int prev_pipe_read_fd, int i, t_data *data,
