@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 19:02:12 by macoulib          #+#    #+#             */
-/*   Updated: 2025/10/29 17:33:35 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/10/29 23:38:53 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 42
 # endif
+
+extern volatile sig_atomic_t	g_signal;
 
 typedef struct s_data
 {
@@ -125,6 +127,7 @@ int								check_if_is_only_space(char *str);
 
 int								check_nbr_limiter(t_data *data);
 void							find_all_limiters(t_data *data);
+int								exe_echox(t_data *data);
 
 // ---- kamel
 void							ft_free_split(char **tab);
@@ -164,7 +167,6 @@ char							*get_env_value(char **envp, char *name);
 int								has_slash(const char *s);
 int								is_executable_file(char *path);
 char							*search_in_path(char **paths, char *cmd);
-extern volatile sig_atomic_t	g_signal;
 char							**copy_envp(char **envp);
 int								builtin_pwd(void);
 void							update_pwd(char **envp);
@@ -174,5 +176,5 @@ void							print_arg(char *arg, t_data *data);
 void							handle_sigint_heredoc(int sig);
 void							ft_split_by_pipe(t_data *data);
 int								execute_builtin(t_data *data);
-int								exe_echox(t_data *data);
+
 #endif

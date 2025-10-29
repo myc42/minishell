@@ -20,12 +20,18 @@ void	init_shell(t_data *data)
 {
 	if (!data)
 		return ;
+
+	data->envp = NULL;
 	data->input_clean = NULL;
 	data->argv = NULL;
+	data->argv_clean_quotes = NULL;
 	data->argv_only_cmd = NULL;
 	data->here_doc_argv = NULL;
 	data->argv_pipeline = NULL;
+	data->echo_pipline = NULL;
 	data->limiter = NULL;
+	data->pipeline_in_fds = NULL;
+	data->pipeline_out_fds = NULL;
 	data->infile_fd = -1;
 	data->outfile_fd = -1;
 	data->error_fd = -1;
@@ -37,7 +43,6 @@ void	init_data(t_data *data, char **envp)
 {
 	init_shell(data);
 	data->envp = copy_envp(envp);
-
 	if (!data->envp)
 	{
 		ft_putstr_fd("Error: env copy failed\n", 2);

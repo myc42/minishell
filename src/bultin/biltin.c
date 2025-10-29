@@ -60,11 +60,8 @@ int	execute_builtin(t_data *data)
 	if (ft_strncmp(data->argv[0], "pwd", 4) == 0 && c_pipe(data))
 		return (builtin_pwd());
 	if (ft_strncmp(data->argv[0], "echo", 5) == 0)
-	{
 		return (exe_echox(data));
-	}
 	// return (builtin_echo((char **)data->argv, data));
-
 	if (ft_strncmp(data->argv[0], "cd", 3) == 0)
 		return (builtin_cd(data, data->envp));
 	if (ft_strncmp(data->argv[0], "env", 4) == 0)

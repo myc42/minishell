@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/29 01:44:35 by macoulib          #+#    #+#             */
-/*   Updated: 2025/10/29 17:02:02 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/10/29 23:09:45 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,3 +88,4 @@ void	ft_split_by_pipe(t_data *data)
 			&data->argv[i]);
 	data->argv_pipeline[cmd_index + 1] = NULL;
 }
+

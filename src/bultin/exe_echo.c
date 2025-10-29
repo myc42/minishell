@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/29 01:41:39 by macoulib          #+#    #+#             */
-/*   Updated: 2025/10/29 17:50:10 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/10/29 23:32:12 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,16 +100,39 @@ void	setup_redirections(t_data *data)
 		i++;
 	}
 }
+
+void	pid_zero_one(t_data *data, int i, int prev_fd, int cmd_count,
+		int *pipefd)
+{
+	if (*(data->pipeline_in_fds[i]) != STDIN_FILENO)
+		dup2(*(data->pipeline_in_fds[i]), STDIN_FILENO);
+	else if (prev_fd != -1)
+		dup2(prev_fd, STDIN_FILENO);
+	if (*(data->pipeline_out_fds[i]) != STDOUT_FILENO)
+		dup2(*(data->pipeline_out_fds[i]), STDOUT_FILENO);
+	else if (i < cmd_count - 1)
+		dup2(pipefd[1], STDOUT_FILENO);
+	if (prev_fd != -1)
+		close(prev_fd);
+	if (i < cmd_count - 1)
+	{
+		close(pipefd[0]);
+		close(pipefd[1]);
+	}
+}
+
 void	execute_pipeline(t_data *data)
 {
 	int		cmd_count;
 	int		prev_fd;
 	pid_t	pid;
-		int pipefd[2] = {-1, -1};
+	int		pipefd[2] = {-1, -1};
+	int		i;
 
 	cmd_count = ft_count_cmds_pipeline(data);
 	prev_fd = -1;
-	for (int i = 0; i < cmd_count; i++)
+	i = 0;
+	while (i < cmd_count)
 	{
 		if (i < cmd_count - 1)
 		{
@@ -127,30 +150,8 @@ void	execute_pipeline(t_data *data)
 		}
 		if (pid == 0)
 		{
-			if (*(data->pipeline_in_fds[i]) != STDIN_FILENO)
-			{
-				dup2(*(data->pipeline_in_fds[i]), STDIN_FILENO);
-			}
-			else if (prev_fd != -1)
-			{
-				dup2(prev_fd, STDIN_FILENO);
-			}
-			if (*(data->pipeline_out_fds[i]) != STDOUT_FILENO)
-			{
-				dup2(*(data->pipeline_out_fds[i]), STDOUT_FILENO);
-			}
-			else if (i < cmd_count - 1)
-			{
-				dup2(pipefd[1], STDOUT_FILENO);
-			}
-			if (prev_fd != -1)
-				close(prev_fd);
-			if (i < cmd_count - 1)
-			{
-				close(pipefd[0]);
-				close(pipefd[1]);
-			}
-			execvp(data->argv_pipeline[i][0], data->argv_pipeline[i]);
+			pid_zero_one(data,i,prev_fd,cmd_count,pipefd);
+			exe_cmd(data,&i ,data->envp);
 			perror("execvp");
 			exit(1);
 		}
@@ -159,9 +160,14 @@ void	execute_pipeline(t_data *data)
 		if (i < cmd_count - 1)
 			close(pipefd[1]);
 		prev_fd = (i < cmd_count - 1) ? pipefd[0] : -1;
+		i++;
 	}
-	for (int i = 0; i < cmd_count; i++)
+	i = 0;
+	while (i < cmd_count)
+	{
 		wait(NULL);
+		i++;
+	}
 }
 
 int	exe_echox(t_data *data)
@@ -169,6 +175,5 @@ int	exe_echox(t_data *data)
 	ft_split_by_pipe(data);
 	setup_redirections(data);
 	execute_pipeline(data);
-
 	return (1);
 }
