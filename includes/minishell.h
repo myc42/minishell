@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 19:02:12 by macoulib          #+#    #+#             */
-/*   Updated: 2025/10/26 15:09:22 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/10/29 17:33:35 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,10 @@ typedef struct s_data
 	int							error_fd;
 	int							last_status;
 	int							len_env;
+	int							**pipeline_in_fds;
+	int							**pipeline_out_fds;
+	char						***echo_pipline;
+
 }								t_data;
 
 int								ft_isspace(char c);
@@ -168,5 +172,7 @@ void							print_arg(char *arg, t_data *data);
 int								builtin_echo(char **argv, t_data *data);
 void							print_arg(char *arg, t_data *data);
 void							handle_sigint_heredoc(int sig);
-;
+void							ft_split_by_pipe(t_data *data);
+int								execute_builtin(t_data *data);
+int								exe_echox(t_data *data);
 #endif

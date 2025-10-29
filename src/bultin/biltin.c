@@ -21,8 +21,9 @@ int	c_pipe(t_data *data)
 	int i = 0;
 	while (data->argv[i])
 	{
-		if (ft_strcmp(data->argv[i], "|") == 0 || is_redirection_operator(data->argv[i]))
-		return (0);
+		if (ft_strcmp(data->argv[i], "|") == 0
+			|| is_redirection_operator(data->argv[i]))
+			return (0);
 		i++;
 	}
 	return (1);
@@ -58,8 +59,12 @@ int	execute_builtin(t_data *data)
 	int i = 0;
 	if (ft_strncmp(data->argv[0], "pwd", 4) == 0 && c_pipe(data))
 		return (builtin_pwd());
-	if (ft_strncmp(data->argv[0], "echo", 5) == 0 && c_pipe(data))
-		return (builtin_echo((char **)data->argv, data));
+	if (ft_strncmp(data->argv[0], "echo", 5) == 0)
+	{
+		return (exe_echox(data));
+	}
+	// return (builtin_echo((char **)data->argv, data));
+
 	if (ft_strncmp(data->argv[0], "cd", 3) == 0)
 		return (builtin_cd(data, data->envp));
 	if (ft_strncmp(data->argv[0], "env", 4) == 0)
