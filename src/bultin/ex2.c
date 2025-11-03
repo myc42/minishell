@@ -1,14 +1,4 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ex2.c                                              :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/20 16:55:22 by macoulib          #+#    #+#             */
-/*   Updated: 2025/10/21 16:44:23 by macoulib         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+
 
 #include "../../includes/minishell.h"
 
@@ -61,7 +51,7 @@ int	is_executable_file(char *path)
 	return (0);
 }
 
-static char	*path_join_cmd(char *dir, char *cmd)
+char	*path_join_cmd(char *dir, char *cmd)
 {
 	size_t	len;
 	char	*tmp;

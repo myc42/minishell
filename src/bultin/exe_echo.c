@@ -1,14 +1,4 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   exe_echo.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/29 01:41:39 by macoulib          #+#    #+#             */
-/*   Updated: 2025/10/29 23:32:12 by macoulib         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+
 
 #include "../../includes/minishell.h"
 
@@ -24,7 +14,7 @@ int	ft_count_cmds_pipeline(t_data *data)
 	return (count);
 }
 
-static void	remove_two_tokens(char **argv, int i)
+void	remove_two_tokens(char **argv, int i)
 {
 	int	j;
 
@@ -70,9 +60,7 @@ void	analyze_redirections(char **argv, int *in_fd, int *out_fd)
 			remove_two_tokens(argv, i);
 		}
 		else
-		{
 			i++;
-		}
 	}
 }
 
@@ -84,8 +72,8 @@ void	setup_redirections(t_data *data)
 	if (!data || !data->argv_pipeline)
 		return ;
 	cmd_count = ft_count_cmds_pipeline(data);
-	data->pipeline_in_fds = malloc(sizeof(int *) * cmd_count);
-	data->pipeline_out_fds = malloc(sizeof(int *) * cmd_count);
+	data->pipeline_in_fds = malloc(sizeof(int *) * (cmd_count + 1));
+	data->pipeline_out_fds = malloc(sizeof(int *) * (cmd_count + 1));
 	if (!data->pipeline_in_fds || !data->pipeline_out_fds)
 		return ;
 	i = 0;
@@ -99,6 +87,63 @@ void	setup_redirections(t_data *data)
 			data->pipeline_out_fds[i]);
 		i++;
 	}
+	data->pipeline_in_fds[cmd_count] = NULL;
+	data->pipeline_out_fds[cmd_count] = NULL;
+}
+
+void	free_pipeline_fds(t_data *data)
+{
+	int	i;
+
+	if (data->pipeline_in_fds)
+	{
+		i = 0;
+		while (data->pipeline_in_fds[i])
+		{
+			if (*(data->pipeline_in_fds[i]) != STDIN_FILENO)
+				close(*(data->pipeline_in_fds[i]));
+			free(data->pipeline_in_fds[i]);
+			i++;
+		}
+		free(data->pipeline_in_fds);
+		data->pipeline_in_fds = NULL;
+	}
+	if (data->pipeline_out_fds)
+	{
+		i = 0;
+		while (data->pipeline_out_fds[i])
+		{
+			if (*(data->pipeline_out_fds[i]) != STDOUT_FILENO)
+				close(*(data->pipeline_out_fds[i]));
+			free(data->pipeline_out_fds[i]);
+			i++;
+		}
+		free(data->pipeline_out_fds);
+		data->pipeline_out_fds = NULL;
+	}
+}
+
+void	free_argv_pipeline(t_data *data)
+{
+	int	i;
+	int	j;
+
+	if (!data || !data->argv_pipeline)
+		return ;
+	i = 0;
+	while (data->argv_pipeline[i])
+	{
+		j = 0;
+		while (data->argv_pipeline[i][j])
+		{
+			free(data->argv_pipeline[i][j]);
+			j++;
+		}
+		free(data->argv_pipeline[i]);
+		i++;
+	}
+	free(data->argv_pipeline);
+	data->argv_pipeline = NULL;
 }
 
 void	pid_zero_one(t_data *data, int i, int prev_fd, int cmd_count,
@@ -134,13 +179,10 @@ void	execute_pipeline(t_data *data)
 	i = 0;
 	while (i < cmd_count)
 	{
-		if (i < cmd_count - 1)
+		if (i < cmd_count - 1 && pipe(pipefd) == -1)
 		{
-			if (pipe(pipefd) == -1)
-			{
-				perror("pipe");
-				exit(1);
-			}
+			perror("pipe");
+			exit(1);
 		}
 		pid = fork();
 		if (pid == -1)
@@ -150,8 +192,8 @@ void	execute_pipeline(t_data *data)
 		}
 		if (pid == 0)
 		{
-			pid_zero_one(data,i,prev_fd,cmd_count,pipefd);
-			exe_cmd(data,&i ,data->envp);
+			pid_zero_one(data, i, prev_fd, cmd_count, pipefd);
+			exe_cmd(data, &i, data->envp);
 			perror("execvp");
 			exit(1);
 		}
@@ -163,17 +205,18 @@ void	execute_pipeline(t_data *data)
 		i++;
 	}
 	i = 0;
-	while (i < cmd_count)
-	{
+	while (i++ < cmd_count)
 		wait(NULL);
-		i++;
-	}
 }
 
 int	exe_echox(t_data *data)
 {
+	
+	cpy_clean_quotes_to_av(data);
 	ft_split_by_pipe(data);
 	setup_redirections(data);
 	execute_pipeline(data);
+	free_pipeline_fds(data);
+	free_argv_pipeline(data);
 	return (1);
 }

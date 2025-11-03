@@ -1,17 +1,4 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   biltin.c                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+
-	+:+     */
-/*   By: macoulib <macoulib@student.42.fr>          +#+  +:+
-	+#+        */
-/*                                                +#+#+#+#+#+
-	+#+           */
-/*   Created: 2025/10/14 17:37:19 by macoulib          #+#    #+#             */
-/*   Updated: 2025/10/14 17:37:19 by macoulib         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+
 
 #include "../../includes/minishell.h"
 
@@ -61,7 +48,6 @@ int	execute_builtin(t_data *data)
 		return (builtin_pwd());
 	if (ft_strncmp(data->argv[0], "echo", 5) == 0)
 		return (exe_echox(data));
-	// return (builtin_echo((char **)data->argv, data));
 	if (ft_strncmp(data->argv[0], "cd", 3) == 0)
 		return (builtin_cd(data, data->envp));
 	if (ft_strncmp(data->argv[0], "env", 4) == 0)

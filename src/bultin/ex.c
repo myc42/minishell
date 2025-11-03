@@ -1,17 +1,4 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ex.c                                               :+:      :+:    :+:   */
-/*                                                    +:+ +:+
-	+:+     */
-/*   By: macoulib <macoulib@student.42.fr>          +#+  +:+
-	+#+        */
-/*                                                +#+#+#+#+#+
-	+#+           */
-/*   Created: 2025/10/14 17:37:51 by macoulib          #+#    #+#             */
-/*   Updated: 2025/10/14 17:37:51 by macoulib         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+
 
 #include "../../includes/minishell.h"
 
@@ -66,7 +53,6 @@ int	handle_builtin(t_data *data)
 	if (status != -1)
 	{
 		data->last_status = status;
-		ft_free_split((char **)data->argv);
 		return (1);
 	}
 	return (0);

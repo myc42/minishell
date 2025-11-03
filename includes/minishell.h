@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 19:02:12 by macoulib          #+#    #+#             */
-/*   Updated: 2025/10/29 23:38:53 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/11/03 15:32:52 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,5 +176,6 @@ void							print_arg(char *arg, t_data *data);
 void							handle_sigint_heredoc(int sig);
 void							ft_split_by_pipe(t_data *data);
 int								execute_builtin(t_data *data);
+void							free_parsing(t_data *d);
 
 #endif

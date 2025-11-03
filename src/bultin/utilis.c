@@ -1,17 +1,4 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   utilis.c                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+
-	+:+     */
-/*   By: macoulib <macoulib@student.42.fr>          +#+  +:+
-	+#+        */
-/*                                                +#+#+#+#+#+
-	+#+           */
-/*   Created: 2025/10/14 17:38:58 by macoulib          #+#    #+#             */
-/*   Updated: 2025/10/14 17:38:58 by macoulib         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+
 
 #include "../../includes/minishell.h"
 
@@ -49,7 +36,7 @@ int	env_var_index(char **envp, char *name)
 	len = ft_strlen(name);
 	while (envp[i])
 	{
-		if (ft_strncmp(envp[1], name, len) == 0 && envp[i][len] == '=')
+		if (ft_strncmp(envp[i], name, len) == 0 && envp[i][len] == '=')
 			return (i);
 		i++;
 	}

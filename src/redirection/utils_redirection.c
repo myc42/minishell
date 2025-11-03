@@ -1,14 +1,4 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   utils_redirection.c                                :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/29 15:42:54 by macoulib          #+#    #+#             */
-/*   Updated: 2025/10/23 16:35:26 by macoulib         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+
 
 #include "../../includes/minishell.h"
 
@@ -35,6 +25,7 @@ int	redirection_detected(char **av)
 		if (!ft_strcmp(av[i], ">") || !ft_strcmp(av[i], "<")
 			|| !ft_strcmp(av[i], ">>") || !ft_strcmp(av[i], "2>"))
 			return (1);
+		i++;
 	}
 	return (0);
 }

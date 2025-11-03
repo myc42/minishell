@@ -1,17 +1,4 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
-/*                                                    +:+ +:+
-	+:+     */
-/*   By: macoulib <macoulib@student.42.fr>          +#+  +:+
-	+#+        */
-/*                                                +#+#+#+#+#+
-	+#+           */
-/*   Created: 2025/10/14 18:24:49 by macoulib          #+#    #+#             */
-/*   Updated: 2025/10/14 18:24:49 by macoulib         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+
 
 #include "../../includes/minishell.h"
 
@@ -62,22 +49,26 @@ void	update_or_add_var(char *arg, char ***envp)
 int	builtin_export(char **argv, char ***envp)
 {
 	int i;
+	int	ret;
 
 	if (!argv[1])
 		return (builtin_env(*envp));
 	i = 1;
+	ret = 0;
 	while (argv[i])
 	{
 		if (!ft_strchr(argv[i], '=') || !is_valid_identifier(argv[i]))
 		{
 			ft_putstr_fd("minishell: export: invalid format: ", 2);
 			ft_putstr_fd(argv[i], 2);
+			ft_putstr_fd("\n", 2);
+			ret = 1;
 		}
 		else
 			update_or_add_var(argv[i], envp);
 		i++;
 	}
-	return (0);
+	return (ret);
 }
 
 int	builtin_unset(char **argv, char ***envp)

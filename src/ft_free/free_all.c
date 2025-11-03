@@ -1,14 +1,4 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   free_all.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/22 01:19:56 by macoulib          #+#    #+#             */
-/*   Updated: 2025/10/25 03:33:19 by macoulib         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+
 
 #include "../../includes/minishell.h"
 
@@ -16,11 +6,15 @@ void	free_tab(char **tab)
 {
 	int	i;
 
-	i = 0;
 	if (!tab)
 		return ;
+	i = 0;
 	while (tab[i])
-		free(tab[i++]);
+	{
+		free(tab[i]);
+		tab[i] = NULL;
+		i++;
+	}
 	free(tab);
 }
 
@@ -39,6 +33,23 @@ void	free_tab3(char ***tab3)
 	}
 	free(tab3);
 }
+
+void	free_fd_array(int **fds)
+{
+	int	i;
+
+	if (!fds)
+		return ;
+	i = 0;
+	while (fds[i])
+	{
+		free(fds[i]);
+		fds[i] = NULL;
+		i++;
+	}
+	free(fds);
+}
+
 void	free_all(t_data *data)
 {
 	if (!data)
@@ -50,13 +61,18 @@ void	free_all(t_data *data)
 	}
 	if (data->limiter)
 	{
-		free(data->limiter);
+		free_tab(data->limiter);
 		data->limiter = NULL;
 	}
 	if (data->argv)
 	{
 		free_tab(data->argv);
 		data->argv = NULL;
+	}
+	if (data->argv_clean_quotes)
+	{
+		free_tab(data->argv_clean_quotes);
+		data->argv_clean_quotes = NULL;
 	}
 	if (data->argv_only_cmd)
 	{
@@ -72,5 +88,37 @@ void	free_all(t_data *data)
 	{
 		free_tab3(data->argv_pipeline);
 		data->argv_pipeline = NULL;
+	}
+	if (data->echo_pipline)
+	{
+		free_tab3(data->echo_pipline);
+		data->echo_pipline = NULL;
+	}
+
+	if (data->pipeline_in_fds)
+	{
+		free_fd_array(data->pipeline_in_fds);
+		data->pipeline_in_fds = NULL;
+	}
+	if (data->pipeline_out_fds)
+	{
+		free_fd_array(data->pipeline_out_fds);
+		data->pipeline_out_fds = NULL;
+	}
+
+	if (data->infile_fd > 2)
+	{
+		close(data->infile_fd);
+		data->infile_fd = -1;
+	}
+	if (data->outfile_fd > 2)
+	{
+		close(data->outfile_fd);
+		data->outfile_fd = -1;
+	}
+	if (data->error_fd > 2)
+	{
+		close(data->error_fd);
+		data->error_fd = -1;
 	}
 }

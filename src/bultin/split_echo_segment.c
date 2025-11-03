@@ -1,14 +1,4 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   split_echo_segment.c                               :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/29 01:44:35 by macoulib          #+#    #+#             */
-/*   Updated: 2025/10/29 23:09:45 by macoulib         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+
 
 #include "../../includes/minishell.h"
 
@@ -30,7 +20,7 @@ int	ft_count_pipes(char **args)
 	return (count);
 }
 
-static char	**ft_copy_segment(char **start, char **end)
+char	**ft_copy_segment(char **start, char **end)
 {
 	char	**segment;
 	int		len;
