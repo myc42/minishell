@@ -47,7 +47,6 @@ void	alloc_taboftab_pipeline(t_data *data)
 	int	num_cmds;
 
 	num_cmds = count_pipeline(data) + 1;
-	//data->argv_pipeline = malloc(sizeof(char **) * (num_cmds + 1));
 	data->argv_pipeline = (char ***)malloc((num_cmds + 1) * sizeof(char **));
 	if (data->argv_pipeline == NULL)
 		return ;

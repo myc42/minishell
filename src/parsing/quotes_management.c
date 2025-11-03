@@ -23,9 +23,6 @@ int	closed_quotes(char *str)
 		return (1);
 	return (0);
 }
-#include <ctype.h>
-#include <stdlib.h>
-#include <string.h>
 
 char	*separe_here_doc_sign(char *str)
 {

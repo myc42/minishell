@@ -2,6 +2,7 @@
 
 #include "../../includes/minishell.h"
 
+
 void	init_var_exe(int *i, int *prev_pipe_read_fd, t_data *data, char *input,
 		char **env)
 {
@@ -12,8 +13,8 @@ void	init_var_exe(int *i, int *prev_pipe_read_fd, t_data *data, char *input,
 
 int	update_cmd_pipenbr(t_data *data, int *pipeline_nb)
 {
-	if (redirect_and_cmds(data))
-		return (1);
+	if(!redirect_and_cmds(data))
+		return (0);
 	*pipeline_nb = count_pipeline(data) + 1;
-	return (0);
+	return (1);
 }

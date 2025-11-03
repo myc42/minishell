@@ -36,11 +36,7 @@ int	direction_error(char *str, t_data *data)
 	while (i >= 0 && (str[i] == ' ' || str[i] == '\t'))
 		i--;
 	if (i >= 0 && (str[i] == '|' || str[i] == '>' || str[i] == '<'))
-	{
-		ft_putstr_fd("minishell$ syntax error near unexpected token `newline`\n",
-			1);
 		return (1);
-	}
 	return (0);
 }
 

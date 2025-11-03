@@ -112,8 +112,9 @@ void	exe(t_data *data, char *input, char **env)
 		return ;
 	if (handle_builtin(data))
 		return ;
-	if (update_cmd_pipenbr(data, &pipeline_nb))
+	if(!update_cmd_pipenbr(data, &pipeline_nb))
 		return ;
+	
 	while (i < pipeline_nb)
 	{
 		if (i < pipeline_nb - 1)

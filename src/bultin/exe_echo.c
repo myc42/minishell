@@ -83,7 +83,9 @@ void	setup_redirections(t_data *data)
 		data->pipeline_out_fds[i] = malloc(sizeof(int));
 		if (!data->pipeline_in_fds[i] || !data->pipeline_out_fds[i])
 			return ;
-		analyze_redirections(data->argv_pipeline[i], data->pipeline_in_fds[i],
+		analyze_redirections(
+			data->argv_pipeline[i],
+			data->pipeline_in_fds[i],
 			data->pipeline_out_fds[i]);
 		i++;
 	}
@@ -211,7 +213,6 @@ void	execute_pipeline(t_data *data)
 
 int	exe_echox(t_data *data)
 {
-	
 	cpy_clean_quotes_to_av(data);
 	ft_split_by_pipe(data);
 	setup_redirections(data);
