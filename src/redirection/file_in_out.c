@@ -8,7 +8,7 @@ int	creat_fd_infile(t_data *data, int *i)
 	{
 		data->infile_fd = open(data->argv[*i + 1], O_RDONLY);
 		if (data->infile_fd == -1)
-			return (perror("no such file or directory"), -1);
+			return (perror("no such file or directory"), 0);
 		(*i)++;
 	}
 	return (1);
@@ -21,7 +21,7 @@ int	outfile_management(t_data *data, int *i)
 	data->outfile_fd = open(data->argv[*i + 1], O_WRONLY | O_CREAT | O_TRUNC,
 			0644);
 	if (data->outfile_fd == -1)
-		return (0);
+		return (-1);
 	return (1);
 }
 
@@ -61,15 +61,14 @@ int	redirect_and_cmds(t_data *data)
 	i = 0;
 	while (data->argv[i])
 	{
-		if (!creat_fd_infile(data, &i))
-			return (-1);
-		if (!creat_fd_outfile(data, &i))
-			return (-1);
+		if (creat_fd_infile(data, &i) == -1)
+			return (0);
+		if (creat_fd_outfile(data, &i) == -1)
+			return (0);
 		i++;
 	}
 	cpy_clean_quotes_to_av(data);
 	only_cmd_tab(data);
 	create_pipeline_tab(data);
-	
 	return (1);
 }

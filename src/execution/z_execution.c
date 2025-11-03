@@ -2,6 +2,25 @@
 
 #include "../../includes/minishell.h"
 
+int	check_directions_on_tab(t_data *data)
+{
+	int	i;
+
+	i = 0;
+	while (data->argv[i])
+	{
+		if (is_redirection_operator(data->argv[i]) && data->argv[i + 1]
+			&& is_redirection_operator(data->argv[i + 1]))
+		{
+			ft_putstr_fd("syntax error near unexpected token `", 2);
+			ft_putstr_fd(data->argv[i + 1], 2);
+			ft_putstr_fd("'\n", 2);
+			return (1);
+		}
+		i++;
+	}
+	return (0);
+}
 
 void	close_signal(t_data *data, int prev_pipe_read_fd, pid_t pid)
 {
@@ -89,9 +108,12 @@ void	exe(t_data *data, char *input, char **env)
 	pid_t	pid;
 
 	init_var_exe(&i, &prev_pipe_read_fd, data, input, env);
+	if (check_directions_on_tab(data))
+		return ;
 	if (handle_builtin(data))
 		return ;
-	update_cmd_pipenbr(data, &pipeline_nb);
+	if (update_cmd_pipenbr(data, &pipeline_nb))
+		return ;
 	while (i < pipeline_nb)
 	{
 		if (i < pipeline_nb - 1)

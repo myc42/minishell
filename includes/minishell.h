@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 19:02:12 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/03 15:32:52 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/11/03 17:24:04 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ void							init_var_exe(int *i, int *prev_pipe_read_fd,
 									t_data *data, char *input, char **env);
 void							first_argv_in_tab(t_data *data, char *input,
 									char **env);
-void							update_cmd_pipenbr(t_data *data,
+int								update_cmd_pipenbr(t_data *data,
 									int *pipeline_nb);
 void							expansion_here_doc(int fdin, int fdout,
 									t_data *data);
@@ -177,5 +177,6 @@ void							handle_sigint_heredoc(int sig);
 void							ft_split_by_pipe(t_data *data);
 int								execute_builtin(t_data *data);
 void							free_parsing(t_data *d);
+char							*separe_here_doc_sign(char *str);
 
 #endif
