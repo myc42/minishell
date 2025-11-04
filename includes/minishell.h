@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 19:02:12 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/04 20:35:22 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/11/04 22:53:01 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,6 +198,16 @@ int								check_directions_on_tab(t_data *data);
 void							close_signal(t_data *data,
 									int prev_pipe_read_fd, pid_t pid);
 void							if_cmd_inexistant(char **argv_exec);
-
 void							if_after_exeve(char *cmd_path);
+void							free_fd_array(int **fds);
+void							free_tab3(char ***tab3);
+void							free_tab(char **tab);
+
+void							ft_forkpid(pid_t *pid);
+void							pid_parent_zero(int *prev_pipe_read_fd,
+									int pipeline_nb, int *i, int *fds);
+void							if_pid_zero_two(t_data *data, int i,
+									int pipeline_nb, int *fds);
+void							if_pid_zero_one(int prev_pipe_read_fd, int i,
+									int outfile);
 #endif

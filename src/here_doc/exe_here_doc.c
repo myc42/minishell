@@ -1,4 +1,14 @@
-
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exe_here_doc.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/04 22:51:13 by macoulib          #+#    #+#             */
+/*   Updated: 2025/11/04 22:52:29 by macoulib         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
@@ -59,46 +69,4 @@ void	ft_forkpid(pid_t *pid)
 	*pid = fork();
 	if (*pid == -1)
 		perror("minishell: fork");
-}
-
-void	exe_heredoc(t_data *data, int outfile)
-{
-	pid_t pid;
-	int pipeline_nb;
-	int prev_pipe_read_fd;
-	int fds[2];
-	int i;
-	int status;
-	int sig;
-
-	(void)sig;
-	init_var_heredoc(data, &prev_pipe_read_fd, &pipeline_nb, &i);
-	while (i < pipeline_nb)
-	{
-		if (i < pipeline_nb - 1)
-			pipe_fd(fds);
-		ft_forkpid(&pid);
-		if (pid == 0)
-		{
-			reset_signals_child();
-			signal(SIGINT, handle_sigint_heredoc);
-			if_pid_zero_one(prev_pipe_read_fd, i, outfile);
-			if_pid_zero_two(data, i, pipeline_nb, fds);
-			exe_cmd(data, &i, data->envp);
-			exit(EXIT_FAILURE);
-		}
-		else
-		{
-			pid_parent_zero(&prev_pipe_read_fd, pipeline_nb, &i, fds);
-			waitpid(pid, &status, 0);
-
-			if (WIFSIGNALED(status))
-				data->last_status = 128 + WTERMSIG(status);
-			else
-				data->last_status = WEXITSTATUS(status);
-		}
-	}
-	unlink(".test");
-	unlink(".test2");
-	free_all(data);
 }

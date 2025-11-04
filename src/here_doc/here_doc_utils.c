@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   here_doc_utils.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/04 23:09:22 by macoulib          #+#    #+#             */
+/*   Updated: 2025/11/04 23:15:08 by macoulib         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
@@ -15,6 +26,7 @@ void	free_data_argv(t_data *data)
 	free(data->argv);
 	data->argv = NULL;
 }
+
 void	alloc_without_limiter(t_data *data)
 {
 	int	i;
