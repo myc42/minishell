@@ -15,7 +15,10 @@ int	ft_parsing(char *str, t_data *data)
 	if (check_if_is_only_space(str))
 		return (0);
 	here_doc_management = separe_here_doc_sign(str);
+	if (!here_doc_management)
+		return (0);
 	expansion_str = expand_variables_in_string(here_doc_management, data);
+	free(here_doc_management);
 	if (!expansion_str)
 		return (0);
 

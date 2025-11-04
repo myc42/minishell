@@ -44,25 +44,28 @@ char	**ft_copy_segment(char **start, char **end)
 	segment[i] = NULL;
 	return (segment);
 }
-
+int	init_var_split(t_data *data, int *i, int *count, int *cmd_index)
+{
+	*count = ft_count_pipes(data->argv);
+	data->argv_pipeline = malloc(sizeof(char **) * (*count + 1));
+	if (!data->argv_pipeline)
+		return (0);
+	*cmd_index = 0;
+	*i = 0;
+	return (1);
+}
 void	ft_split_by_pipe(t_data *data)
 {
-	int i;
-	int count;
-	int cmd_index;
-	char **segment_start;
+	int		i;
+	int		count;
+	int		cmd_index;
+	char	**segment_start;
 
+	if (!init_var_split(data, &i, &count, &cmd_index))
+		return ;
 	if (!data || !data->argv)
 		return ;
-
-	count = ft_count_pipes(data->argv);
-	data->argv_pipeline = malloc(sizeof(char **) * (count + 1));
-	if (!data->argv_pipeline)
-		return ;
-
 	segment_start = data->argv;
-	cmd_index = 0;
-	i = 0;
 	while (data->argv[i])
 	{
 		if (ft_strcmp(data->argv[i], "|") == 0)
@@ -78,4 +81,3 @@ void	ft_split_by_pipe(t_data *data)
 			&data->argv[i]);
 	data->argv_pipeline[cmd_index + 1] = NULL;
 }
-

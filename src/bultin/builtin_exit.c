@@ -1,3 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin_exit.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+        
+	+:+     */
+/*   By: macoulib <macoulib@student.42.fr>          +#+  +:+      
+	+#+        */
+/*                                                +#+#+#+#+#+  
+	+#+           */
+/*   Created: 2025/11/04 18:26:27 by macoulib          #+#    #+#             */
+/*   Updated: 2025/11/04 18:26:27 by macoulib         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
@@ -34,7 +48,7 @@ int	is_numeric(char *s)
 
 int	builtin_exit(t_data *data)
 {
-	long	code;
+	long code;
 
 	ft_putstr_fd("exit\n", 1);
 	if (!data->argv[1])
@@ -56,26 +70,3 @@ int	builtin_exit(t_data *data)
 	minishell_clean_exit(data, (int)(code % 256));
 	return (0);
 }
-
-/*int	builtin_exit(t_data *data)
-{
-	ft_putstr_fd("exit\n", 1);
-	if (!data->argv[1])
-		exit(data->last_status);
-	if (!is_numeric(data->argv[1]))
-	{
-		ft_putstr_fd("minishell: exit: ", 2);
-		ft_putstr_fd(data->argv[1], 2);
-		ft_putstr_fd(": numeric argument required\n", 2);
-		exit(2);
-	}
-	if (data->argv[2])
-
-	{
-		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
-		data->last_status = 1;
-		return (1);
-	}
-	exit(ft_atoi(data->argv[1]) % 256);
-}
-*/

@@ -30,7 +30,7 @@ char	*separe_here_doc_sign(char *str)
 	int		j;
 	char	*cpystr;
 
-	cpystr = malloc(ft_strlen(str) * 2);
+	cpystr = malloc(ft_strlen(str) * 2 + 1);
 	if (!cpystr)
 		return (NULL);
 	i = 0;

@@ -1,7 +1,42 @@
-
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   env.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+        
+	+:+     */
+/*   By: macoulib <macoulib@student.42.fr>          +#+  +:+      
+	+#+        */
+/*                                                +#+#+#+#+#+  
+	+#+           */
+/*   Created: 2025/11/04 18:26:39 by macoulib          #+#    #+#             */
+/*   Updated: 2025/11/04 18:26:39 by macoulib         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+
+char	**copy_envp(char **envp)
+
+{
+	int count = 0;
+	int i;
+	char **copy;
+
+	while (envp[count])
+		count++;
+	copy = malloc((count + 1) * sizeof(char *));
+	if (!copy)
+		return (NULL);
+	i = 0;
+	while (i < count)
+	{
+		copy[i] = ft_strdup(envp[i]);
+		i++;
+	}
+	copy[count] = NULL;
+	return (copy);
+}
 
 int	builtin_env(char **envp)
 {
@@ -19,8 +54,6 @@ int	builtin_env(char **envp)
 	}
 	return (0);
 }
-
-
 
 void	update_or_add_var(char *arg, char ***envp)
 {
@@ -49,7 +82,7 @@ void	update_or_add_var(char *arg, char ***envp)
 int	builtin_export(char **argv, char ***envp)
 {
 	int i;
-	int	ret;
+	int ret;
 
 	if (!argv[1])
 		return (builtin_env(*envp));

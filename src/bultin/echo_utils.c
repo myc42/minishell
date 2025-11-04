@@ -1,0 +1,90 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   echo_utils.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/04 19:23:03 by macoulib          #+#    #+#             */
+/*   Updated: 2025/11/04 19:26:45 by macoulib         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+
+#include "../../includes/minishell.h"
+
+
+void	pid_zero_one(t_data *data, int i, int prev_fd, int cmd_count,
+		int *pipefd)
+{
+	if (*(data->pipeline_in_fds[i]) != STDIN_FILENO)
+		dup2(*(data->pipeline_in_fds[i]), STDIN_FILENO);
+	else if (prev_fd != -1)
+		dup2(prev_fd, STDIN_FILENO);
+	if (*(data->pipeline_out_fds[i]) != STDOUT_FILENO)
+		dup2(*(data->pipeline_out_fds[i]), STDOUT_FILENO);
+	else if (i < cmd_count - 1)
+		dup2(pipefd[1], STDOUT_FILENO);
+	if (prev_fd != -1)
+		close(prev_fd);
+	if (i < cmd_count - 1)
+	{
+		close(pipefd[0]);
+		close(pipefd[1]);
+	}
+}
+void	wait_management(int cmd_count)
+{
+	int	i;
+
+	i = 0;
+	while (i++ < cmd_count)
+		wait(NULL);
+}
+void	exe_end(int *prev_fd, int *pipefd, int cmd_count, int i)
+{
+	if (*prev_fd != -1)
+		close(*prev_fd);
+	if (i < cmd_count - 1)
+		close(pipefd[1]);
+	if (i < cmd_count - 1)
+		*prev_fd = pipefd[0];
+	else
+		*prev_fd = -1;
+}
+
+void	init_var_ex_pip(int *prev_fd, int *i)
+{
+	*prev_fd = -1;
+	*i = -1;
+}
+
+void	execute_pipeline(t_data *data)
+{
+	int		cmd_count;
+	int		prev_fd;
+	pid_t	pid;
+	int		pipefd[2] = {-1, -1};
+	int		i;
+
+	cmd_count = ft_count_cmds_pipeline(data);
+	init_var_ex_pip(&prev_fd, &i);
+	while (++i < cmd_count)
+	{
+		if (i < cmd_count - 1 && pipe(pipefd) == -1)
+			exit(1);
+		pid = fork();
+		if (pid == -1)
+			exit(1);
+		if (pid == 0)
+		{
+			pid_zero_one(data, i, prev_fd, cmd_count, pipefd);
+			exe_cmd(data, &i, data->envp);
+			perror("execvp");
+			exit(1);
+		}
+		exe_end(&prev_fd, pipefd, cmd_count, i);
+	}
+	wait_management(cmd_count);
+}
+

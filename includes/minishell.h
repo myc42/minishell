@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 19:02:12 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/03 19:21:11 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/11/04 19:24:29 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ void							init_var_heredoc(t_data *data,
 									int *prev_pipe_read_fd, int *pipeline_nb,
 									int *i);
 void							pipe_fd(int *fds);
+char							**copy_envp(char **envp);
 void							ft_waitpid(pid_t pid);
 void							free_data_argv(t_data *data);
 void							ft_forkpid(pid_t *pid);
@@ -113,6 +114,13 @@ void							init_var_exe(int *i, int *prev_pipe_read_fd,
 									t_data *data, char *input, char **env);
 void							first_argv_in_tab(t_data *data, char *input,
 									char **env);
+int								ft_count_cmds_pipeline(t_data *data);
+void							remove_two_tokens(char **argv, int i);
+void							analyze_redirections(char **argv, int *in_fd,
+									int *out_fd);
+void							setup_redirections(t_data *data);
+
+int								builtin_echo(char **argv, t_data *data);
 
 void							expansion_here_doc(int fdin, int fdout,
 									t_data *data);
@@ -176,7 +184,10 @@ void							handle_sigint_heredoc(int sig);
 void							ft_split_by_pipe(t_data *data);
 int								execute_builtin(t_data *data);
 void							free_parsing(t_data *d);
- char							*separe_here_doc_sign(char *str);
+char							*separe_here_doc_sign(char *str);
 int								update_cmd_pipenbr(t_data *data,
 									int *pipeline_nb);
+
+void							execute_pipeline(t_data *data);
+int								exe_echox(t_data *data);
 #endif

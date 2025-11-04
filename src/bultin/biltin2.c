@@ -1,33 +1,21 @@
-
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   biltin2.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/04 18:25:51 by macoulib          #+#    #+#             */
+/*   Updated: 2025/11/04 18:25:54 by macoulib         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-
-char	**copy_envp(char **envp)
-
-{
-	int count = 0;
-	int i;
-	char **copy;
-
-	while (envp[count])
-		count++;
-	copy = malloc((count + 1) * sizeof(char *));
-	if (!copy)
-		return (NULL);
-	i = 0;
-	while (i < count)
-	{
-		copy[i] = ft_strdup(envp[i]);
-		i++;
-	}
-	copy[count] = NULL;
-	return (copy);
-}
-
 int	builtin_pwd(void)
 {
-	char cwd[1024];
+	char	cwd[1024];
+
 	if (getcwd(cwd, sizeof(cwd)) != NULL)
 	{
 		ft_putstr_fd(cwd, 1);
@@ -40,23 +28,21 @@ int	builtin_pwd(void)
 
 void	update_pwd(char **envp)
 {
-	char cwd[1024];
-	char *new_pwd;
-	char *prefix;
-	int i;
-	i = 0;
+	char	cwd[1024];
+	char	*new_pwd;
+	char	*prefix;
+	int		i;
 
+	i = 0;
 	if (getcwd(cwd, sizeof(cwd)) == NULL)
 		return ;
 	prefix = ft_strdup("PWD=");
 	if (!prefix)
 		return ;
-
 	new_pwd = ft_strjoin_kamel(prefix, cwd);
 	free(prefix);
 	if (!new_pwd)
 		return ;
-
 	while (envp[i])
 	{
 		if (ft_strncmp(envp[i], "PWD=", 4) == 0)
@@ -71,7 +57,7 @@ void	update_pwd(char **envp)
 
 void	print_arg(char *arg, t_data *data)
 {
-	char *code;
+	char	*code;
 
 	if (ft_strncmp(arg, "$?", 3) == 0)
 	{
@@ -98,7 +84,6 @@ int	is_n(char *arg)
 	}
 	return (i > 1);
 }
-
 
 int	builtin_echo(char **argv, t_data *data)
 {
