@@ -1,71 +1,21 @@
-
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   z_execution.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/04 19:56:13 by macoulib          #+#    #+#             */
+/*   Updated: 2025/11/04 20:34:29 by macoulib         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	check_directions_on_tab(t_data *data)
-{
-	int	i;
 
-	i = 0;
-	while (data->argv[i])
-	{
-		if (is_redirection_operator(data->argv[i]) && data->argv[i + 1]
-			&& is_redirection_operator(data->argv[i + 1]))
-		{
-			ft_putstr_fd("syntax error near unexpected token `", 2);
-			ft_putstr_fd(data->argv[i + 1], 2);
-			ft_putstr_fd("'\n", 2);
-			return (1);
-		}
-		i++;
-	}
-	return (0);
-}
-
-void	close_signal(t_data *data, int prev_pipe_read_fd, pid_t pid)
-{
-	if (prev_pipe_read_fd != -1)
-		close(prev_pipe_read_fd);
-	close_infile_outfile(data, pid);
-	signal_and_waitpid(data, pid);
-}
-void	first_argv_in_tab(t_data *data, char *input, char **env)
-{
-	int		i;
-	char	**av;
-	char	*expan;
-	char	*mult_space;
-	int		size;
-
-	(void)env;
-	mult_space = clean_space(input);
-	expan = expand_variables_in_string(mult_space, data);
-	av = argv_valid_tab(expan);
-	free(mult_space);
-	free(expan);
-	if (!av)
-		return ;
-	size = 0;
-	while (av[size])
-		size++;
-	data->argv = malloc(sizeof(char *) * (size + 1));
-	if (!data->argv)
-		return (free_tab(av));
-	i = 0;
-	while (av[i])
-	{
-		data->argv[i] = ft_strdup(av[i]);
-		i++;
-	}
-	data->argv[i] = NULL;
-	free_tab(av);
-}
-
-void	exe_cmd(t_data *data, int *i, char **envp)
+char	**init_argv_exec(t_data *data, int *i)
 {
 	char	**argv_exec;
-	char	*cmd_path;
-	int		has_slash;
 
 	if (data->argv_pipeline && data->argv_pipeline[*i])
 		argv_exec = data->argv_pipeline[*i];
@@ -74,8 +24,20 @@ void	exe_cmd(t_data *data, int *i, char **envp)
 	if (!argv_exec || !argv_exec[0])
 	{
 		ft_putstr_fd("minishell: empty command\n", 2);
-		exit(127);
+		return (NULL);
 	}
+	return (argv_exec);
+}
+
+void	exe_cmd(t_data *data, int *i, char **envp)
+{
+	char	**argv_exec;
+	char	*cmd_path;
+	int		has_slash;
+
+	argv_exec = init_argv_exec(data, i);
+	if (!argv_exec)
+		exit(127);
 	has_slash = (ft_strchr(argv_exec[0], '/') != NULL);
 	if (has_slash)
 		cmd_path = ft_strdup(argv_exec[0]);
@@ -83,20 +45,25 @@ void	exe_cmd(t_data *data, int *i, char **envp)
 		cmd_path = find_path(envp, argv_exec[0]);
 	if (!cmd_path)
 	{
-		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(argv_exec[0], 2);
-		ft_putstr_fd(": command not found\n", 2);
+		if_cmd_inexistant(argv_exec);
 		exit(127);
 	}
 	execve(cmd_path, argv_exec, envp);
-	ft_putstr_fd("minishell: ", 2);
-	ft_putstr_fd(cmd_path, 2);
-	ft_putstr_fd(": ", 2);
-	perror(NULL);
-	free(cmd_path);
+	if_after_exeve(cmd_path);
 	if (errno == ENOENT)
 		exit(127);
 	exit(126);
+}
+
+int	process_pre_execution(t_data *data, int *pipeline_nb)
+{
+	if (check_directions_on_tab(data))
+		return (1);
+	if (handle_builtin(data))
+		return (1);
+	if (!update_cmd_pipenbr(data, pipeline_nb))
+		return (1);
+	return (0);
 }
 
 void	exe(t_data *data, char *input, char **env)
@@ -108,13 +75,8 @@ void	exe(t_data *data, char *input, char **env)
 	pid_t	pid;
 
 	init_var_exe(&i, &prev_pipe_read_fd, data, input, env);
-	if (check_directions_on_tab(data))
+	if (process_pre_execution(data, &pipeline_nb))
 		return ;
-	if (handle_builtin(data))
-		return ;
-	if(!update_cmd_pipenbr(data, &pipeline_nb))
-		return ;
-	
 	while (i < pipeline_nb)
 	{
 		if (i < pipeline_nb - 1)

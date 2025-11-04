@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 19:02:12 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/04 19:24:29 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/11/04 20:35:22 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,4 +190,14 @@ int								update_cmd_pipenbr(t_data *data,
 
 void							execute_pipeline(t_data *data);
 int								exe_echox(t_data *data);
+
+void							first_argv_in_tab(t_data *data, char *input,
+									char **env);
+
+int								check_directions_on_tab(t_data *data);
+void							close_signal(t_data *data,
+									int prev_pipe_read_fd, pid_t pid);
+void							if_cmd_inexistant(char **argv_exec);
+
+void							if_after_exeve(char *cmd_path);
 #endif
