@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 23:10:50 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/05 18:20:11 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/11/05 20:08:02 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ int	init_separate_variable(char **cpystr, int *i, int *j, char *str)
 	*j = 0;
 	return (1);
 }
+
 void	cpystr_fnc(char *cpystr, int *i, int *j, char *str)
 {
 	cpystr[(*j)++] = str[(*i)++];

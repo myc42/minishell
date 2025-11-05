@@ -6,11 +6,9 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 23:09:44 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/04 23:09:45 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/11/05 20:02:36 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-
 
 #include "../../includes/minishell.h"
 
@@ -34,11 +32,11 @@ void	is_word(int *argv, int *count, int s, int d)
 
 int	count_argv(char *str)
 {
-	int i;
-	int argv;
-	int count;
-	int in_single_quote;
-	int in_double_quote;
+	int	i;
+	int	argv;
+	int	count;
+	int	in_single_quote;
+	int	in_double_quote;
 
 	init_variable(&argv, &i, &count, &in_double_quote, &in_single_quote);
 	while (str[++i])
@@ -59,4 +57,3 @@ int	count_argv(char *str)
 		count++;
 	return (count);
 }
-

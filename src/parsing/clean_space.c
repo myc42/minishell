@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 23:10:27 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/05 17:19:39 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/11/05 20:17:06 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,6 @@ int	dest_size(char *str)
 	return (taille + 1);
 }
 
-
 char	*clean_space(char *str)
 {
 	char	*space_btw_pipeline;
@@ -88,20 +87,16 @@ char	*clean_space(char *str)
 
 	if (!str)
 		return (NULL);
-
 	bufsize = dest_size(str);
 	space_btw_pipeline = malloc(sizeof(char) * bufsize);
 	if (!space_btw_pipeline)
 		return (NULL);
 	pipeline_space(str, space_btw_pipeline);
-
 	strtrim = ft_strtrim(space_btw_pipeline, " ");
 	free(space_btw_pipeline);
 	if (!strtrim)
 		return (NULL);
-
 	final_clean = delete_multiple_space(strtrim);
 	free(strtrim);
-	
 	return (final_clean);
 }

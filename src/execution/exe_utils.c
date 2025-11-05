@@ -1,18 +1,28 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exe_utils.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/05 19:36:27 by macoulib          #+#    #+#             */
+/*   Updated: 2025/11/05 19:37:37 by macoulib         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 void	signal_and_waitpid(t_data *data, pid_t pid)
 {
-	int	status;
+	int		status;
 	pid_t	wpid;
-	
+
 	(void)pid;
 	signal(SIGINT, SIG_IGN);
 	signal(SIGQUIT, SIG_IGN);
 	while ((wpid = wait(&status)) > 0)
 		update_status_from_signal(status, data);
 	setup_signals();
-
 }
 
 void	exe_pid_zero_one(int prev_pipe_read_fd, int i, t_data *data,

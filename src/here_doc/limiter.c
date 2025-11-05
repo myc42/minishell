@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 23:09:34 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/04 23:31:55 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/11/05 19:57:54 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ void	find_all_limiters(t_data *data)
 	data->limiter = malloc(sizeof(char *) * (count + 1));
 	if (!data->limiter)
 		return ;
-
 	i = 0;
 	j = 0;
 	while (data->argv[i])
@@ -51,4 +50,3 @@ void	find_all_limiters(t_data *data)
 	}
 	data->limiter[j] = NULL;
 }
-

@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 22:51:13 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/04 22:52:29 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/11/05 19:48:22 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	handle_sigint_heredoc(int sig)
 	write(1, "\n", 1);
 	close(STDIN_FILENO);
 }
+
 void	if_pid_zero_one(int prev_pipe_read_fd, int i, int outfile)
 {
 	if (prev_pipe_read_fd != -1)

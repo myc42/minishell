@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 20:43:21 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/04 22:53:29 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/11/05 19:49:05 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void	call_signal(void)
 	reset_signals_child();
 	signal(SIGINT, handle_sigint_heredoc);
 }
+
 void	exe_heredoc(t_data *data, int outfile)
 {
 	pid_t	pid;
@@ -65,3 +66,4 @@ void	exe_heredoc(t_data *data, int outfile)
 	}
 	unlink_free(data);
 }
+

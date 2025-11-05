@@ -2,11 +2,11 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+        
+/*                                                    +:+ +:+
 	+:+     */
-/*   By: macoulib <macoulib@student.42.fr>          +#+  +:+      
+/*   By: macoulib <macoulib@student.42.fr>          +#+  +:+
 	+#+        */
-/*                                                +#+#+#+#+#+  
+/*                                                +#+#+#+#+#+
 	+#+           */
 /*   Created: 2025/11/05 18:25:14 by macoulib          #+#    #+#             */
 /*   Updated: 2025/11/05 18:25:14 by macoulib         ###   ########.fr       */
@@ -14,7 +14,6 @@
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
 
 void	handle_sigint(int sig)
 {
@@ -35,7 +34,7 @@ void	handle_sigquit(int sig)
 
 void	setup_signals(void)
 {
-	struct termios term;
+	struct termios	term;
 
 	tcgetattr(STDIN_FILENO, &term);
 	term.c_lflag &= ~ECHOCTL;

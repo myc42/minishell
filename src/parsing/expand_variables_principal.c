@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 18:04:40 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/05 18:08:25 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/11/05 20:07:22 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,9 @@ static char	*handle_expansion(char *str, int *i, int in_single_quotes,
 
 char	*expand_variables_in_string(char *str, t_data *data)
 {
-	int i;
-	int in_single_quotes;
-	char *result;
+	int		i;
+	int		in_single_quotes;
+	char	*result;
 
 	i = 0;
 	in_single_quotes = 0;

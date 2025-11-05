@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 19:02:12 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/05 18:08:00 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/11/05 19:59:39 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -224,5 +224,13 @@ char							*append_dollar_literal(char *result);
 char							*append_char(char *result, char c);
 char							*ft_strjoin_free(char *s1, char *s2,
 									int free_s1, int free_s2);
+
+void							free_utils2(t_data *data);
+
+void							free_utils3(t_data *data);
+void	int_var_stock(int *current, int *total, t_data *data);
+void	write_outfiled(int current, int total, int outfilefd, char *line);
+void	stock_to_here_doc(t_data *data, int outfilefd);
+void	find_cpy_redirect(t_data *data);
 
 #endif

@@ -6,11 +6,9 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 23:10:39 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/05 17:08:03 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/11/05 20:05:11 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-
 
 #include "../../includes/minishell.h"
 

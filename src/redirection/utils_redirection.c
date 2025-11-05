@@ -6,11 +6,9 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 18:24:54 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/05 18:24:55 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/11/05 20:13:26 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-
 
 #include "../../includes/minishell.h"
 
@@ -27,6 +25,7 @@ int	ft_strcmp(char *s1, char *s2)
 	}
 	return (0);
 }
+
 int	redirection_detected(char **av)
 {
 	int	i;
@@ -41,6 +40,7 @@ int	redirection_detected(char **av)
 	}
 	return (0);
 }
+
 int	is_redirection_operator(char *av)
 {
 	if (ft_strcmp(av, "<") == 0 || ft_strcmp(av, ">") == 0 || ft_strcmp(av,

@@ -6,11 +6,9 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 23:11:04 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/04 23:11:05 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/11/05 20:09:57 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-
 
 #include "../../includes/minishell.h"
 
@@ -18,7 +16,7 @@ int	ft_parsing(char *str, t_data *data)
 {
 	char	*expansion_str;
 	char	*cleaned;
-	char *here_doc_management;
+	char	*here_doc_management;
 
 	if (!closed_quotes(str))
 		return (ft_putstr_fd("parse error near '\n", 2), 0);
@@ -33,12 +31,10 @@ int	ft_parsing(char *str, t_data *data)
 	free(here_doc_management);
 	if (!expansion_str)
 		return (0);
-
 	cleaned = clean_space(expansion_str);
 	free(expansion_str);
 	if (!cleaned)
 		return (0);
-
 	data->input_clean = cleaned;
 	return (1);
 }

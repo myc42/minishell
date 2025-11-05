@@ -6,12 +6,11 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 19:56:13 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/05 00:08:12 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/11/05 19:42:42 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
 
 char	**init_argv_exec(t_data *data, int *i)
 {

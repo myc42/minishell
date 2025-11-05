@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 18:20:51 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/05 18:21:02 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/11/05 20:11:38 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void	cpy_to_argv_onlycmd(t_data *data, int *i, int *j)
 	(*j)++;
 	(*i)++;
 }
+
 int	count_cmd_elements(t_data *data)
 {
 	int	i;
@@ -57,8 +58,8 @@ int	count_cmd_elements(t_data *data)
 
 int	only_cmd_tab(t_data *data)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	i = 0;
 	j = 0;
@@ -69,7 +70,6 @@ int	only_cmd_tab(t_data *data)
 		{
 			if (data->argv[i + 1])
 				i += 2;
-
 			else
 				i += 1;
 		}

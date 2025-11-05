@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 19:56:07 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/05 00:13:16 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/11/05 19:42:00 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,10 @@ void	first_argv_two(int siz, t_data *data, char **av)
 
 void	first_argv_in_tab(t_data *data, char *input, char **env)
 {
-	char **av;
-	char *expan;
-	char *mult_space;
-	int size;
+	char	**av;
+	char	*expan;
+	char	*mult_space;
+	int		size;
 
 	(void)env;
 	mult_space = clean_space(input);

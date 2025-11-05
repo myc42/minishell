@@ -6,11 +6,9 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 18:24:59 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/05 18:25:00 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/11/05 20:12:22 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-
 
 #include "../../includes/minishell.h"
 
@@ -63,6 +61,7 @@ void	alloc_taboftab_pipeline(t_data *data)
 	if (data->argv_pipeline == NULL)
 		return ;
 }
+
 void	create_pipeline_tab(t_data *data)
 {
 	int	i;

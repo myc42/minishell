@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 23:10:43 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/05 18:07:06 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/11/05 20:06:04 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,4 +83,3 @@ char	*append_variable(char *str, int *i, char *result, t_data *data)
 	*i += j;
 	return (new_result);
 }
-
