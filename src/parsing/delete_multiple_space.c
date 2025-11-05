@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 23:10:39 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/04 23:10:40 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/11/05 17:08:03 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,9 @@ char	*delete_multiple_space(char *str)
 
 	if (!str)
 		return (NULL);
-
 	cleaned = malloc(ft_strlen(str) + 1);
 	if (!cleaned)
 		return (NULL);
-
 	i = 0;
 	j = 0;
 	while (str[i])

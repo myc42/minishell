@@ -1,4 +1,14 @@
-
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   file_in_out.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/05 18:21:07 by macoulib          #+#    #+#             */
+/*   Updated: 2025/11/05 18:21:07 by macoulib         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
@@ -70,6 +80,5 @@ int	redirect_and_cmds(t_data *data)
 	cpy_clean_quotes_to_av(data);
 	only_cmd_tab(data);
 	create_pipeline_tab(data);
-	
 	return (1);
 }

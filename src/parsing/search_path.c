@@ -6,11 +6,9 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 23:11:01 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/04 23:11:02 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/11/05 18:09:18 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-
 
 #include "../../includes/minishell.h"
 
@@ -43,10 +41,10 @@ char	**get_all_paths(char **env)
 
 char	*find_path(char **env, char *cmd)
 {
-	char **paths;
-	char *path_find;
-	char *good_path;
-	int i;
+	char	**paths;
+	char	*path_find;
+	char	*good_path;
+	int		i;
 
 	paths = get_all_paths(env);
 	if (paths == NULL)

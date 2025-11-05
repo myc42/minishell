@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 19:02:12 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/04 22:53:01 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/11/05 18:08:00 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,4 +210,19 @@ void							if_pid_zero_two(t_data *data, int i,
 									int pipeline_nb, int *fds);
 void							if_pid_zero_one(int prev_pipe_read_fd, int i,
 									int outfile);
+void							three_variable_init(int *i, int *j, int *k);
+void							quotes_and_increment(int *in_single_quotes,
+									int *i);
+void							free_s1s2(int free_s1, int free_s2, char *s1,
+									char *s2);
+
+char							*expand_variables_in_string(char *str,
+									t_data *data);
+char							*append_variable(char *str, int *i,
+									char *result, t_data *data);
+char							*append_dollar_literal(char *result);
+char							*append_char(char *result, char c);
+char							*ft_strjoin_free(char *s1, char *s2,
+									int free_s1, int free_s2);
+
 #endif

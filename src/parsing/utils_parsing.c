@@ -1,48 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipe.c                                             :+:      :+:    :+:   */
+/*   utils_parsing.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/05 18:21:44 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/05 18:24:15 by macoulib         ###   ########.fr       */
+/*   Created: 2025/11/05 17:02:17 by macoulib          #+#    #+#             */
+/*   Updated: 2025/11/05 18:20:44 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	handle_pipe2(int *pipe_fd, int *fd)
+void	three_variable_init(int *i, int *j, int *k)
 {
-	wait(NULL);
-	close(pipe_fd[1]);
-	*fd = pipe_fd[0];
+	*i = 0;
+	*j = 0;
+	*k = 0;
 }
 
-int	handle_pipe(char **tab_argv)
+void	quotes_and_increment(int *in_single_quotes, int *i)
 {
-	int		i;
-	int		fd;
-	int		pipe_fd[2];
-	pid_t	pid;
+	*in_single_quotes = !(*in_single_quotes);
+	(*i)++;
+}
 
-	i = 0;
-	fd = 0;
-	pid = fork();
-	while (tab_argv[i])
-	{
-		if (ft_strncmp(tab_argv[i], "|", ft_strlen(tab_argv[i])))
-		{
-			pipe(pipe_fd);
-			if (pid == 0)
-			{
-				dup2(fd, 0);
-				close(pipe_fd[0]);
-			}
-			else
-				handle_pipe2(pipe_fd, &fd);
-		}
-		i++;
-	}
-	return (0);
+void	free_s1s2(int free_s1, int free_s2, char *s1, char *s2)
+{
+	if (free_s1)
+		free(s1);
+	if (free_s2)
+		free(s2);
 }

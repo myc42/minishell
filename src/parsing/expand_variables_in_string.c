@@ -6,19 +6,11 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 23:10:43 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/04 23:10:44 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/11/05 18:07:06 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
-
 #include "../../includes/minishell.h"
-
-void	quotes_and_increment(int *in_single_quotes, int *i)
-{
-	*in_single_quotes = !(*in_single_quotes);
-	(*i)++;
-}
 
 char	*ft_strjoin_free(char *s1, char *s2, int free_s1, int free_s2)
 {
@@ -34,7 +26,6 @@ char	*ft_strjoin_free(char *s1, char *s2, int free_s1, int free_s2)
 		right = s2;
 	else
 		right = "";
-
 	join = ft_strjoin(left, right);
 	if (!join)
 	{
@@ -44,13 +35,9 @@ char	*ft_strjoin_free(char *s1, char *s2, int free_s1, int free_s2)
 			free(s2);
 		return (NULL);
 	}
-	if (free_s1)
-		free(s1);
-	if (free_s2)
-		free(s2);
+	free_s1s2(free_s1, free_s2, s1, s2);
 	return (join);
 }
-
 
 char	*append_char(char *result, char c)
 {
@@ -59,10 +46,9 @@ char	*append_char(char *result, char c)
 
 	char_str[0] = c;
 	char_str[1] = '\0';
-	new_result = ft_strjoin_free(result, char_str, 1, 0); 
+	new_result = ft_strjoin_free(result, char_str, 1, 0);
 	return (new_result);
 }
-
 
 char	*append_dollar_literal(char *result)
 {
@@ -81,9 +67,8 @@ char	*append_variable(char *str, int *i, char *result, t_data *data)
 	char	*new_result;
 
 	j = 0;
-	while (str[*i + j] && !ft_isspace(str[*i + j])
-		&& str[*i + j] != '\'' && str[*i + j] != '"'
-		&& str[*i + j] != '$')
+	while (str[*i + j] && !ft_isspace(str[*i + j]) && str[*i + j] != '\''
+		&& str[*i + j] != '"' && str[*i + j] != '$')
 		j++;
 	var_name = ft_substr(str, *i, j);
 	if (!var_name)
@@ -99,36 +84,3 @@ char	*append_variable(char *str, int *i, char *result, t_data *data)
 	return (new_result);
 }
 
-char	*expand_variables_in_string(char *str, t_data *data)
-{
-	int		i;
-	int		in_single_quotes;
-	char	*result;
-
-	i = 0;
-	in_single_quotes = 0;
-	result = ft_strdup("");
-	if (!result)
-		return (NULL);
-	while (str[i])
-	{
-		if (str[i] == '\'')
-		{
-			result = append_char(result, str[i]);
-			quotes_and_increment(&in_single_quotes, &i);
-		}
-		else if (str[i] == '$' && !in_single_quotes)
-		{
-			i++;
-			if (ft_isspace(str[i]) || !str[i])
-				result = append_dollar_literal(result);
-			else
-				result = append_variable(str, &i, result, data);
-		}
-		else
-			result = append_char(result, str[i++]);
-		if (!result)
-			return (NULL);
-	}
-	return (result);
-}

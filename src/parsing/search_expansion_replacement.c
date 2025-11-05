@@ -6,11 +6,9 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 23:10:56 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/04 23:10:57 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/11/05 18:09:12 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-
 
 #include "../../includes/minishell.h"
 
@@ -36,11 +34,9 @@ char	*search_expansion_replacement(char *var_name, t_data *data)
 	int		i;
 
 	if (!var_name || !data || !data->envp)
-		return (ft_strdup("")); 
-
+		return (ft_strdup(""));
 	if (ft_strcmp(var_name, "?") == 0)
 		return (ft_itoa(data->last_status));
-
 	value = NULL;
 	i = 0;
 	while (data->envp[i])
@@ -50,11 +46,10 @@ char	*search_expansion_replacement(char *var_name, t_data *data)
 		{
 			free(value);
 			value = ft_strdup(data->envp[i] + ft_strlen(var_name) + 1);
-			break;
+			break ;
 		}
 		i++;
 	}
-
 	if (!value)
 		value = ft_strdup("");
 	return (value);

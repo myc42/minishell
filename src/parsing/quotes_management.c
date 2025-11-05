@@ -6,11 +6,9 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 23:10:50 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/04 23:10:51 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/11/05 18:20:11 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-
 
 #include "../../includes/minishell.h"
 
@@ -36,26 +34,37 @@ int	closed_quotes(char *str)
 	return (0);
 }
 
+int	init_separate_variable(char **cpystr, int *i, int *j, char *str)
+{
+	*cpystr = malloc(ft_strlen(str) * 2 + 1);
+	if (!(*cpystr))
+		return (0);
+	*i = 0;
+	*j = 0;
+	return (1);
+}
+void	cpystr_fnc(char *cpystr, int *i, int *j, char *str)
+{
+	cpystr[(*j)++] = str[(*i)++];
+	cpystr[(*j)++] = str[(*i)++];
+	if (str[*i] && !ft_isspace(str[*i]))
+		cpystr[(*j)++] = ' ';
+}
+
 char	*separe_here_doc_sign(char *str)
 {
 	int		i;
 	int		j;
 	char	*cpystr;
 
-	cpystr = malloc(ft_strlen(str) * 2 + 1);
-	if (!cpystr)
+	if (!init_separate_variable(&cpystr, &i, &j, str))
 		return (NULL);
-	i = 0;
-	j = 0;
 	while (str[i])
 	{
 		if ((str[i] == '>' && str[i + 1] == '>') || (str[i] == '<' && str[i
 				+ 1] == '<'))
 		{
-			cpystr[j++] = str[i++];
-			cpystr[j++] = str[i++];
-			if (str[i] && !ft_isspace(str[i]))
-				cpystr[j++] = ' ';
+			cpystr_fnc(cpystr, &i, &j, str);
 			continue ;
 		}
 		if (str[i] == '>' || str[i] == '<')

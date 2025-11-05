@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 19:56:13 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/04 20:34:29 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/11/05 00:08:12 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ void	exe_cmd(t_data *data, int *i, char **envp)
 	}
 	execve(cmd_path, argv_exec, envp);
 	if_after_exeve(cmd_path);
+	free_tab(data->argv);
 	if (errno == ENOENT)
 		exit(127);
 	exit(126);

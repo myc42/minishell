@@ -6,20 +6,11 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 23:09:47 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/04 23:09:48 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/11/05 17:03:04 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
-
 #include "../../includes/minishell.h"
-
-void	three_variable_init(int *i, int *j, int *k)
-{
-	*i = 0;
-	*j = 0;
-	*k = 0;
-}
 
 int	get_word_len(char *str, int *start_index)
 {
@@ -89,6 +80,17 @@ int	count_words(char *str)
 	return (count);
 }
 
+int	init_var_validtab(int *words, char ***argv_tab, int *j, int *i, char *str)
+{
+	*words = count_words(str);
+	*argv_tab = malloc(sizeof(char *) * (*words + 1));
+	if (!*argv_tab)
+		return (0);
+	*i = 0;
+	*j = 0;
+	return (1);
+}
+
 char	**argv_valid_tab(char *str)
 {
 	char	**argv_tab;
@@ -97,12 +99,8 @@ char	**argv_valid_tab(char *str)
 	int		j;
 	int		len;
 
-	words = count_words(str);
-	argv_tab = malloc(sizeof(char *) * (words + 1));
-	if (!argv_tab)
+	if (!init_var_validtab(&words, &argv_tab, &j, &i, str))
 		return (NULL);
-	i = 0;
-	j = 0;
 	while (str[i])
 	{
 		len = get_word_len(str, &i);
@@ -110,7 +108,7 @@ char	**argv_valid_tab(char *str)
 		{
 			argv_tab[j] = copy_word(str, i, len);
 			if (!argv_tab[j])
-				return (NULL); 
+				return (NULL);
 			j++;
 			i += len;
 		}
