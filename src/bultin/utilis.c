@@ -2,11 +2,11 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   utilis.c                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+        
+/*                                                    +:+ +:+
 	+:+     */
-/*   By: macoulib <macoulib@student.42.fr>          +#+  +:+      
+/*   By: macoulib <macoulib@student.42.fr>          +#+  +:+
 	+#+        */
-/*                                                +#+#+#+#+#+  
+/*                                                +#+#+#+#+#+
 	+#+           */
 /*   Created: 2025/11/05 16:56:03 by macoulib          #+#    #+#             */
 /*   Updated: 2025/11/05 16:56:03 by macoulib         ###   ########.fr       */
@@ -15,11 +15,10 @@
 
 #include "../../includes/minishell.h"
 
-
 char	**realloc_env(char **envp, char *new_var)
 {
-	int i;
-	char **new_env;
+	int		i;
+	char	**new_env;
 
 	i = 0;
 	while (envp && envp[i])
@@ -42,8 +41,8 @@ char	**realloc_env(char **envp, char *new_var)
 
 int	env_var_index(char **envp, char *name)
 {
-	int i;
-	size_t len;
+	int		i;
+	size_t	len;
 
 	i = 0;
 	len = ft_strlen(name);
@@ -58,7 +57,7 @@ int	env_var_index(char **envp, char *name)
 
 int	is_valid_identifier(char *s)
 {
-	int i;
+	int	i;
 
 	if (!s || (!ft_isalpha(s[0]) && s[0] != '_'))
 		return (0);
@@ -74,9 +73,9 @@ int	is_valid_identifier(char *s)
 
 char	*ft_strjoin_kamel(char *s1, char *s2)
 {
-	size_t s1len;
-	size_t s2len;
-	char *join;
+	size_t	s1len;
+	size_t	s2len;
+	char	*join;
 
 	if (!s1 || !s2)
 		return (NULL);

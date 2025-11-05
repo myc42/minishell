@@ -6,13 +6,11 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 19:23:03 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/04 19:26:45 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/11/05 19:14:15 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "../../includes/minishell.h"
-
 
 void	pid_zero_one(t_data *data, int i, int prev_fd, int cmd_count,
 		int *pipefd)
@@ -33,6 +31,7 @@ void	pid_zero_one(t_data *data, int i, int prev_fd, int cmd_count,
 		close(pipefd[1]);
 	}
 }
+
 void	wait_management(int cmd_count)
 {
 	int	i;
@@ -41,6 +40,7 @@ void	wait_management(int cmd_count)
 	while (i++ < cmd_count)
 		wait(NULL);
 }
+
 void	exe_end(int *prev_fd, int *pipefd, int cmd_count, int i)
 {
 	if (*prev_fd != -1)
@@ -87,4 +87,3 @@ void	execute_pipeline(t_data *data)
 	}
 	wait_management(cmd_count);
 }
-

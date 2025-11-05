@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 18:25:51 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/04 18:25:54 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/11/05 19:11:59 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,12 +87,11 @@ int	is_n(char *arg)
 
 int	builtin_echo(char **argv, t_data *data)
 {
-	int i;
-	int newline;
+	int	i;
+	int	newline;
 
 	i = 1;
 	newline = 1;
-
 	while (argv[i] && is_n(argv[i]))
 	{
 		newline = 0;

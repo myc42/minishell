@@ -2,11 +2,11 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
-/*                                                    +:+ +:+        
+/*                                                    +:+ +:+
 	+:+     */
-/*   By: macoulib <macoulib@student.42.fr>          +#+  +:+      
+/*   By: macoulib <macoulib@student.42.fr>          +#+  +:+
 	+#+        */
-/*                                                +#+#+#+#+#+  
+/*                                                +#+#+#+#+#+
 	+#+           */
 /*   Created: 2025/11/04 18:26:39 by macoulib          #+#    #+#             */
 /*   Updated: 2025/11/04 18:26:39 by macoulib         ###   ########.fr       */
@@ -15,14 +15,14 @@
 
 #include "../../includes/minishell.h"
 
-
 char	**copy_envp(char **envp)
 
 {
-	int count = 0;
-	int i;
-	char **copy;
+	int		count;
+	int		i;
+	char	**copy;
 
+	count = 0;
 	while (envp[count])
 		count++;
 	copy = malloc((count + 1) * sizeof(char *));
@@ -40,7 +40,7 @@ char	**copy_envp(char **envp)
 
 int	builtin_env(char **envp)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (envp[i])
@@ -57,10 +57,10 @@ int	builtin_env(char **envp)
 
 void	update_or_add_var(char *arg, char ***envp)
 {
-	char *eq;
-	size_t len;
-	char *name;
-	int idx;
+	size_t	len;
+	int		idx;
+	char	*name;
+	char	*eq;
 
 	eq = ft_strchr(arg, '=');
 	if (!eq)
@@ -79,10 +79,11 @@ void	update_or_add_var(char *arg, char ***envp)
 	else
 		*envp = realloc_env(*envp, arg);
 }
+
 int	builtin_export(char **argv, char ***envp)
 {
-	int i;
-	int ret;
+	int	i;
+	int	ret;
 
 	if (!argv[1])
 		return (builtin_env(*envp));
@@ -106,9 +107,9 @@ int	builtin_export(char **argv, char ***envp)
 
 int	builtin_unset(char **argv, char ***envp)
 {
-	int i;
-	int j;
-	size_t len;
+	int		i;
+	int		j;
+	size_t	len;
 
 	if (!argv[1])
 		return (1);

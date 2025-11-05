@@ -15,14 +15,11 @@
 
 #include "../../includes/minishell.h"
 
-
 void	minishell_clean_exit(t_data *data, int status)
 {
 	free_parsing(data);
-
 	if (data->envp)
 		free_tab(data->envp);
-
 	free(data);
 	rl_clear_history();
 	exit(status);
@@ -30,7 +27,7 @@ void	minishell_clean_exit(t_data *data, int status)
 
 int	is_numeric(char *s)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (!s)
@@ -48,7 +45,7 @@ int	is_numeric(char *s)
 
 int	builtin_exit(t_data *data)
 {
-	long code;
+	long	code;
 
 	ft_putstr_fd("exit\n", 1);
 	if (!data->argv[1])

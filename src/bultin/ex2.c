@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 18:27:26 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/04 18:27:50 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/11/05 19:24:48 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,8 +85,8 @@ char	*path_join_cmd(char *dir, char *cmd)
 
 char	*search_in_path(char **paths, char *cmd)
 {
-	char *full;
-	int i;
+	char	*full;
+	int		i;
 
 	i = 0;
 	while (paths[i])

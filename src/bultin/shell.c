@@ -2,24 +2,23 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   shell.c                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
+/*                                                    +:+ +:+        
+	+:+     */
+/*   By: macoulib <macoulib@student.42.fr>          +#+  +:+      
+	+#+        */
+/*                                                +#+#+#+#+#+  
+	+#+           */
 /*   Created: 2025/11/04 19:27:13 by macoulib          #+#    #+#             */
 /*   Updated: 2025/11/04 19:27:13 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
-
 #include "../../includes/minishell.h"
-
 
 void	init_shell(t_data *data)
 {
 	if (!data)
 		return ;
-
 	data->envp = NULL;
 	data->input_clean = NULL;
 	data->argv = NULL;

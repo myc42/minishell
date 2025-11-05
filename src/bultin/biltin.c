@@ -15,10 +15,11 @@
 
 #include "../../includes/minishell.h"
 
-
 int	c_pipe(t_data *data)
 {
-	int i = 0;
+	int	i;
+
+	i = 0;
 	while (data->argv[i])
 	{
 		if (ft_strcmp(data->argv[i], "|") == 0
@@ -56,7 +57,9 @@ int	builtin_cd(t_data *data, char **envp)
 
 int	execute_builtin(t_data *data)
 {
-	int i = 0;
+	int	i;
+
+	i = 0;
 	if (ft_strncmp(data->argv[0], "pwd", 4) == 0 && c_pipe(data))
 		return (builtin_pwd());
 	if (ft_strncmp(data->argv[0], "echo", 5) == 0)

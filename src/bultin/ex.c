@@ -15,22 +15,19 @@
 
 #include "../../includes/minishell.h"
 
-
 char	*find_command_path(char *cmd, t_data *shell)
 {
-	char *path_env;
-	char **paths;
+	char	*path_env;
+	char	**paths;
 
 	if (!cmd || !*cmd)
 		return (NULL);
-
 	if (has_slash(cmd))
 	{
 		if (is_executable_file(cmd))
 			return (ft_strdup(cmd));
 		return (NULL);
 	}
-
 	path_env = get_env_value(shell->envp, "PATH");
 	if (!path_env || !*path_env)
 		return (NULL);
@@ -60,7 +57,7 @@ void	print_cmd_error(char *cmd, int has_slash)
 
 int	handle_builtin(t_data *data)
 {
-	int status;
+	int	status;
 
 	status = execute_builtin(data);
 	if (status != -1)
@@ -73,7 +70,7 @@ int	handle_builtin(t_data *data)
 
 char	*resolve_command(char *cmd, t_data *shell)
 {
-	char *cmd_path;
+	char		*cmd_path;
 
 	cmd_path = find_command_path(cmd, shell);
 	if (!cmd_path)
@@ -87,7 +84,7 @@ char	*resolve_command(char *cmd, t_data *shell)
 
 void	update_status_from_signal(int st, t_data *data)
 {
-	int sig;
+	int	sig;
 
 	if (WIFSIGNALED(st))
 	{
