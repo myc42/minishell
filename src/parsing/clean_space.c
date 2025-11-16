@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 16:56:53 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/14 21:07:39 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/11/16 22:52:11 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,4 +95,14 @@ char	*clean_space(char *str)
 	mult_space = delete_multiple_space(strtrim);
 	free(strtrim);
 	return (mult_space);
+}
+
+char	*handle_dollar_sign(char *str, int *i, char *result, t_data *data)
+{
+	(*i)++;
+	if (isspace(str[*i]) || !str[*i])
+		result = space_or_null_after_sign(NULL, result);
+	else
+		result = copy_variable(i, result, NULL, data);
+	return (result);
 }

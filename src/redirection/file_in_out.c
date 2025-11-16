@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 16:39:06 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/16 17:37:01 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/11/16 22:35:49 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ int	check_redirect_slash(t_data *data)
 		}
 		i++;
 	}
+	if (check_double_pipe(data))
+		return (1);
 	return (0);
 }
 
@@ -87,8 +89,6 @@ int	redirect_and_cmds(t_data *data, int x)
 	int	i;
 
 	i = 0;
-	if (check_double_pipe(data))
-		return (0);
 	if (check_redirect_slash(data))
 		return (0);
 	if (x == 0)

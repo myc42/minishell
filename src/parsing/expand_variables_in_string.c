@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 19:07:39 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/14 23:04:14 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/11/16 22:50:07 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,10 @@ char	*expand_variables_in_string(char *str, t_data *data)
 	char	*result;
 	char	*temp;
 
+	i = 0;
+	in_single_quotes = 0;
+	result = NULL;
+	temp = NULL;
 	init_expans_var(&temp, &i, &in_single_quotes, &result);
 	alloc_str_for_ex(data, str);
 	while (str[i])
@@ -81,13 +85,7 @@ char	*expand_variables_in_string(char *str, t_data *data)
 			quotes_and_increment(&in_single_quotes, &i);
 		}
 		else if (str[i] == '$' && !in_single_quotes)
-		{
-			i++;
-			if (ft_isspace(str[i]) || !str[i])
-				result = space_or_null_after_sign(temp, result);
-			else
-				result = copy_variable(&i, result, temp, data);
-		}
+			result = handle_dollar_sign(str, &i, result, data);
 		else
 			result = copy_normal(str[i++], result, temp);
 	}

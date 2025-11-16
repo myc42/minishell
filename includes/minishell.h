@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 19:02:12 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/16 20:25:57 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/11/16 22:50:24 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -289,5 +289,11 @@ void							alloc_str_for_ex(t_data *data, char *str);
 void							free_fds_and_pipelines(t_data *data);
 int								bult_echo(t_data *data);
 int								detect_bad_input(char **argv);
+char							*handle_dollar_sign(char *str, int *i,
+									char *result, t_data *data);
+char							*copy_variable(int *i, char *result, char *temp,
+									t_data *data);
+char							*space_or_null_after_sign(char *temp,
+									char *result);
 
 #endif

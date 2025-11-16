@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 18:14:03 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/16 19:00:22 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/11/16 22:51:20 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,14 @@ void	is_word(int *argv, int *count, int s, int d)
 	}
 }
 
+void	init_iint(int *i, int *count, int *doublequotes, int *singlq)
+{
+	*i = 0;
+	*count = 0;
+	*doublequotes = 0;
+	*singlq = 0;
+}
+
 int	count_argv(char *str)
 {
 	int	i;
@@ -43,10 +51,7 @@ int	count_argv(char *str)
 	int	in_single_quote;
 	int	in_double_quote;
 
-	i = 0;
-	count = 0;
-	in_single_quote = 0;
-	in_double_quote = 0;
+	init_iint(&i, &count, &in_double_quote, &in_single_quote);
 	while (str[i])
 	{
 		while (str[i] == ' ')

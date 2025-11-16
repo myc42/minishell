@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/15 15:15:41 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/16 17:34:40 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/11/16 22:30:59 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ void	run_heredoc_child(t_data *data)
 	int	code;
 	int	prev_pipe_read_fd;
 
-	setup_heredoc_signals();
 	find_cpy_redirect(data);
 	infile = open(".test2", O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (infile == -1)
@@ -55,6 +54,7 @@ void	run_heredoc_child(t_data *data)
 
 void	find_cpy_redirect(t_data *data)
 {
+	setup_heredoc_signals();
 	find_all_limiters(data);
 	alloc_without_limiter(data);
 	tab_without_limiter(data);
