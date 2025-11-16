@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 15:53:18 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/14 20:51:32 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/11/16 15:24:02 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,15 +49,17 @@ void	set_output_fd(int i, int pipeline_nb, t_data *data, int *fds)
 void	exe_pid_parent(int *prev_pipe_read_fd, int pipeline_nb, int *fds,
 		int *i)
 {
-	if (*prev_pipe_read_fd != -1)
-		close(*prev_pipe_read_fd);
 	if (*i < pipeline_nb - 1)
 	{
-		*prev_pipe_read_fd = fds[0];
 		close(fds[1]);
+		if (*prev_pipe_read_fd != -1)
+			close(*prev_pipe_read_fd);
+		*prev_pipe_read_fd = fds[0];
 	}
 	else
 	{
+		if (*prev_pipe_read_fd != -1)
+			close(*prev_pipe_read_fd);
 		*prev_pipe_read_fd = -1;
 	}
 	(*i)++;

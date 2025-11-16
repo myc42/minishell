@@ -40,6 +40,7 @@ SRCS = \
 	src/execution/z_execution.c \
 	src/execution/exe_utils.c \
 	src/execution/exe_utils3.c \
+	src/execution/exe_utilis1.c \
 	src/bultin/biltin.c \
 	src/bultin/exe_echo_.c \
 	src/bultin/utilis2.c \

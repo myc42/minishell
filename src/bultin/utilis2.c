@@ -6,24 +6,11 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/16 02:40:28 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/16 02:52:00 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/11/16 16:18:45 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-int	bult_echo(t_data *data)
-{
-	int	i;
-
-	i = 0;
-	while (data->argv[i])
-		i++;
-	if (i < 3)
-		return (builtin_echo(data->argv, data));
-	else
-		return (exe_echox(data));
-}
 
 void	free_data_pin(t_data *data)
 {

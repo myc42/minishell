@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 16:39:06 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/14 21:13:46 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/11/16 15:53:31 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,8 @@ int	redirect_and_cmds(t_data *data)
 	if (check_double_pipe(data))
 		return (0);
 	if (check_redirect_slash(data))
+		return (0);
+	if (!detect_bad_input(data->argv))
 		return (0);
 	while (data->argv[i])
 	{

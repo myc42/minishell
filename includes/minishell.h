@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 19:02:12 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/16 03:10:26 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/11/16 16:00:03 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,9 +192,8 @@ void							ft_split_by_pipe(t_data *data);
 int								execute_builtin(t_data *data);
 void							free_parsing(t_data *d);
 char							*separe_here_doc_sign(char *str);
-void							update_cmd_pipenbr(t_data *data,
+int								update_cmd_pipenbr(t_data *data,
 									int *pipeline_nb);
-
 void							execute_pipeline(t_data *data);
 int								exe_echox(t_data *data);
 
@@ -264,7 +263,8 @@ void							execute_with_slash(char *cmd, char **argv,
 
 void							handle_command_not_found(char **split_cmd);
 void							handle_sigint_heredoc(int sig);
-void							end_exe_heredoc(t_data *data , int fd, int *prev);
+void							end_exe_heredoc(t_data *data, int fd,
+									int *prev);
 void							if_current_total(t_data *data, int current);
 void							stock_here_end(int outfilefd, char *line);
 void							free_line_current_plus(char **line,
@@ -286,8 +286,8 @@ int								count_pipeline(t_data *data);
 void							init_two_int(int *i, char *j);
 void							two_int_init(int *i, int *j);
 void							alloc_str_for_ex(t_data *data, char *str);
-
 void							free_fds_and_pipelines(t_data *data);
 int								bult_echo(t_data *data);
+int								detect_bad_input(char **argv);
 
 #endif

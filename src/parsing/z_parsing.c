@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 14:45:31 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/14 21:10:49 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/11/16 15:52:46 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ int	ft_parsing(char *str, t_data *data)
 	char	*here_doc_management;
 
 	if (!closed_quotes(str))
-		return (ft_putstr_fd("parse error near '\n", 2), 0);
+		return (ft_putstr_fd("minishell$ parse error near '\n", 2), 0);
 	if (direction_error(str, data) || *str == 0)
-		return (0);
+		return (ft_putstr_fd("minishell$ parse error near '\n", 2), 0);
 	if (check_if_is_only_space(str))
 		return (0);
 	str = clean_parenthese(str);

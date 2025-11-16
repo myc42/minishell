@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 16:45:43 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/11 18:45:44 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/11/16 16:06:43 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,9 @@ int	direction_error(char *str, t_data *data)
 	while (i >= 0 && (str[i] == ' ' || str[i] == '\t'))
 		i--;
 	if (i >= 0 && (str[i] == '|' || str[i] == '>' || str[i] == '<'))
+	{
 		return (1);
+	}
 	return (0);
 }
 
