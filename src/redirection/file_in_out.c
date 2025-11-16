@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 16:39:06 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/16 15:53:31 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/11/16 17:37:01 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int	creat_fd_outfile(t_data *data, int *i)
 	return (1);
 }
 
-int	redirect_and_cmds(t_data *data)
+int	redirect_and_cmds(t_data *data, int x)
 {
 	int	i;
 
@@ -91,8 +91,11 @@ int	redirect_and_cmds(t_data *data)
 		return (0);
 	if (check_redirect_slash(data))
 		return (0);
-	if (!detect_bad_input(data->argv))
-		return (0);
+	if (x == 0)
+	{
+		if (!detect_bad_input(data->argv))
+			return (0);
+	}
 	while (data->argv[i])
 	{
 		if (!creat_fd_infile(data, &i))

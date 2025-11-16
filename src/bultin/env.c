@@ -15,12 +15,13 @@
 
 #include "../../includes/minishell.h"
 
+
 char	**copy_envp(char **envp)
 
 {
-	int		count;
-	int		i;
-	char	**copy;
+	int count;
+	int i;
+	char **copy;
 
 	count = 0;
 	while (envp[count])
@@ -40,7 +41,7 @@ char	**copy_envp(char **envp)
 
 int	builtin_env(char **envp)
 {
-	int	i;
+	int i;
 
 	i = 0;
 	while (envp[i])
@@ -57,10 +58,10 @@ int	builtin_env(char **envp)
 
 void	update_or_add_var(char *arg, char ***envp)
 {
-	size_t	len;
-	int		idx;
-	char	*name;
-	char	*eq;
+	size_t len;
+	int idx;
+	char *name;
+	char *eq;
 
 	eq = ft_strchr(arg, '=');
 	if (!eq)
@@ -82,8 +83,8 @@ void	update_or_add_var(char *arg, char ***envp)
 
 int	builtin_export(char **argv, char ***envp)
 {
-	int	i;
-	int	ret;
+	int i;
+	int ret;
 
 	if (!argv[1])
 		return (builtin_env(*envp));
@@ -91,15 +92,15 @@ int	builtin_export(char **argv, char ***envp)
 	ret = 0;
 	while (argv[i])
 	{
-		if (!ft_strchr(argv[i], '=') || !is_valid_identifier(argv[i]))
+		/*if (!ft_strchr(argv[i], '=') || !is_valid_identifier(argv[i]))
 		{
 			ft_putstr_fd("minishell: export: invalid format: ", 2);
 			ft_putstr_fd(argv[i], 2);
 			ft_putstr_fd("\n", 2);
 			ret = 1;
 		}
-		else
-			update_or_add_var(argv[i], envp);
+		else*/
+		update_or_add_var(argv[i], envp);
 		i++;
 	}
 	return (ret);
@@ -107,9 +108,9 @@ int	builtin_export(char **argv, char ***envp)
 
 int	builtin_unset(char **argv, char ***envp)
 {
-	int		i;
-	int		j;
-	size_t	len;
+	int i;
+	int j;
+	size_t len;
 
 	if (!argv[1])
 		return (1);

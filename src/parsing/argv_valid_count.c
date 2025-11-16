@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 18:14:03 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/14 22:53:42 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/11/16 19:00:22 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,28 +39,31 @@ void	is_word(int *argv, int *count, int s, int d)
 int	count_argv(char *str)
 {
 	int	i;
-	int	argv;
 	int	count;
 	int	in_single_quote;
 	int	in_double_quote;
 
-	argv = 0;
-	init_variable(&i, &count, &in_double_quote, &in_single_quote);
-	while (str[++i])
+	i = 0;
+	count = 0;
+	in_single_quote = 0;
+	in_double_quote = 0;
+	while (str[i])
 	{
-		if (str[i] == '\'' && !in_double_quote)
-			in_single_quote = !in_single_quote;
-		else if (str[i] == '\"' && !in_single_quote)
-			in_double_quote = !in_double_quote;
-		else if (str[i] == ' ')
-			is_word(&argv, &count, in_double_quote, in_single_quote);
-		else
+		while (str[i] == ' ')
+			i++;
+		if (!str[i])
+			break ;
+		count++;
+		while (str[i])
 		{
-			if (!argv)
-				argv = !argv;
+			if (str[i] == '\'' && !in_double_quote)
+				in_single_quote = !in_single_quote;
+			else if (str[i] == '\"' && !in_single_quote)
+				in_double_quote = !in_double_quote;
+			else if (str[i] == ' ' && !in_single_quote && !in_double_quote)
+				break ;
+			i++;
 		}
 	}
-	if (argv)
-		count++;
 	return (count);
 }

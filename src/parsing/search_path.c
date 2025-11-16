@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 14:19:10 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/14 22:02:05 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/11/16 19:41:26 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	init_expans_var(char **temp, int *i, int *in_single_quotes,
 	*temp = NULL;
 	*i = 0;
 	*in_single_quotes = 0;
-	*result = ft_strdup(" ");
+	*result = malloc(500000000);
 	if (!*result)
 		return ;
 }

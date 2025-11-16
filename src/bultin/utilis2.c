@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/16 02:40:28 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/16 16:18:45 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/11/16 18:11:05 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,6 @@ void	free_data_erro(t_data *data)
 	{
 		if (data->pipeline_err_fds[i][0] > 0)
 			close(data->pipeline_err_fds[i][0]);
-		if (data->pipeline_err_fds[i][1] > 0)
-			close(data->pipeline_err_fds[i][1]);
 		free(data->pipeline_err_fds[i]);
 		i++;
 	}
@@ -90,16 +88,18 @@ void	free_data_echo(t_data *data)
 
 void	free_fds_and_pipelines(t_data *data)
 {
-	if (data->infile_fd > 0)
+	if (!data)
+		return ;
+	if (data->infile_fd >= 0)
 		close(data->infile_fd);
-	if (data->outfile_fd > 0)
+	if (data->outfile_fd >= 0)
 		close(data->outfile_fd);
-	if (data->error_fd > 0)
+	if (data->error_fd >= 0)
 		close(data->error_fd);
 	if (data->pipeline_in_fds)
 		free_data_pin(data);
 	if (data->pipeline_out_fds)
-		free_fds_and_pipelines(data);
+		free_data_pout(data);
 	if (data->pipeline_err_fds)
 		free_data_erro(data);
 	if (data->echo_pipline)

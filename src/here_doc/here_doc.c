@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/15 15:15:41 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/16 03:12:54 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/11/16 17:34:40 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	find_cpy_redirect(t_data *data)
 	alloc_without_limiter(data);
 	tab_without_limiter(data);
 	cpy_here_doc_argv(data);
-	redirect_and_cmds(data);
+	redirect_and_cmds(data, 1);
 }
 
 int	bultin2(t_data *data, pid_t pid, int status, int sig)

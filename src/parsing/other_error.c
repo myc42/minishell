@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 16:45:43 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/16 16:06:43 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/11/16 19:53:57 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ int	direction_error(char *str, t_data *data)
 	int	i;
 	int	j;
 
+	i = 0;
 	i = ft_strlen(str) - 1;
 	j = 0;
 	(void)data;
@@ -74,6 +75,7 @@ int	direction_error(char *str, t_data *data)
 		i--;
 	if (i >= 0 && (str[i] == '|' || str[i] == '>' || str[i] == '<'))
 	{
+		free_all(data);
 		return (1);
 	}
 	return (0);
@@ -89,7 +91,9 @@ int	check_if_is_only_space(char *str)
 	while (str[i])
 	{
 		if (!ft_isspace(str[i]))
+		{
 			return (0);
+		}
 		i++;
 	}
 	return (1);

@@ -2,15 +2,19 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   builtin_exit.c                                     :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
+/*                                                    +:+ +:+
+	+:+     */
+/*   By: macoulib <macoulib@student.42.fr>          +#+  +:+
+	+#+        */
+/*                                                +#+#+#+#+#+
+	+#+           */
 /*   Created: 2025/11/16 16:05:30 by macoulib          #+#    #+#             */
 /*   Updated: 2025/11/16 16:05:30 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
 
 void	init_pipeline_and_fd(t_data *data, int *cmd_count, int pipefd[2])
 {
@@ -44,14 +48,16 @@ void	minishell_clean_exit(t_data *data, int status)
 	free_parsing(data);
 	if (data->envp)
 		free_tab(data->envp);
-	free(data);
 	rl_clear_history();
+	free_all(data);
+	free_fds_and_pipelines(data);
+	free(data);
 	exit(status);
 }
 
 int	is_numeric(char *s)
 {
-	int	i;
+	int i;
 
 	i = 0;
 	if (!s)
@@ -69,7 +75,7 @@ int	is_numeric(char *s)
 
 int	builtin_exit(t_data *data)
 {
-	long	code;
+	long code;
 
 	ft_putstr_fd("exit\n", 1);
 	if (!data->argv[1])

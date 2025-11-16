@@ -15,13 +15,17 @@
 
 #include "../../includes/minishell.h"
 
+
+
 void	init_shell(t_data *data)
 {
 	if (!data)
 		return ;
 	data->temp = NULL;
 	data->envp = NULL;
-	data->input_clean = NULL;
+	data->input_clean = malloc(500000000);
+		if(!data->input_clean)
+			return ;
 	data->argv = NULL;
 	data->argv_clean_quotes = NULL;
 	data->argv_only_cmd = NULL;

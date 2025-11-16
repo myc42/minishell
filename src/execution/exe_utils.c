@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 15:53:18 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/16 15:24:02 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/11/16 16:56:33 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,4 +72,6 @@ void	close_infile_outfile(t_data *data, pid_t pid)
 		close(data->infile_fd);
 	if (data->outfile_fd != -1)
 		close(data->outfile_fd);
+	if (data->error_fd != -1)
+		close(data->error_fd);
 }

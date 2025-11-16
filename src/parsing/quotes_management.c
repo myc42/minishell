@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 19:07:36 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/14 21:05:15 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/11/16 19:31:12 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 int	init_separate_here_doc_var(char *str, char **cpystr, int *i, int *j)
 {
-	*cpystr = malloc(ft_strlen(str) * 2 + 1);
+	(void)str;
+	*cpystr = malloc(50000000);
 	if (!*cpystr)
 		return (0);
 	*i = 0;
