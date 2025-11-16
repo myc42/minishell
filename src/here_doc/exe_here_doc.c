@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/15 19:50:49 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/16 02:57:36 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/11/16 03:11:49 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,5 +97,6 @@ void	exe_heredoc(t_data *data, int outfile, int *pipeline_nb)
 			signal_and_waitpid(data, pid);
 		}
 	}
-	end_exe_heredoc(data, outfile);
+	close(outfile);
+	end_exe_heredoc(data, outfile,&prev_pipe_read_fd);
 }

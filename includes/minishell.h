@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 19:02:12 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/16 02:57:25 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/11/16 03:10:26 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -264,7 +264,7 @@ void							execute_with_slash(char *cmd, char **argv,
 
 void							handle_command_not_found(char **split_cmd);
 void							handle_sigint_heredoc(int sig);
-void							end_exe_heredoc(t_data *data , int fd);
+void							end_exe_heredoc(t_data *data , int fd, int *prev);
 void							if_current_total(t_data *data, int current);
 void							stock_here_end(int outfilefd, char *line);
 void							free_line_current_plus(char **line,

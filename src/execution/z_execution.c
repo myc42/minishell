@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 20:09:52 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/14 20:52:24 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/11/16 03:33:14 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,9 +77,11 @@ static void	execute_pipelines(t_data *data, int i, int prev_pipe_read_fd,
 		}
 		else
 		{
+			ft_waitpid(pid);
 			exe_pid_parent(&prev_pipe_read_fd, pipeline_nb, fds, &i);
 		}
 	}
+	free_fds_and_pipelines(data);
 	close_signal(data, prev_pipe_read_fd, pid);
 }
 
@@ -95,5 +97,6 @@ void	exe(t_data *data)
 		update_cmd_pipenbr(data, &pipeline_nb);
 		execute_pipelines(data, i, prev_pipe_read_fd, pipeline_nb);
 	}
+	free_fds_and_pipelines(data);
 	free_all(data);
 }

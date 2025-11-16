@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 15:29:02 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/16 02:57:52 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/11/16 03:10:49 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,12 @@ void	handle_sigint_heredoc(int sig)
 	exit(130);
 }
 
-void	end_exe_heredoc(t_data *data, int fd)
+void	end_exe_heredoc(t_data *data, int fd, int *prev)
 {
 	if (fd > 1)
 		close(fd);
+	if (*prev > 1)
+		close(*prev);
 	free_fds_and_pipelines(data);
 	unlink(".test");
 	unlink(".test2");
