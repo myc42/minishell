@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 18:28:34 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/16 18:03:34 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/11/16 21:07:20 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 int	init_var_setupredirec(t_data *data, int *cmd_count)
 {
 	*cmd_count = ft_count_cmds_pipeline(data);
-	data->pipeline_in_fds = malloc(sizeof(int*) * (*cmd_count + 1));
-	data->pipeline_out_fds = malloc(sizeof(int*) * (*cmd_count + 1));
-	data->pipeline_err_fds = malloc(sizeof(int*) * (*cmd_count + 1));
+	data->pipeline_in_fds = malloc(sizeof(int *) * (*cmd_count + 1));
+	data->pipeline_out_fds = malloc(sizeof(int *) * (*cmd_count + 1));
+	data->pipeline_err_fds = malloc(sizeof(int *) * (*cmd_count + 1));
 	if (!data->pipeline_in_fds || !data->pipeline_out_fds
 		|| !data->pipeline_err_fds)
 	{

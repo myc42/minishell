@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 16:53:50 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/16 20:33:47 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/11/16 21:15:32 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	init_var_exe(int *i, int *prev_pipe_read_fd, t_data *data, char *input)
 
 int	update_cmd_pipenbr(t_data *data, int *pipeline_nb)
 {
-	if (!redirect_and_cmds(data,0))
+	if (!redirect_and_cmds(data, 0))
 	{
 		*pipeline_nb = 0;
 		return (0);
