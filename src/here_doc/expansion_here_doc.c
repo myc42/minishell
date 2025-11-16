@@ -5,66 +5,103 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/04 22:54:19 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/04 23:08:14 by macoulib         ###   ########.fr       */
+/*   Created: 2025/10/21 14:36:39 by macoulib          #+#    #+#             */
+/*   Updated: 2025/11/14 20:55:59 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	ex_here2(t_data *data, char next, int fdin, int fdout)
+static char	*read_variable_name(int fd, char first)
 {
-	int		i;
+	char	buffer[100];
 	char	c;
-	char	stockage[100];
-	char	*resultstockage;
+	int		i;
 
 	i = 0;
-	stockage[i++] = next;
-	while (read(fdin, &c, 1) > 0 && !ft_isspace(c) && c != '$' && c != '\n')
+	buffer[i++] = first;
+	while (read(fd, &c, 1) > 0 && !isspace(c) && c != '$' && c != '\n')
 	{
-		if (i < (int)(sizeof(stockage) - 1))
-			stockage[i++] = c;
+		if (i < (int)(sizeof(buffer) - 1))
+			buffer[i++] = c;
 	}
-	stockage[i] = '\0';
-	resultstockage = search_expansion_replacement(stockage, data);
-	if (resultstockage)
-		write(fdout, resultstockage, ft_strlen(resultstockage));
+	buffer[i] = '\0';
+	return (strdup(buffer));
+}
+
+static void	write_expansion(int fdout, char *var_name, t_data *data)
+{
+	char	*replacement;
+	char	*status_str;
+
+	if (var_name[0] == '?' && var_name[1] == '\0')
+	{
+		status_str = ft_itoa(data->last_status);
+		write(fdout, status_str, ft_strlen(status_str));
+		free(status_str);
+	}
 	else
-		write(fdout, stockage, ft_strlen(stockage));
-	if (!ft_isspace(c) && c != '\n' && c != '$')
-		write(fdout, &c, 1);
-	else if (c == '$')
-		lseek(fdin, -1, SEEK_CUR);
-	else
-		write(fdout, &c, 1);
+	{
+		replacement = search_expansion_replacement(var_name, data);
+		if (replacement)
+		{
+			write(fdout, replacement, ft_strlen(replacement));
+			free(replacement);
+		}
+		else
+			write(fdout, var_name, ft_strlen(var_name));
+	}
+}
+
+static int	handle_dollar(int fdin, int fdout, t_data *data)
+{
+	char	next;
+	char	*var_name;
+
+	if (read(fdin, &next, 1) <= 0)
+	{
+		write(fdout, "$", 1);
+		return (0);
+	}
+	var_name = read_variable_name(fdin, next);
+	write_expansion(fdout, var_name, data);
+	free(var_name);
+	if (next == '$')
+		return (1);
+	return (0);
+}
+
+void	init_two_int(int *i, char *j)
+{
+	*i = 0;
+	*j = 0;
 }
 
 void	expansion_here_doc(int fdin, int fdout, t_data *data)
 {
+	int		has_pend;
+	char	pend_char;
 	char	c;
-	char	next;
-	char	*status_str;
-	size_t	status_len;
 
-	status_str = ft_itoa(data->last_status);
-	status_len = ft_strlen(status_str);
-	while (read(fdin, &c, 1) > 0)
+	init_two_int(&has_pend, &pend_char);
+	while (1)
 	{
+		if (has_pend)
+		{
+			c = pend_char;
+			has_pend = 0;
+		}
+		else if (read(fdin, &c, 1) <= 0)
+			break ;
 		if (c == '$')
 		{
-			if (read(fdin, &next, 1) > 0)
+			if (handle_dollar(fdin, fdout, data))
 			{
-				if (next == '?')
-					write(fdout, status_str, status_len);
-				else
-					ex_here2(data, next, fdin, fdout);
+				has_pend = 1;
+				pend_char = '$';
 			}
-			else
-				write(fdout, &c, 1);
 		}
 		else
 			write(fdout, &c, 1);
 	}
-	free(status_str);
 }

@@ -5,19 +5,19 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/04 23:10:27 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/05 20:17:06 by macoulib         ###   ########.fr       */
+/*   Created: 2025/10/13 16:56:53 by macoulib          #+#    #+#             */
+/*   Updated: 2025/11/14 21:07:39 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	init_variables_to_zero(int *i, int *j, int *s, int *d)
+void	init_variables_to_zero(int *i, int *j, int *k, int *l)
 {
 	*i = 0;
 	*j = 0;
-	*s = 0;
-	*d = 0;
+	*k = 0;
+	*l = 0;
 }
 
 void	pipeline_space(char *str, char *dest)
@@ -39,7 +39,7 @@ void	pipeline_space(char *str, char *dest)
 			if (j > 0 && dest[j - 1] != ' ')
 				dest[j++] = ' ';
 			dest[j++] = '|';
-			if (str[i + 1] && str[i + 1] != ' ')
+			if (str[i + 1] != ' ' && str[i + 1] != '\0')
 				dest[j++] = ' ';
 		}
 		else
@@ -80,23 +80,19 @@ int	dest_size(char *str)
 
 char	*clean_space(char *str)
 {
-	char	*space_btw_pipeline;
 	char	*strtrim;
-	char	*final_clean;
-	int		bufsize;
+	char	*mult_space;
+	char	*space_btw_pipeline;
+	int		dest_s;
 
-	if (!str)
-		return (NULL);
-	bufsize = dest_size(str);
-	space_btw_pipeline = malloc(sizeof(char) * bufsize);
+	dest_s = dest_size(str);
+	space_btw_pipeline = (char *)malloc(sizeof(char) * dest_s);
 	if (!space_btw_pipeline)
 		return (NULL);
 	pipeline_space(str, space_btw_pipeline);
 	strtrim = ft_strtrim(space_btw_pipeline, " ");
 	free(space_btw_pipeline);
-	if (!strtrim)
-		return (NULL);
-	final_clean = delete_multiple_space(strtrim);
+	mult_space = delete_multiple_space(strtrim);
 	free(strtrim);
-	return (final_clean);
+	return (mult_space);
 }

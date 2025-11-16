@@ -1,114 +1,91 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2025/09/22 18:56:36 by macoulib          #+#    #+#              #
-#    Updated: 2025/10/23 18:26:52 by macoulib         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
+NAME        = minishell
 
-CFLAGS      =   -g3 -O0 -Wall -Wextra -Werror -Iincludes
-DEBUGFLAGS  =   -g3 -O0 -Wall -Wextra -Werror -fsanitize=address -fsanitize=undefined -fsanitize=leak -Iincludes
+CC          = cc
+CFLAGS      = -Wall -Wextra -Werror -g3
+INCLUDES    = -Iincludes
 
-LDFLAGS     =   -lreadline -L$(LIBFT_DIR)
-AR          =   ar rcs
-RM          =   rm -f
+LIBFT_DIR   = librairie
+LIBFT       = $(LIBFT_DIR)/libft.a
 
-NAME        =   minishell
+LDFLAGS     = -L$(LIBFT_DIR)
+LDLIBS      = -lft -lreadline -lncurses -ltinfo
 
-# --- Chemins des sources ---
-SRC_DIR     =   ./src
-SRC_MAIN    =   $(SRC_DIR)/minishell.c
-SRC_SUBDIRS =   parsing redirection utils execution bultin signaux here_doc ft_free
+OBJ_DIR     = obj
 
-# Récupère tous les fichiers .c des sous-dossiers (e.g., parsing/file.c)
-SRC_SUB = $(foreach dir, $(SRC_SUBDIRS), $(wildcard $(SRC_DIR)/$(dir)/*.c))
+SRCS = \
+	src/ft_free/free_all.c \
+	src/ft_free/free_tab.c \
+	src/here_doc/exe_here_doc_utils.c \
+	src/here_doc/here_doc_utils.c \
+	src/here_doc/here_doc.c \
+	src/here_doc/here_doc_utils2.c \
+	src/here_doc/expansion_here_doc.c \
+	src/here_doc/here_doc_utils4.c \
+	src/here_doc/exe_here_doc.c \
+	src/here_doc/here_doc_utils3.c \
+	src/parsing/delete_multiple_space.c \
+	src/parsing/z_parsing.c \
+	src/parsing/separate_quotes.c \
+	src/parsing/argv_valid_tab.c \
+	src/parsing/clean_space.c \
+	src/parsing/argv_valid_count.c \
+	src/parsing/quotes_management.c \
+	src/parsing/clean_quotes.c \
+	src/parsing/search_expansion_replacement.c \
+	src/parsing/expand_variables_in_string.c \
+	src/parsing/other_error.c \
+	src/parsing/search_path.c \
+	src/execution/exe_utils2.c \
+	src/execution/grep_.c \
+	src/execution/z_execution.c \
+	src/execution/exe_utils.c \
+	src/execution/exe_utils3.c \
+	src/bultin/biltin.c \
+	src/bultin/exe_echo_.c \
+	src/bultin/utilis2.c \
+	src/bultin/split_echo_segment.c \
+	src/bultin/env.c \
+	src/bultin/exe_echo.c \
+	src/bultin/ex2.c \
+	src/bultin/shell.c \
+	src/bultin/biltin2.c \
+	src/bultin/utilis.c \
+	src/bultin/builtin_exit.c \
+	src/bultin/echo_utils.c \
+	src/bultin/ex.c \
+	src/bultin/prompt.c \
+	src/signaux/signal.c \
+	src/redirection/file_in_out.c \
+	src/redirection/pipeline_management.c \
+	src/redirection/z_redirection.c \
+	src/redirection/cmd_tab.c \
+	src/redirection/pipe.c \
+	src/redirection/utils_redirection.c \
+	src/minishell.c
 
-# Fichiers .c directement dans src/, en excluant minishell.c
-SRC_TOP_LEVEL = $(filter-out $(SRC_MAIN), $(wildcard $(SRC_DIR)/*.c))
+OBJS = $(SRCS:src/%.c=$(OBJ_DIR)/%.o)
 
-# Combine tous les fichiers .c sources
-SRC         =   $(SRC_MAIN) $(SRC_TOP_LEVEL) $(SRC_SUB)
-
-LIBFT_DIR   =   ./librairie/ft_libft
-LIBFT_SRC   =   $(wildcard $(LIBFT_DIR)/*.c)
-
-# --- Dépendances et Objets ---
-OBJ_DIR     =   ./obj
-INCLUDES    =   ./includes/minishell.h
-HEADER_DEPS =   $(INCLUDES) $(LIBFT_DIR)/libft.h
-
-# Calcule les noms des fichiers objets (ex: minishell.c -> obj/minishell.o)
-# Notez l'utilisation de $(notdir ...) pour n'avoir que le nom du fichier.
-OBJ_SRC     =   $(addprefix $(OBJ_DIR)/, $(notdir $(SRC:.c=.o)))
-LIBFT_OBJ   =   $(addprefix $(OBJ_DIR)/, $(notdir $(LIBFT_SRC:.c=.o)))
-
-# Tous les objets nécessaires à l'édition de liens
-OBJ         =   $(OBJ_SRC) $(LIBFT_OBJ)
-
-# Color codes (inchangés)
-GREEN       =   \033[0;32m
-YELLOW      =   \033[0;33m
-CYAN        =   \033[0;36m
-NC          =   \033[0m
-
-# Target principal
 all: $(NAME)
 
-# --- Règles de compilation ---
+$(NAME): $(OBJS) $(LIBFT)
+	$(CC) $(CFLAGS) $(OBJS) $(LDFLAGS) $(LDLIBS) -o $(NAME)
 
-# Règle pour créer le répertoire des objets
-$(OBJ_DIR):
-	@mkdir -p $(OBJ_DIR)
-
-# Création de l'exécutable
-$(NAME): $(OBJ_DIR) $(LIBFT_DIR)/libft.a $(OBJ)
-	@echo "$(GREEN)Building $(NC)$(NAME)"
-	$(CC) $(CFLAGS) $(OBJ) -o $(NAME) $(LDFLAGS)
-
-# Création de la librairie libft (règle inchangée)
-$(LIBFT_DIR)/libft.a: $(LIBFT_OBJ)
-	@echo "$(BLUE)Archiving $(NC)$@"
-	$(AR) $@ $(LIBFT_OBJ)
-
-# Règle générique pour la compilation de TOUS les fichiers .c
-# 1. Utilise 'vpath' pour trouver les sources dans 'src' et ses sous-dossiers.
-# 2. Utilise '%' pour générer l'objet (ex: obj/file.o) à partir de la source trouvée.
-# NOUVELLE LIGNE CORRIGÉE
-vpath %.c $(LIBFT_DIR) $(SRC_DIR) $(foreach dir, $(SRC_SUBDIRS), $(SRC_DIR)/$(dir))
-
-$(OBJ_DIR)/%.o: %.c $(HEADER_DEPS)
-	@echo "$(CYAN)Compiling $(NC)$<"
-	$(CC) $(CFLAGS) -c $< -o $@
-
-# --- Règles de nettoyage ---
+$(OBJ_DIR)/%.o: src/%.c
+	@mkdir -p $(dir $@)
+	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 clean:
-	@$(MAKE) -C $(LIBFT_DIR) clean --no-print-directory
-	@echo "$(CYAN)Cleaning object files"
-	$(RM) $(OBJ)
-	@rmdir $(OBJ_DIR) 2>/dev/null || true
+	rm -rf $(OBJ_DIR)
 
 fclean: clean
-	@$(MAKE) -C $(LIBFT_DIR) fclean --no-print-directory
-	@echo "$(CYAN)Cleaning $(NC)$(NAME)"
-	$(RM) $(NAME)
-
-# --- Targets Spéciaux ---
+	rm -f $(NAME)
 
 re: fclean all
 
-debug: $(OBJ_DIR) $(LIBFT_DIR)/libft.a $(OBJ)
-	@echo "$(YELLOW)Building $(NC)$(NAME) $(YELLOW)with debug flags"
-	$(CC) $(DEBUGFLAGS) $(OBJ) -o $(NAME) $(LDFLAGS)
-
 valgrind: $(NAME)
 	@echo "$(YELLOW)🔍 Launching Valgrind on ./minishell...$(NC)"
-	@valgrind -q --suppressions=./ignore --trace-children=yes \
+	@valgrind --suppressions=./ignore --trace-children=yes \
 		--leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes \
 		./minishell
 
-.PHONY: all clean fclean re debug valgrind
+.PHONY: all clean fclean re

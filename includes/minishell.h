@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 19:02:12 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/05 19:59:39 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/11/16 02:57:25 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ extern volatile sig_atomic_t	g_signal;
 
 typedef struct s_data
 {
+	char						*temp;
 	char						**envp;
 	char						*input_clean;
 	char						**argv;
@@ -50,6 +51,7 @@ typedef struct s_data
 	int							len_env;
 	int							**pipeline_in_fds;
 	int							**pipeline_out_fds;
+	int							**pipeline_err_fds;
 	char						***echo_pipline;
 
 }								t_data;
@@ -66,8 +68,8 @@ char							*search_expansion_replacement(char *str,
 char							*expand_variables_in_string(char *str,
 									t_data *data);
 int								count_argv(char *str);
-void							init_variable(int *argv, int *i, int *count,
-									int *s, int *d);
+void							init_variable(int *i, int *count, int *s,
+									int *d);
 void							is_word(int *argv, int *count, int s, int d);
 char							**argv_valid_tab(char *str);
 int								ft_strcmp(char *s1, char *s2);
@@ -82,7 +84,7 @@ int								direction_error(char *str, t_data *data);
 int								fd_and_cmd_tab(t_data *data);
 int								redirection_detected(char **av);
 void							create_pipeline_tab(t_data *data);
-void							exe(t_data *data, char *input, char **env);
+void							exe(t_data *data);
 int								count_pipeline(t_data *data);
 void							pipeline_space(char *str, char *dest);
 void							init_variables_to_zero(int *i, int *j, int *k,
@@ -92,9 +94,9 @@ char							*get_next_line(int fd);
 void							alloc_without_limiter(t_data *data);
 
 void							tab_without_limiter(t_data *data);
-int								find_limiter(t_data *data);
 void							cpy_here_doc_argv(t_data *data);
-void							exe_heredoc(t_data *data, int outfile);
+void							exe_heredoc(t_data *data, int outfile,
+									int *pipeline_nb);
 void							init_var_heredoc(t_data *data,
 									int *prev_pipe_read_fd, int *pipeline_nb,
 									int *i);
@@ -105,21 +107,25 @@ void							free_data_argv(t_data *data);
 void							ft_forkpid(pid_t *pid);
 void							signal_and_waitpid(t_data *data, pid_t pid);
 void							pipe_fd(int *fds);
-void							exe_pid_zero_one(int prev_pipe_read_fd, int i,
-									t_data *data, int pipeline_nb, int *fds);
+
 void							exe_pid_parent(int *prev_pipe_read_fd,
 									int pipeline_nb, int *fds, int *i);
 void							close_infile_outfile(t_data *data, pid_t pid);
 void							init_var_exe(int *i, int *prev_pipe_read_fd,
-									t_data *data, char *input, char **env);
+									t_data *data, char *input);
 void							first_argv_in_tab(t_data *data, char *input,
 									char **env);
 int								ft_count_cmds_pipeline(t_data *data);
 void							remove_two_tokens(char **argv, int i);
-void							analyze_redirections(char **argv, int *in_fd,
-									int *out_fd);
+int								analyze_redirections(char **argv, int *in_fd,
+									int *out_fd, int *err_fd);
 void							setup_redirections(t_data *data);
 
+void							set_output_fd(int i, int pipeline_nb,
+									t_data *data, int *fds);
+void							set_input_fd(int prev_pipe_read_fd, int i,
+									t_data *data);
+void							reset_signals_child(void);
 int								builtin_echo(char **argv, t_data *data);
 
 void							expansion_here_doc(int fdin, int fdout,
@@ -135,8 +141,9 @@ int								check_if_is_only_space(char *str);
 int								check_nbr_limiter(t_data *data);
 void							find_all_limiters(t_data *data);
 int								exe_echox(t_data *data);
-
-// ---- kamel
+void							rearrange_grep(t_data *data);
+int								search_grep(char **argv);
+char							*clean_parenthese(char *str);
 void							ft_free_split(char **tab);
 void							execute_command(char *input, t_data *shell);
 char							*find_command_path(char *cmd, t_data *shell);
@@ -185,7 +192,7 @@ void							ft_split_by_pipe(t_data *data);
 int								execute_builtin(t_data *data);
 void							free_parsing(t_data *d);
 char							*separe_here_doc_sign(char *str);
-int								update_cmd_pipenbr(t_data *data,
+void							update_cmd_pipenbr(t_data *data,
 									int *pipeline_nb);
 
 void							execute_pipeline(t_data *data);
@@ -228,9 +235,59 @@ char							*ft_strjoin_free(char *s1, char *s2,
 void							free_utils2(t_data *data);
 
 void							free_utils3(t_data *data);
-void	int_var_stock(int *current, int *total, t_data *data);
-void	write_outfiled(int current, int total, int outfilefd, char *line);
-void	stock_to_here_doc(t_data *data, int outfilefd);
-void	find_cpy_redirect(t_data *data);
+void							int_var_stock(int *current, int *total,
+									t_data *data);
+void							write_outfiled(int current, int total,
+									int outfilefd, char *line);
+
+void							find_cpy_redirect(t_data *data);
+
+int								stock_to_here_doc(t_data *data, int outfilefd);
+
+void							minishell_clean_exit(t_data *data, int status);
+void							update_argv_here_doc(t_data *data);
+char							*normalize_quotes(char *input);
+void							print_cmd_error(char *cmd, int has_slash);
+void							set_echoctl(int on);
+void							init_pipeline_and_fd(t_data *data,
+									int *cmd_count, int pipefd[2]);
+int								ft_count_cmds_pipeline(t_data *data);
+void							remove_two_tokens(char **argv, int i);
+void							signal_and_waitpid(t_data *data, pid_t pid);
+void							update_argv_in_tab(t_data *data);
+void							close_signal(t_data *data,
+									int prev_pipe_read_fd, pid_t pid);
+void							first_argv_in_tab(t_data *data, char *input,
+									char **env);
+void							execute_with_slash(char *cmd, char **argv,
+									char **envp);
+
+void							handle_command_not_found(char **split_cmd);
+void							handle_sigint_heredoc(int sig);
+void							end_exe_heredoc(t_data *data , int fd);
+void							if_current_total(t_data *data, int current);
+void							stock_here_end(int outfilefd, char *line);
+void							free_line_current_plus(char **line,
+									int *current);
+void							current_total_cmp(int current, int total,
+									t_data *data);
+int								check_nbr_limiter(t_data *data);
+void							int_var_stock(int *current, int *total,
+									t_data *data);
+
+void							run_heredoc_child(t_data *data);
+int								builtin_heredoc(t_data *data);
+int								wait_and_handle_heredoc(t_data *data,
+									pid_t pid);
+void							init_expans_var(char **temp, int *i,
+									int *in_single_quotes, char **result);
+int								check_double_pipe(t_data *data);
+int								count_pipeline(t_data *data);
+void							init_two_int(int *i, char *j);
+void							two_int_init(int *i, int *j);
+void							alloc_str_for_ex(t_data *data, char *str);
+
+void							free_fds_and_pipelines(t_data *data);
+int								bult_echo(t_data *data);
 
 #endif

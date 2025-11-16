@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/05 18:24:54 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/05 20:13:26 by macoulib         ###   ########.fr       */
+/*   Created: 2025/09/29 15:42:54 by macoulib          #+#    #+#             */
+/*   Updated: 2025/11/14 21:14:58 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,11 @@ int	redirection_detected(char **av)
 	int	i;
 
 	i = 0;
-	while (av[i])
+	while (av && av[i])
 	{
 		if (!ft_strcmp(av[i], ">") || !ft_strcmp(av[i], "<")
-			|| !ft_strcmp(av[i], ">>") || !ft_strcmp(av[i], "2>"))
+			|| !ft_strcmp(av[i], ">>") || !ft_strcmp(av[i], "<<")
+			|| !ft_strcmp(av[i], "2>"))
 			return (1);
 		i++;
 	}
@@ -44,7 +45,7 @@ int	redirection_detected(char **av)
 int	is_redirection_operator(char *av)
 {
 	if (ft_strcmp(av, "<") == 0 || ft_strcmp(av, ">") == 0 || ft_strcmp(av,
-			">>") == 0 || ft_strcmp(av, "2>") == 0)
+			">>") == 0 || ft_strcmp(av, "<<") == 0 || ft_strcmp(av, "2>") == 0)
 		return (1);
 	return (0);
 }

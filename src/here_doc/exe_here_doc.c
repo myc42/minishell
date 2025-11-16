@@ -5,22 +5,16 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/04 22:51:13 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/05 19:48:22 by macoulib         ###   ########.fr       */
+/*   Created: 2025/10/15 19:50:49 by macoulib          #+#    #+#             */
+/*   Updated: 2025/11/16 02:57:36 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	handle_sigint_heredoc(int sig)
-{
-	(void)sig;
-	write(1, "\n", 1);
-	close(STDIN_FILENO);
-}
-
 void	if_pid_zero_one(int prev_pipe_read_fd, int i, int outfile)
 {
+	reset_signals_child();
 	if (prev_pipe_read_fd != -1)
 	{
 		dup2(prev_pipe_read_fd, 0);
@@ -46,6 +40,11 @@ void	if_pid_zero_two(t_data *data, int i, int pipeline_nb, int *fds)
 		dup2(data->outfile_fd, 1);
 		close(data->outfile_fd);
 	}
+	else if (data->error_fd != -1)
+	{
+		dup2(data->error_fd, 1);
+		close(data->error_fd);
+	}
 }
 
 void	pid_parent_zero(int *prev_pipe_read_fd, int pipeline_nb, int *i,
@@ -69,5 +68,34 @@ void	ft_forkpid(pid_t *pid)
 {
 	*pid = fork();
 	if (*pid == -1)
-		perror("minishell: fork");
+		return ;
+}
+
+void	exe_heredoc(t_data *data, int outfile, int *pipeline_nb)
+{
+	pid_t	pid;
+	int		prev_pipe_read_fd;
+	int		fds[2];
+	int		i;
+
+	init_var_heredoc(data, &prev_pipe_read_fd, pipeline_nb, &i);
+	while (i < *pipeline_nb)
+	{
+		if (i < *pipeline_nb - 1)
+			pipe_fd(fds);
+		ft_forkpid(&pid);
+		if (pid == 0)
+		{
+			if_pid_zero_one(prev_pipe_read_fd, i, outfile);
+			if_pid_zero_two(data, i, *pipeline_nb, fds);
+			exe_cmd(data, &i, data->envp);
+			exit(EXIT_FAILURE);
+		}
+		else
+		{
+			pid_parent_zero(&prev_pipe_read_fd, *pipeline_nb, &i, fds);
+			signal_and_waitpid(data, pid);
+		}
+	}
+	end_exe_heredoc(data, outfile);
 }

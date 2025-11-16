@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/04 23:11:01 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/05 18:09:18 by macoulib         ###   ########.fr       */
+/*   Created: 2025/09/23 14:19:10 by macoulib          #+#    #+#             */
+/*   Updated: 2025/11/14 22:02:05 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,16 +54,26 @@ char	*find_path(char **env, char *cmd)
 	{
 		path_find = ft_strjoin(paths[i], "/");
 		if (path_find == NULL)
-			return (NULL);
+			return (free_split(paths), NULL);
 		good_path = ft_strjoin(path_find, cmd);
 		free(path_find);
 		if (good_path == NULL)
-			return (NULL);
+			return (free_split(paths), NULL);
 		if (access(good_path, F_OK | X_OK) == 0)
 			return (free_split(paths), good_path);
 		free(good_path);
 		i++;
 	}
-	free_split(paths);
-	return (NULL);
+	return (free_split(paths), NULL);
+}
+
+void	init_expans_var(char **temp, int *i, int *in_single_quotes,
+		char **result)
+{
+	*temp = NULL;
+	*i = 0;
+	*in_single_quotes = 0;
+	*result = ft_strdup(" ");
+	if (!*result)
+		return ;
 }

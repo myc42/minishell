@@ -2,11 +2,11 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   builtin_exit.c                                     :+:      :+:    :+:   */
-/*                                                    +:+ +:+        
+/*                                                    +:+ +:+
 	+:+     */
-/*   By: macoulib <macoulib@student.42.fr>          +#+  +:+      
+/*   By: macoulib <macoulib@student.42.fr>          +#+  +:+
 	+#+        */
-/*                                                +#+#+#+#+#+  
+/*                                                +#+#+#+#+#+
 	+#+           */
 /*   Created: 2025/11/04 18:26:27 by macoulib          #+#    #+#             */
 /*   Updated: 2025/11/04 18:26:27 by macoulib         ###   ########.fr       */
@@ -14,6 +14,33 @@
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+void	init_pipeline_and_fd(t_data *data, int *cmd_count, int pipefd[2])
+{
+	*cmd_count = ft_count_cmds_pipeline(data);
+	if (*cmd_count == 0)
+		*cmd_count = 1;
+	pipefd[0] = -1;
+	pipefd[1] = -1;
+}
+
+void	free_parsing(t_data *d)
+{
+	if (d->input_clean)
+		free(d->input_clean);
+	d->input_clean = NULL;
+	free_tab(d->argv);
+	free_tab(d->argv_clean_quotes);
+	free_tab(d->argv_only_cmd);
+	free_tab(d->here_doc_argv);
+	free_tab(d->limiter);
+	d->argv = NULL;
+	d->argv_clean_quotes = NULL;
+	d->argv_only_cmd = NULL;
+	d->here_doc_argv = NULL;
+	d->argv_pipeline = NULL;
+	d->limiter = NULL;
+}
 
 void	minishell_clean_exit(t_data *data, int status)
 {

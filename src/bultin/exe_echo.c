@@ -6,11 +6,23 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 18:27:57 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/04 19:26:15 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/11/14 20:50:59 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+int	ft_count_cmds_pipeline(t_data *data)
+{
+	int	count;
+
+	count = 0;
+	if (!data || !data->argv_pipeline)
+		return (0);
+	while (data->argv_pipeline[count] != NULL)
+		count++;
+	return (count);
+}
 
 void	free_pipeline_fd_two(t_data *data, int i)
 {
@@ -80,5 +92,5 @@ int	exe_echox(t_data *data)
 	execute_pipeline(data);
 	free_pipeline_fds(data);
 	free_argv_pipeline(data);
-	return (1);
+	return (0);
 }

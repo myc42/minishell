@@ -2,11 +2,11 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   shell.c                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+        
+/*                                                    +:+ +:+
 	+:+     */
-/*   By: macoulib <macoulib@student.42.fr>          +#+  +:+      
+/*   By: macoulib <macoulib@student.42.fr>          +#+  +:+
 	+#+        */
-/*                                                +#+#+#+#+#+  
+/*                                                +#+#+#+#+#+
 	+#+           */
 /*   Created: 2025/11/04 19:27:13 by macoulib          #+#    #+#             */
 /*   Updated: 2025/11/04 19:27:13 by macoulib         ###   ########.fr       */
@@ -19,6 +19,7 @@ void	init_shell(t_data *data)
 {
 	if (!data)
 		return ;
+	data->temp = NULL;
 	data->envp = NULL;
 	data->input_clean = NULL;
 	data->argv = NULL;
@@ -30,6 +31,7 @@ void	init_shell(t_data *data)
 	data->limiter = NULL;
 	data->pipeline_in_fds = NULL;
 	data->pipeline_out_fds = NULL;
+	data->pipeline_err_fds = NULL;
 	data->infile_fd = -1;
 	data->outfile_fd = -1;
 	data->error_fd = -1;

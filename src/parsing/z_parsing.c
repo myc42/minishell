@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/04 23:11:04 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/05 20:09:57 by macoulib         ###   ########.fr       */
+/*   Created: 2025/09/23 14:45:31 by macoulib          #+#    #+#             */
+/*   Updated: 2025/11/14 21:10:49 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,14 @@ int	ft_parsing(char *str, t_data *data)
 		return (0);
 	if (check_if_is_only_space(str))
 		return (0);
+	str = clean_parenthese(str);
 	here_doc_management = separe_here_doc_sign(str);
 	if (!here_doc_management)
 		return (0);
 	expansion_str = expand_variables_in_string(here_doc_management, data);
-	free(here_doc_management);
 	if (!expansion_str)
 		return (0);
+	free(here_doc_management);
 	cleaned = clean_space(expansion_str);
 	free(expansion_str);
 	if (!cleaned)

@@ -5,12 +5,24 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/04 23:10:21 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/05 20:04:37 by macoulib         ###   ########.fr       */
+/*   Created: 2025/10/22 22:47:54 by macoulib          #+#    #+#             */
+/*   Updated: 2025/11/14 21:06:59 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+void	alloc_for_clean_quotes(t_data *data)
+{
+	int	i;
+
+	i = 0;
+	while (data->argv[i])
+		i++;
+	data->argv_clean_quotes = malloc(sizeof(char *) * (i + 1));
+	if (!data->argv_clean_quotes)
+		return ;
+}
 
 int	t_is_singlequotes(const char *arg)
 {
@@ -20,7 +32,7 @@ int	t_is_singlequotes(const char *arg)
 
 	if (arg == NULL || *arg == '\0')
 		return (0);
-	len = strlen(arg);
+	len = ft_strlen(arg);
 	if (len >= 2)
 	{
 		first = arg[0];
@@ -39,7 +51,7 @@ int	t_is_doublequotes(const char *arg)
 
 	if (arg == NULL || *arg == '\0')
 		return (0);
-	len = strlen(arg);
+	len = ft_strlen(arg);
 	if (len >= 2)
 	{
 		first = arg[0];
@@ -50,21 +62,13 @@ int	t_is_doublequotes(const char *arg)
 	return (0);
 }
 
-void	data_argv_count_clean(t_data *data, int *i)
-{
-	*i = 0;
-	while (data->argv[*i])
-		(*i)++;
-}
-
 void	clean_quotes(t_data *data)
 {
 	int		i;
 	char	*strtrimm;
 
-	data_argv_count_clean(data, &i);
-	data->argv_clean_quotes = malloc(sizeof(char *) * (i + 1));
 	i = 0;
+	alloc_for_clean_quotes(data);
 	while (data->argv[i])
 	{
 		if (t_is_singlequotes(data->argv[i]))

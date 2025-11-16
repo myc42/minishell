@@ -5,12 +5,39 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/04 23:10:46 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/05 18:08:40 by macoulib         ###   ########.fr       */
+/*   Created: 2025/09/27 16:45:43 by macoulib          #+#    #+#             */
+/*   Updated: 2025/11/11 18:45:44 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+char	*clean_parenthese(char *str)
+{
+	size_t	start;
+	size_t	i;
+	size_t	end;
+
+	if (!str)
+		return (NULL);
+	start = 0;
+	i = 0;
+	end = ft_strlen(str);
+	while (str[start] && ft_isspace((unsigned char)str[start]))
+		start++;
+	while (end > start && ft_isspace((unsigned char)str[end - 1]))
+		end--;
+	if (end > start && str[start] == '(' && str[end - 1] == ')')
+	{
+		while (start + 1 + i < end - 1)
+		{
+			str[i] = str[start + 1 + i];
+			i++;
+		}
+		str[i] = '\0';
+	}
+	return (str);
+}
 
 int	is_separator(char *str)
 {

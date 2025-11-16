@@ -26,3 +26,19 @@ void	ft_free_split(char **tab)
 		free(tab[i++]);
 	free(tab);
 }
+
+void	remove_two_tokens(char **argv, int i)
+{
+	int	j;
+
+	free(argv[i]);
+	free(argv[i + 1]);
+	j = i;
+	while (argv[j + 2])
+	{
+		argv[j] = argv[j + 2];
+		j++;
+	}
+	argv[j] = NULL;
+	argv[j + 1] = NULL;
+}

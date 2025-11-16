@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/04 23:31:33 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/05 19:48:07 by macoulib         ###   ########.fr       */
+/*   Created: 2025/10/20 15:29:02 by macoulib          #+#    #+#             */
+/*   Updated: 2025/11/16 02:57:52 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,4 +34,21 @@ void	init_var_heredoc(t_data *data, int *prev_pipe_read_fd, int *pipeline_nb,
 	*i = 0;
 	*prev_pipe_read_fd = -1;
 	*pipeline_nb = count_pipeline(data) + 1;
+}
+
+void	handle_sigint_heredoc(int sig)
+{
+	(void)sig;
+	write(STDOUT_FILENO, "\n", 1);
+	exit(130);
+}
+
+void	end_exe_heredoc(t_data *data, int fd)
+{
+	if (fd > 1)
+		close(fd);
+	free_fds_and_pipelines(data);
+	unlink(".test");
+	unlink(".test2");
+	free_all(data);
 }

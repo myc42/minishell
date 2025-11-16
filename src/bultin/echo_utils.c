@@ -6,20 +6,28 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 19:23:03 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/05 19:14:15 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/11/14 19:17:20 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	pid_zero_one(t_data *data, int i, int prev_fd, int cmd_count,
-		int *pipefd)
+void	pid_zero_one(t_data *data, int i, int prev_fd, int *pipefd)
 {
-	if (*(data->pipeline_in_fds[i]) != STDIN_FILENO)
+	int	cmd_count;
+	int	has_in;
+	int	has_out;
+
+	cmd_count = ft_count_cmds_pipeline(data);
+	if (cmd_count == 0)
+		cmd_count = 1;
+	has_in = (data->pipeline_in_fds && data->pipeline_in_fds[i]);
+	has_out = (data->pipeline_out_fds && data->pipeline_out_fds[i]);
+	if (has_in && *(data->pipeline_in_fds[i]) != STDIN_FILENO)
 		dup2(*(data->pipeline_in_fds[i]), STDIN_FILENO);
 	else if (prev_fd != -1)
 		dup2(prev_fd, STDIN_FILENO);
-	if (*(data->pipeline_out_fds[i]) != STDOUT_FILENO)
+	if (has_out && *(data->pipeline_out_fds[i]) != STDOUT_FILENO)
 		dup2(*(data->pipeline_out_fds[i]), STDOUT_FILENO);
 	else if (i < cmd_count - 1)
 		dup2(pipefd[1], STDOUT_FILENO);
@@ -64,10 +72,10 @@ void	execute_pipeline(t_data *data)
 	int		cmd_count;
 	int		prev_fd;
 	pid_t	pid;
-	int		pipefd[2] = {-1, -1};
+	int		pipefd[2];
 	int		i;
 
-	cmd_count = ft_count_cmds_pipeline(data);
+	init_pipeline_and_fd(data, &cmd_count, pipefd);
 	init_var_ex_pip(&prev_fd, &i);
 	while (++i < cmd_count)
 	{
@@ -78,7 +86,7 @@ void	execute_pipeline(t_data *data)
 			exit(1);
 		if (pid == 0)
 		{
-			pid_zero_one(data, i, prev_fd, cmd_count, pipefd);
+			pid_zero_one(data, i, prev_fd, pipefd);
 			exe_cmd(data, &i, data->envp);
 			perror("execvp");
 			exit(1);

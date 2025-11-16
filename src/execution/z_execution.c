@@ -5,78 +5,63 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/04 19:56:13 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/05 19:42:42 by macoulib         ###   ########.fr       */
+/*   Created: 2025/09/24 20:09:52 by macoulib          #+#    #+#             */
+/*   Updated: 2025/11/14 20:52:24 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-char	**init_argv_exec(t_data *data, int *i)
+void	handle_eacces_or_isdir(char *cmd_path)
 {
-	char	**argv_exec;
+	if (cmd_path)
+		free(cmd_path);
+	exit(126);
+}
 
-	if (data->argv_pipeline && data->argv_pipeline[*i])
-		argv_exec = data->argv_pipeline[*i];
-	else
-		argv_exec = data->argv;
-	if (!argv_exec || !argv_exec[0])
-	{
-		ft_putstr_fd("minishell: empty command\n", 2);
-		return (NULL);
-	}
-	return (argv_exec);
+void	handle_command_not_found2(char **split_cmd, char *cmd_path)
+{
+	if (cmd_path)
+		free(cmd_path);
+	if (split_cmd)
+		ft_free_split(split_cmd);
+	exit(127);
 }
 
 void	exe_cmd(t_data *data, int *i, char **envp)
 {
-	char	**argv_exec;
+	char	**split_cmd;
 	char	*cmd_path;
-	int		has_slash;
+	char	**argv;
+	char	*cmd;
 
-	argv_exec = init_argv_exec(data, i);
-	if (!argv_exec)
-		exit(127);
-	has_slash = (ft_strchr(argv_exec[0], '/') != NULL);
-	if (has_slash)
-		cmd_path = ft_strdup(argv_exec[0]);
+	if (!data->argv_pipeline[*i] || !data->argv_pipeline[*i][0])
+		return ;
+	split_cmd = ft_split(data->argv_pipeline[*i][0], ' ');
+	if (!split_cmd || !split_cmd[0])
+		return ;
+	argv = data->argv_pipeline[*i];
+	if (argv && argv[0])
+		cmd = argv[0];
 	else
-		cmd_path = find_path(envp, argv_exec[0]);
-	if (!cmd_path)
-	{
-		if_cmd_inexistant(argv_exec);
-		exit(127);
-	}
-	execve(cmd_path, argv_exec, envp);
-	if_after_exeve(cmd_path);
-	free_tab(data->argv);
-	if (errno == ENOENT)
-		exit(127);
-	exit(126);
+		cmd = NULL;
+	if (has_slash(cmd))
+		execute_with_slash(cmd, argv, envp);
+	cmd_path = find_path(envp, split_cmd[0]);
+	if (cmd_path == NULL)
+		handle_command_not_found(split_cmd);
+	execve(cmd_path, data->argv_pipeline[*i], envp);
+	if (errno == EACCES || errno == EISDIR)
+		handle_eacces_or_isdir(cmd_path);
+	handle_command_not_found2(split_cmd, cmd_path);
 }
 
-int	process_pre_execution(t_data *data, int *pipeline_nb)
+static void	execute_pipelines(t_data *data, int i, int prev_pipe_read_fd,
+		int pipeline_nb)
 {
-	if (check_directions_on_tab(data))
-		return (1);
-	if (handle_builtin(data))
-		return (1);
-	if (!update_cmd_pipenbr(data, pipeline_nb))
-		return (1);
-	return (0);
-}
-
-void	exe(t_data *data, char *input, char **env)
-{
-	int		i;
-	int		pipeline_nb;
-	int		prev_pipe_read_fd;
 	int		fds[2];
 	pid_t	pid;
 
-	init_var_exe(&i, &prev_pipe_read_fd, data, input, env);
-	if (process_pre_execution(data, &pipeline_nb))
-		return ;
 	while (i < pipeline_nb)
 	{
 		if (i < pipeline_nb - 1)
@@ -84,13 +69,31 @@ void	exe(t_data *data, char *input, char **env)
 		ft_forkpid(&pid);
 		if (pid == 0)
 		{
-			exe_pid_zero_one(prev_pipe_read_fd, i, data, pipeline_nb, fds);
-			exe_cmd(data, &i, env);
+			reset_signals_child();
+			set_input_fd(prev_pipe_read_fd, i, data);
+			set_output_fd(i, pipeline_nb, data, fds);
+			exe_cmd(data, &i, data->envp);
 			exit(EXIT_FAILURE);
 		}
 		else
+		{
 			exe_pid_parent(&prev_pipe_read_fd, pipeline_nb, fds, &i);
+		}
 	}
 	close_signal(data, prev_pipe_read_fd, pid);
+}
+
+void	exe(t_data *data)
+{
+	int	i;
+	int	prev_pipe_read_fd;
+	int	pipeline_nb;
+
+	init_var_exe(&i, &prev_pipe_read_fd, data, data->input_clean);
+	if (!handle_builtin(data))
+	{
+		update_cmd_pipenbr(data, &pipeline_nb);
+		execute_pipelines(data, i, prev_pipe_read_fd, pipeline_nb);
+	}
 	free_all(data);
 }

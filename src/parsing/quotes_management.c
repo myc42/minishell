@@ -5,12 +5,22 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/04 23:10:50 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/05 20:08:02 by macoulib         ###   ########.fr       */
+/*   Created: 2025/09/22 19:07:36 by macoulib          #+#    #+#             */
+/*   Updated: 2025/11/14 21:05:15 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+int	init_separate_here_doc_var(char *str, char **cpystr, int *i, int *j)
+{
+	*cpystr = malloc(ft_strlen(str) * 2 + 1);
+	if (!*cpystr)
+		return (0);
+	*i = 0;
+	*j = 0;
+	return (1);
+}
 
 int	closed_quotes(char *str)
 {
@@ -34,21 +44,9 @@ int	closed_quotes(char *str)
 	return (0);
 }
 
-int	init_separate_variable(char **cpystr, int *i, int *j, char *str)
+static void	add_space_if_needed(char *str, int i, char *cpystr, int *j)
 {
-	*cpystr = malloc(ft_strlen(str) * 2 + 1);
-	if (!(*cpystr))
-		return (0);
-	*i = 0;
-	*j = 0;
-	return (1);
-}
-
-void	cpystr_fnc(char *cpystr, int *i, int *j, char *str)
-{
-	cpystr[(*j)++] = str[(*i)++];
-	cpystr[(*j)++] = str[(*i)++];
-	if (str[*i] && !ft_isspace(str[*i]))
+	if (str[i] && !ft_isspace(str[i]))
 		cpystr[(*j)++] = ' ';
 }
 
@@ -58,14 +56,15 @@ char	*separe_here_doc_sign(char *str)
 	int		j;
 	char	*cpystr;
 
-	if (!init_separate_variable(&cpystr, &i, &j, str))
-		return (NULL);
+	init_separate_here_doc_var(str, &cpystr, &i, &j);
 	while (str[i])
 	{
 		if ((str[i] == '>' && str[i + 1] == '>') || (str[i] == '<' && str[i
-				+ 1] == '<'))
+					+ 1] == '<'))
 		{
-			cpystr_fnc(cpystr, &i, &j, str);
+			cpystr[j++] = str[i++];
+			cpystr[j++] = str[i++];
+			add_space_if_needed(str, i, cpystr, &j);
 			continue ;
 		}
 		if (str[i] == '>' || str[i] == '<')
@@ -77,6 +76,5 @@ char	*separe_here_doc_sign(char *str)
 		}
 		cpystr[j++] = str[i++];
 	}
-	cpystr[j] = '\0';
-	return (cpystr);
+	return (cpystr[j] = '\0', cpystr);
 }

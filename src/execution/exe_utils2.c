@@ -5,25 +5,41 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/05 19:38:55 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/05 19:39:09 by macoulib         ###   ########.fr       */
+/*   Created: 2025/10/20 16:53:50 by macoulib          #+#    #+#             */
+/*   Updated: 2025/11/14 20:52:38 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	init_var_exe(int *i, int *prev_pipe_read_fd, t_data *data, char *input,
-		char **env)
+void	init_var_exe(int *i, int *prev_pipe_read_fd, t_data *data, char *input)
 {
 	*i = 0;
 	*prev_pipe_read_fd = -1;
-	first_argv_in_tab(data, input, env);
+	first_argv_in_tab(data, input, data->envp);
 }
 
-int	update_cmd_pipenbr(t_data *data, int *pipeline_nb)
+void	update_cmd_pipenbr(t_data *data, int *pipeline_nb)
 {
 	if (!redirect_and_cmds(data))
-		return (0);
-	*pipeline_nb = count_pipeline(data) + 1;
-	return (1);
+		*pipeline_nb = 0;
+	else
+		*pipeline_nb = count_pipeline(data) + 1;
+}
+
+void	signal_and_waitpid(t_data *data, pid_t pid)
+{
+	int	status;
+
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
+	if (waitpid(pid, &status, 0) == -1)
+	{
+		perror("waitpid");
+		status = 1;
+		setup_signals();
+		return ;
+	}
+	setup_signals();
+	update_status_from_signal(status, data);
 }

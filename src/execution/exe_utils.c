@@ -5,30 +5,15 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/05 19:36:27 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/05 19:37:37 by macoulib         ###   ########.fr       */
+/*   Created: 2025/10/20 15:53:18 by macoulib          #+#    #+#             */
+/*   Updated: 2025/11/14 20:51:32 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	signal_and_waitpid(t_data *data, pid_t pid)
+void	set_input_fd(int prev_pipe_read_fd, int i, t_data *data)
 {
-	int		status;
-	pid_t	wpid;
-
-	(void)pid;
-	signal(SIGINT, SIG_IGN);
-	signal(SIGQUIT, SIG_IGN);
-	while ((wpid = wait(&status)) > 0)
-		update_status_from_signal(status, data);
-	setup_signals();
-}
-
-void	exe_pid_zero_one(int prev_pipe_read_fd, int i, t_data *data,
-		int pipeline_nb, int *fds)
-{
-	reset_signals_child();
 	if (prev_pipe_read_fd != -1)
 	{
 		dup2(prev_pipe_read_fd, 0);
@@ -39,6 +24,10 @@ void	exe_pid_zero_one(int prev_pipe_read_fd, int i, t_data *data,
 		dup2(data->infile_fd, 0);
 		close(data->infile_fd);
 	}
+}
+
+void	set_output_fd(int i, int pipeline_nb, t_data *data, int *fds)
+{
 	if (i < pipeline_nb - 1)
 	{
 		close(fds[0]);
@@ -49,6 +38,11 @@ void	exe_pid_zero_one(int prev_pipe_read_fd, int i, t_data *data,
 	{
 		dup2(data->outfile_fd, 1);
 		close(data->outfile_fd);
+	}
+	else if (data->error_fd != -1)
+	{
+		dup2(data->error_fd, 1);
+		close(data->error_fd);
 	}
 }
 

@@ -5,12 +5,30 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/05 18:21:07 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/05 18:21:07 by macoulib         ###   ########.fr       */
+/*   Created: 2025/09/27 16:39:06 by macoulib          #+#    #+#             */
+/*   Updated: 2025/11/14 21:13:46 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+int	check_redirect_slash(t_data *data)
+{
+	int	i;
+
+	i = 0;
+	while (data->argv[i] && data->argv[i + 1])
+	{
+		if (ft_strcmp(data->argv[i], "|") == 0 && ft_strcmp(data->argv[i + 1],
+				"/") == 0)
+		{
+			printf("is a directory: / `/'\n");
+			return (1);
+		}
+		i++;
+	}
+	return (0);
+}
 
 int	creat_fd_infile(t_data *data, int *i)
 {
@@ -69,6 +87,10 @@ int	redirect_and_cmds(t_data *data)
 	int	i;
 
 	i = 0;
+	if (check_double_pipe(data))
+		return (0);
+	if (check_redirect_slash(data))
+		return (0);
 	while (data->argv[i])
 	{
 		if (!creat_fd_infile(data, &i))
@@ -79,6 +101,8 @@ int	redirect_and_cmds(t_data *data)
 	}
 	cpy_clean_quotes_to_av(data);
 	only_cmd_tab(data);
+	if (search_grep((char **)data->argv_only_cmd))
+		rearrange_grep(data);
 	create_pipeline_tab(data);
 	return (1);
 }

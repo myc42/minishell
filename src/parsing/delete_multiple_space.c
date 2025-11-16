@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/04 23:10:39 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/05 20:05:11 by macoulib         ###   ########.fr       */
+/*   Created: 2025/09/22 19:07:33 by macoulib          #+#    #+#             */
+/*   Updated: 2025/11/13 23:52:49 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,34 +14,59 @@
 
 int	ft_isspace(char c)
 {
-	return (c == ' ' || c == '\t' || c == '\n'
-		|| c == '\v' || c == '\f' || c == '\r');
+	if (c == ' ' || c == '\t' || c == '\n' || c == '\v' || c == '\f'
+		|| c == '\r')
+	{
+		return (1);
+	}
+	return (0);
+}
+
+void	copy_n_delete(char *str, char *correct_str, int in_single_quote,
+		int in_double_quote)
+{
+	int	i;
+	int	j;
+
+	init_variables_to_zero(&i, &j, &in_single_quote, &in_double_quote);
+	while (str[i])
+	{
+		if (str[i] == '\'' && !in_double_quote)
+			in_single_quote = !in_single_quote;
+		else if (str[i] == '"' && !in_single_quote)
+			in_double_quote = !in_double_quote;
+		if (!in_single_quote && !in_double_quote)
+		{
+			if (ft_isspace(str[i]))
+			{
+				if (j > 0 && !ft_isspace(correct_str[j - 1]))
+					correct_str[j++] = ' ';
+			}
+			else
+				correct_str[j++] = str[i];
+		}
+		else
+			correct_str[j++] = str[i];
+		i++;
+	}
+	correct_str[j] = '\0';
 }
 
 char	*delete_multiple_space(char *str)
 {
 	int		i;
 	int		j;
-	char	*cleaned;
+	int		in_single_quote;
+	int		in_double_quote;
+	char	*correct_str;
 
-	if (!str)
-		return (NULL);
-	cleaned = malloc(ft_strlen(str) + 1);
-	if (!cleaned)
-		return (NULL);
 	i = 0;
 	j = 0;
-	while (str[i])
-	{
-		if (ft_isspace(str[i]))
-		{
-			if (j > 0 && !ft_isspace(cleaned[j - 1]))
-				cleaned[j++] = ' ';
-		}
-		else
-			cleaned[j++] = str[i];
-		i++;
-	}
-	cleaned[j] = '\0';
-	return (cleaned);
+	in_single_quote = 0;
+	in_double_quote = 0;
+	correct_str = malloc(1024);
+	if (!correct_str)
+		return (NULL);
+	copy_n_delete(str, correct_str, in_single_quote, in_double_quote);
+	return (correct_str);
 }

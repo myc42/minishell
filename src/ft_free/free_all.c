@@ -5,14 +5,14 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/05 19:43:14 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/05 19:46:14 by macoulib         ###   ########.fr       */
+/*   Created: 2025/10/22 01:19:56 by macoulib          #+#    #+#             */
+/*   Updated: 2025/11/14 21:33:59 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	free_tab(char **tab)
+void	free_int_tab(int **tab)
 {
 	int	i;
 
@@ -22,6 +22,7 @@ void	free_tab(char **tab)
 	while (tab[i])
 	{
 		free(tab[i]);
+		tab[i] = NULL;
 		i++;
 	}
 	free(tab);
@@ -43,41 +44,84 @@ void	free_tab3(char ***tab3)
 	free(tab3);
 }
 
-void	free_fd_array(int **fds)
+void	free_all2(t_data *data)
 {
-	int	i;
-
-	if (!fds)
-		return ;
-	i = 0;
-	while (fds[i])
+	if (data->argv)
 	{
-		free(fds[i]);
-		fds[i] = NULL;
-		i++;
+		free_tab(data->argv);
+		data->argv = NULL;
 	}
-	free(fds);
-}
-
-void	free_all(t_data *data)
-{
-	if (!data)
-		return ;
-	if (data->input_clean)
+	if (data->argv_only_cmd)
 	{
-		free(data->input_clean);
-		data->input_clean = NULL;
+		free_tab(data->argv_only_cmd);
+		data->argv_only_cmd = NULL;
+	}
+	if (data->argv_clean_quotes)
+	{
+		free_tab(data->argv_clean_quotes);
+		data->argv_clean_quotes = NULL;
+	}
+	if (data->here_doc_argv)
+	{
+		free_tab(data->here_doc_argv);
+		data->here_doc_argv = NULL;
 	}
 	if (data->limiter)
 	{
 		free_tab(data->limiter);
 		data->limiter = NULL;
 	}
-	if (data->argv)
+}
+
+void	free_all3(t_data *data)
+{
+	if (data->pipeline_in_fds)
 	{
-		free_tab(data->argv);
-		data->argv = NULL;
+		free_int_tab(data->pipeline_in_fds);
+		data->pipeline_in_fds = NULL;
 	}
-	free_utils2(data);
-	free_utils3(data);
+	if (data->pipeline_out_fds)
+	{
+		free_int_tab(data->pipeline_out_fds);
+		data->pipeline_out_fds = NULL;
+	}
+	if (data->pipeline_err_fds)
+	{
+		free_int_tab(data->pipeline_err_fds);
+		data->pipeline_err_fds = NULL;
+	}
+	if (data->infile_fd > 2)
+		close(data->infile_fd);
+	if (data->outfile_fd > 2)
+		close(data->outfile_fd);
+	if (data->error_fd > 2)
+		close(data->error_fd);
+}
+
+void	free_all(t_data *data)
+{
+	if (!data)
+		return ;
+	if (data->argv_pipeline)
+	{
+		free_tab3(data->argv_pipeline);
+		data->argv_pipeline = NULL;
+	}
+	if (data->echo_pipline)
+	{
+		free_tab3(data->echo_pipline);
+		data->echo_pipline = NULL;
+	}
+	if (data->input_clean)
+	{
+		free(data->input_clean);
+		data->input_clean = NULL;
+	}
+	if (data->temp)
+	{
+		free(data->temp);
+		data->temp = NULL;
+	}
+	free_all2(data);
+	free_all3(data);
 }

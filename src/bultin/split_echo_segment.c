@@ -47,7 +47,7 @@ char	**ft_copy_segment(char **start, char **end)
 	i = 0;
 	while (start < end)
 	{
-		segment[i] = strdup(*start);
+		segment[i] = ft_strdup(*start);
 		start++;
 		i++;
 	}

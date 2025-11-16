@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/04 23:10:56 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/05 18:09:12 by macoulib         ###   ########.fr       */
+/*   Created: 2025/09/23 14:22:10 by macoulib          #+#    #+#             */
+/*   Updated: 2025/11/14 21:05:59 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,17 @@
 
 int	ft_strncmps(const char *s1, const char *s2, size_t n)
 {
-	size_t	i;
+	unsigned char	*s1cpy;
+	unsigned char	*s2cpy;
+	size_t			i;
 
-	if (!s1 || !s2)
-		return (1);
 	i = 0;
-	while (i < n && (s1[i] || s2[i]))
+	s1cpy = (unsigned char *)s1;
+	s2cpy = (unsigned char *)s2;
+	while (i != n && (s1cpy[i] != '\0' || s2cpy[i] != '\0'))
 	{
-		if (s1[i] != s2[i])
-			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+		if (s1cpy[i] != s2cpy[i])
+			return (s1cpy[i] - s2cpy[i]);
 		i++;
 	}
 	return (0);
@@ -30,27 +32,21 @@ int	ft_strncmps(const char *s1, const char *s2, size_t n)
 
 char	*search_expansion_replacement(char *var_name, t_data *data)
 {
-	char	*value;
 	int		i;
+	size_t	len;
 
 	if (!var_name || !data || !data->envp)
-		return (ft_strdup(""));
-	if (ft_strcmp(var_name, "?") == 0)
+		return (NULL);
+	if (!ft_strcmp(var_name, "?"))
 		return (ft_itoa(data->last_status));
-	value = NULL;
+	len = ft_strlen(var_name);
 	i = 0;
 	while (data->envp[i])
 	{
-		if (ft_strncmps(data->envp[i], var_name, ft_strlen(var_name)) == 0
-			&& data->envp[i][ft_strlen(var_name)] == '=')
-		{
-			free(value);
-			value = ft_strdup(data->envp[i] + ft_strlen(var_name) + 1);
-			break ;
-		}
+		if (ft_strncmps(data->envp[i], var_name, len) == 0
+			&& data->envp[i][len] == '=')
+			return (ft_strdup(data->envp[i] + len + 1));
 		i++;
 	}
-	if (!value)
-		value = ft_strdup("");
-	return (value);
+	return (NULL);
 }

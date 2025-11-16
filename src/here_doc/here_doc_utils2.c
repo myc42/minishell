@@ -5,12 +5,18 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/04 23:09:26 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/05 20:00:51 by macoulib         ###   ########.fr       */
+/*   Created: 2025/10/22 02:16:55 by macoulib          #+#    #+#             */
+/*   Updated: 2025/11/14 21:22:24 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+void	two_int_init(int *i, int *j)
+{
+	*i = 0;
+	*j = 0;
+}
 
 int	pipe_after_limiter(t_data *data)
 {
@@ -29,35 +35,57 @@ int	pipe_after_limiter(t_data *data)
 	return (0);
 }
 
-void	int_var_stock(int *current, int *total, t_data *data)
+void	cpy_new_here_doc(t_data *data, char **argvcpy)
 {
-	int	x;
+	int	j;
+	int	i;
 
-	*total = 0;
-	x = 0;
-	while (data->limiter && data->limiter[x])
-		x++;
-	*total = x;
-	*current = 0;
+	j = 0;
+	i = 0;
+	while (data->here_doc_argv[i])
+	{
+		if (ft_strncmp(data->here_doc_argv[i], "|", 2) == 0
+			&& data->here_doc_argv[i + 1] && ft_strncmp(data->here_doc_argv[i
+					+ 1], "|", 2) == 0)
+		{
+			i++;
+			continue ;
+		}
+		argvcpy[j++] = ft_strdup(data->here_doc_argv[i]);
+		i++;
+	}
+	argvcpy[j] = NULL;
 }
 
-void	write_outfiled(int current, int total, int outfilefd, char *line)
+void	update_argv_here_doc(t_data *data)
 {
-	if (current == total - 1)
-		write(outfilefd, line, ft_strlen(line));
-	free(line);
+	int		i;
+	char	**argvcpy;
+	int		size_tab;
+
+	i = 0;
+	size_tab = 0;
+	while (data->here_doc_argv[i])
+	{
+		if (ft_strncmp(data->here_doc_argv[i], "|", 2) == 0
+			&& data->here_doc_argv[i + 1] && ft_strncmp(data->here_doc_argv[i
+					+ 1], "|", 2) == 0)
+		{
+			i++;
+			continue ;
+		}
+		size_tab++;
+		i++;
+	}
+	argvcpy = malloc(sizeof(char *) * (size_tab + 1));
+	if (!argvcpy)
+		return ;
+	cpy_new_here_doc(data, argvcpy);
+	free_tab(data->here_doc_argv);
+	data->here_doc_argv = argvcpy;
 }
 
-void	find_cpy_redirect(t_data *data)
-{
-	find_all_limiters(data);
-	alloc_without_limiter(data);
-	tab_without_limiter(data);
-	cpy_here_doc_argv(data);
-	redirect_and_cmds(data);
-}
-
-void	stock_to_here_doc(t_data *data, int outfilefd)
+int	stock_to_here_doc(t_data *data, int outfilefd)
 {
 	char	*line;
 	int		current;
@@ -67,20 +95,21 @@ void	stock_to_here_doc(t_data *data, int outfilefd)
 	int_var_stock(&current, &total, data);
 	while (1)
 	{
-		write(1, "heredoc> ", 9);
-		line = get_next_line(0);
+		line = readline("heredoc> ");
 		if (!line)
-			break ;
-		len = ft_strlen(data->limiter[current]);
-		if (ft_strncmp(line, data->limiter[current], len) == 0
-			&& ft_strlen(line) - 1 == len)
 		{
-			current++;
-			free(line);
+			current_total_cmp(current, total, data);
+			break ;
+		}
+		len = ft_strlen(data->limiter[current]);
+		if (!ft_strncmp(line, data->limiter[current], len) && line[len] == '\0')
+		{
+			free_line_current_plus(&line, &current);
 			if (current == total)
 				break ;
 			continue ;
 		}
-		write_outfiled(current, total, outfilefd, line);
+		stock_here_end(outfilefd, line);
 	}
+	return (0);
 }
