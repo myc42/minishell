@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/21 14:36:39 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/14 20:55:59 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/11/18 21:25:09 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,13 @@ static char	*read_variable_name(int fd, char first)
 
 	i = 0;
 	buffer[i++] = first;
-	while (read(fd, &c, 1) > 0 && !isspace(c) && c != '$' && c != '\n')
+	while (read(fd, &c, 1) > 0 && !ft_isspace(c) && c != '$' && c != '\n')
 	{
 		if (i < (int)(sizeof(buffer) - 1))
 			buffer[i++] = c;
 	}
 	buffer[i] = '\0';
-	return (strdup(buffer));
+	return (ft_strdup(buffer));
 }
 
 static void	write_expansion(int fdout, char *var_name, t_data *data)

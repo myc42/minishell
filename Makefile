@@ -1,3 +1,15 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2025/11/16 23:14:47 by macoulib          #+#    #+#              #
+#    Updated: 2025/11/16 23:15:08 by macoulib         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 NAME        = minishell
 
 CC          = cc
@@ -82,11 +94,5 @@ fclean: clean
 	rm -f $(NAME)
 
 re: fclean all
-
-valgrind: $(NAME)
-	@echo "$(YELLOW)🔍 Launching Valgrind on ./minishell...$(NC)"
-	@valgrind --suppressions=./ignore --trace-children=yes \
-		--leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes \
-		./minishell
 
 .PHONY: all clean fclean re
