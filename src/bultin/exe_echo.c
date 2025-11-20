@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 18:27:57 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/16 17:53:49 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/11/20 18:05:02 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,8 @@ int	exe_echox(t_data *data)
 	cpy_clean_quotes_to_av(data);
 	ft_split_by_pipe(data);
 	setup_redirections(data);
-	execute_pipeline(data);
+	execute_pipeline(data, -1);
+	free_all(data);
 	free_pipeline_fds(data);
 	free_argv_pipeline(data);
 	return (0);

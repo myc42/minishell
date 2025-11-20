@@ -1,0 +1,15 @@
+ex
+fefe
+file1
+ignore
+includes
+librairie
+Makefile
+minishell
+minishelle.png
+minishell_tester
+obj
+README.md
+resultat.txt
+src
+stats.txt

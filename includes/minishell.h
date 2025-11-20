@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 19:02:12 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/16 22:50:24 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/11/20 18:54:44 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,9 @@ typedef struct s_data
 
 }								t_data;
 
+void							free_argv_pipeline(t_data *data);
+void							free_pipeline_fds(t_data *data);
+void							free_pipeline_fd_two(t_data *data, int i);
 int								ft_isspace(char c);
 int								closed_quotes(char *str);
 int								find_nbr_limiter(t_data *data);
@@ -90,13 +93,14 @@ void							pipeline_space(char *str, char *dest);
 void							init_variables_to_zero(int *i, int *j, int *k,
 									int *l);
 char							*clean_space(char *str);
+
 char							*get_next_line(int fd);
+
 void							alloc_without_limiter(t_data *data);
 
 void							tab_without_limiter(t_data *data);
 void							cpy_here_doc_argv(t_data *data);
-void							exe_heredoc(t_data *data, int outfile,
-									int *pipeline_nb);
+void							exe_heredoc(t_data *data, int outfile);
 void							init_var_heredoc(t_data *data,
 									int *prev_pipe_read_fd, int *pipeline_nb,
 									int *i);
@@ -194,7 +198,7 @@ void							free_parsing(t_data *d);
 char							*separe_here_doc_sign(char *str);
 int								update_cmd_pipenbr(t_data *data,
 									int *pipeline_nb);
-void							execute_pipeline(t_data *data);
+void							execute_pipeline(t_data *data, int infile_fd);
 int								exe_echox(t_data *data);
 
 void							first_argv_in_tab(t_data *data, char *input,
@@ -242,6 +246,11 @@ void							write_outfiled(int current, int total,
 void							find_cpy_redirect(t_data *data);
 
 int								stock_to_here_doc(t_data *data, int outfilefd);
+
+void							execute_pipelines(t_data *data, int i,
+									int prev_pipe_read_fd, int pipeline_nb);
+
+int								check_redirect_slash(t_data *data);
 
 void							minishell_clean_exit(t_data *data, int status);
 void							update_argv_here_doc(t_data *data);

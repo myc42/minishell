@@ -2,15 +2,19 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   shell.c                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/16 23:10:55 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/16 23:10:55 by macoulib         ###   ########.fr       */
+/*                                                    +:+ +:+        
+	+:+     */
+/*   By: knehal <knehal@student.42.fr>              +#+  +:+      
+	+#+        */
+/*                                                +#+#+#+#+#+  
+	+#+           */
+/*   Created: 2025/11/16 23:46:12 by knehal            #+#    #+#             */
+/*   Updated: 2025/11/16 23:46:12 by knehal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
 
 void	init_shell(t_data *data)
 {
@@ -40,6 +44,8 @@ void	init_shell(t_data *data)
 
 void	init_data(t_data *data, char **envp)
 {
+	unlink(".test");
+	unlink(".test2");
 	init_shell(data);
 	data->envp = copy_envp(envp);
 	if (!data->envp)

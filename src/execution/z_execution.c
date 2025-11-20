@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 20:09:52 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/16 17:01:39 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/11/20 20:11:59 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	exe_cmd(t_data *data, int *i, char **envp)
 	handle_command_not_found2(split_cmd, cmd_path);
 }
 
-static void	execute_pipelines(t_data *data, int i, int prev_pipe_read_fd,
+void	execute_pipelines(t_data *data, int i, int prev_pipe_read_fd,
 		int pipeline_nb)
 {
 	int		fds[2];
@@ -86,15 +86,19 @@ static void	execute_pipelines(t_data *data, int i, int prev_pipe_read_fd,
 
 void	exe(t_data *data)
 {
-	int	i;
-	int	prev_pipe_read_fd;
-	int	pipeline_nb;
-
-	init_var_exe(&i, &prev_pipe_read_fd, data, data->input_clean);
+	first_argv_in_tab(data, data->input_clean, data->envp);
+	if (check_redirect_slash(data))
+		return ;
+	if (!detect_bad_input(data->argv))
+		return ;
 	if (!handle_builtin(data))
 	{
-		if (update_cmd_pipenbr(data, &pipeline_nb))
-			execute_pipelines(data, i, prev_pipe_read_fd, pipeline_nb);
+		cpy_clean_quotes_to_av(data);
+		ft_split_by_pipe(data);
+		setup_redirections(data);
+		execute_pipeline(data, -1);
+		free_pipeline_fds(data);
+		free_argv_pipeline(data);
 	}
 	free_fds_and_pipelines(data);
 	free_all(data);

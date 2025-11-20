@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/15 19:50:49 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/16 17:21:34 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/11/20 19:49:22 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,31 +71,15 @@ void	ft_forkpid(pid_t *pid)
 		return ;
 }
 
-void	exe_heredoc(t_data *data, int outfile, int *pipeline_nb)
+void	exe_heredoc(t_data *data, int outfile)
 {
-	pid_t	pid;
-	int		prev_pipe_read_fd;
-	int		fds[2];
-	int		i;
+	int	prev_pipe_read_fd;
 
-	init_var_heredoc(data, &prev_pipe_read_fd, pipeline_nb, &i);
-	while (i < *pipeline_nb)
-	{
-		if (i < *pipeline_nb - 1)
-			pipe_fd(fds);
-		ft_forkpid(&pid);
-		if (pid == 0)
-		{
-			if_pid_zero_one(prev_pipe_read_fd, i, outfile);
-			if_pid_zero_two(data, i, *pipeline_nb, fds);
-			exe_cmd(data, &i, data->envp);
-			exit(EXIT_FAILURE);
-		}
-		else
-		{
-			pid_parent_zero(&prev_pipe_read_fd, *pipeline_nb, &i, fds);
-			signal_and_waitpid(data, pid);
-		}
-	}
+	if (data->argv_pipeline[0] != NULL && data->argv_pipeline != NULL)
+		execute_pipeline(data, outfile);
+	free_pipeline_fds(data);
+	free_argv_pipeline(data);
+	free_fds_and_pipelines(data);
+	free_all(data);
 	end_exe_heredoc(data, outfile, &prev_pipe_read_fd);
 }

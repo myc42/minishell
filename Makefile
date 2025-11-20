@@ -6,7 +6,7 @@
 #    By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/16 23:14:47 by macoulib          #+#    #+#              #
-#    Updated: 2025/11/16 23:15:08 by macoulib         ###   ########.fr        #
+#    Updated: 2025/11/20 20:27:10 by macoulib         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,6 +29,7 @@ SRCS = \
 	src/ft_free/free_tab.c \
 	src/here_doc/exe_here_doc_utils.c \
 	src/here_doc/here_doc_utils.c \
+	src/here_doc/get_next_line.c \
 	src/here_doc/here_doc.c \
 	src/here_doc/here_doc_utils2.c \
 	src/here_doc/expansion_here_doc.c \
@@ -93,6 +94,12 @@ clean:
 fclean: clean
 	rm -f $(NAME)
 
-re: fclean all
+valgrind: $(NAME)
+	@echo "$(YELLOW)🔍 Launching Valgrind on ./minishell...$(NC)"
+	@valgrind --suppressions=./ignore --trace-children=yes \
+		--leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes \
+		./minishell
 
+re: fclean all
+	
 .PHONY: all clean fclean re

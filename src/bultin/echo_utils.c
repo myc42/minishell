@@ -6,13 +6,13 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 19:23:03 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/14 19:17:20 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/11/20 20:09:03 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	pid_zero_one(t_data *data, int i, int prev_fd, int *pipefd)
+void	pid_zero_one(t_data *data, int i, int *pipefd, int infile_fd)
 {
 	int	cmd_count;
 	int	has_in;
@@ -23,16 +23,18 @@ void	pid_zero_one(t_data *data, int i, int prev_fd, int *pipefd)
 		cmd_count = 1;
 	has_in = (data->pipeline_in_fds && data->pipeline_in_fds[i]);
 	has_out = (data->pipeline_out_fds && data->pipeline_out_fds[i]);
-	if (has_in && *(data->pipeline_in_fds[i]) != STDIN_FILENO)
+	if (i == 0 && infile_fd != -1)
+		dup2(infile_fd, STDIN_FILENO);
+	else if (has_in && *(data->pipeline_in_fds[i]) != STDIN_FILENO)
 		dup2(*(data->pipeline_in_fds[i]), STDIN_FILENO);
-	else if (prev_fd != -1)
-		dup2(prev_fd, STDIN_FILENO);
+	else if (data->outfile_fd != -1)
+		dup2(data->outfile_fd, STDIN_FILENO);
 	if (has_out && *(data->pipeline_out_fds[i]) != STDOUT_FILENO)
 		dup2(*(data->pipeline_out_fds[i]), STDOUT_FILENO);
 	else if (i < cmd_count - 1)
 		dup2(pipefd[1], STDOUT_FILENO);
-	if (prev_fd != -1)
-		close(prev_fd);
+	if (data->outfile_fd != -1)
+		close(data->outfile_fd);
 	if (i < cmd_count - 1)
 	{
 		close(pipefd[0]);
@@ -67,7 +69,7 @@ void	init_var_ex_pip(int *prev_fd, int *i)
 	*i = -1;
 }
 
-void	execute_pipeline(t_data *data)
+void	execute_pipeline(t_data *data, int infile_fd)
 {
 	int		cmd_count;
 	int		prev_fd;
@@ -86,12 +88,12 @@ void	execute_pipeline(t_data *data)
 			exit(1);
 		if (pid == 0)
 		{
-			pid_zero_one(data, i, prev_fd, pipefd);
+			pid_zero_one(data, i, pipefd, infile_fd);
 			exe_cmd(data, &i, data->envp);
 			perror("execvp");
 			exit(1);
 		}
-		exe_end(&prev_fd, pipefd, cmd_count, i);
+		exe_end(&data->outfile_fd, pipefd, cmd_count, i);
 	}
 	wait_management(cmd_count);
 }

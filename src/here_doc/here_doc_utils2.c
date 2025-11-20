@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 02:16:55 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/14 21:22:24 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/11/20 20:12:23 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ void	cpy_new_here_doc(t_data *data, char **argvcpy)
 
 	j = 0;
 	i = 0;
+	if (ft_strncmp(data->here_doc_argv[0], "|", 2) == 0)
+		i = 1;
 	while (data->here_doc_argv[i])
 	{
 		if (ft_strncmp(data->here_doc_argv[i], "|", 2) == 0
@@ -95,21 +97,21 @@ int	stock_to_here_doc(t_data *data, int outfilefd)
 	int_var_stock(&current, &total, data);
 	while (1)
 	{
-		line = readline("heredoc> ");
+		write(1, "heredoc> ", 9);
+		line = get_next_line(0);
 		if (!line)
-		{
-			current_total_cmp(current, total, data);
 			break ;
-		}
 		len = ft_strlen(data->limiter[current]);
-		if (!ft_strncmp(line, data->limiter[current], len) && line[len] == '\0')
+		if (ft_strncmp(line, data->limiter[current], len) == 0
+			&& ft_strlen(line) - 1 == len)
 		{
-			free_line_current_plus(&line, &current);
+			current++;
+			free(line);
 			if (current == total)
 				break ;
 			continue ;
 		}
-		stock_here_end(outfilefd, line);
+		write_outfiled(current, total, outfilefd, line);
 	}
 	return (0);
 }

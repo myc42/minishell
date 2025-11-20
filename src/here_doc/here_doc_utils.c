@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/15 19:23:27 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/12 16:12:47 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/11/20 19:37:09 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,6 @@ void	alloc_without_limiter(t_data *data)
 		count++;
 		i++;
 	}
-	if (pipe_after_limiter(data))
-		count += 1;
 	data->here_doc_argv = malloc(sizeof(char *) * (count + 1));
 	if (!data->here_doc_argv)
 	{
@@ -61,11 +59,6 @@ void	tab_without_limiter(t_data *data)
 
 	i = 0;
 	j = 0;
-	if (pipe_after_limiter(data))
-	{
-		data->here_doc_argv[0] = ft_strdup("cat");
-		j = 1;
-	}
 	while (data->argv[i])
 	{
 		if (ft_strncmp(data->argv[i], "<<", 3) == 0 && data->argv[i + 1])

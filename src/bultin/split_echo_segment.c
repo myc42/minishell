@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 19:32:15 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/05 19:32:33 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/11/20 19:39:24 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,9 +73,9 @@ void	ft_split_by_pipe(t_data *data)
 	int		cmd_index;
 	char	**segment_start;
 
-	if (!init_var_split(data, &i, &count, &cmd_index))
-		return ;
 	if (!data || !data->argv)
+		return ;
+	if (!init_var_split(data, &i, &count, &cmd_index))
 		return ;
 	segment_start = data->argv;
 	while (data->argv[i])

@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/15 15:15:41 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/16 22:30:59 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/11/20 20:28:32 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ void	run_heredoc_child(t_data *data)
 	int	outfile;
 	int	infile;
 	int	code;
-	int	prev_pipe_read_fd;
 
 	find_cpy_redirect(data);
 	infile = open(".test2", O_WRONLY | O_CREAT | O_APPEND, 0644);
@@ -47,8 +46,9 @@ void	run_heredoc_child(t_data *data)
 	infile = open(".test2", O_RDONLY);
 	if (infile == -1)
 		exit(1);
-	exe_heredoc(data, infile, &prev_pipe_read_fd);
+	exe_heredoc(data, infile);
 	close(outfile);
+	close(infile);
 	exit(code);
 }
 
@@ -59,7 +59,9 @@ void	find_cpy_redirect(t_data *data)
 	alloc_without_limiter(data);
 	tab_without_limiter(data);
 	cpy_here_doc_argv(data);
-	redirect_and_cmds(data, 1);
+	cpy_clean_quotes_to_av(data);
+	ft_split_by_pipe(data);
+	setup_redirections(data);
 }
 
 int	bultin2(t_data *data, pid_t pid, int status, int sig)
