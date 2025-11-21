@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/15 19:23:27 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/20 19:37:09 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/11/21 21:41:10 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,8 @@ void	tab_without_limiter(t_data *data)
 		i++;
 	}
 	data->here_doc_argv[j] = NULL;
-	update_argv_here_doc(data);
+	if (data->here_doc_argv[0] != NULL)
+		update_argv_here_doc(data);
 }
 
 void	cpy_here_doc_argv(t_data *data)

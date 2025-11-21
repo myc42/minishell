@@ -2,15 +2,19 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   builtin_exit.c                                     :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: knehal <knehal@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
+/*                                                    +:+ +:+
+	+:+     */
+/*   By: knehal <knehal@student.42.fr>              +#+  +:+
+	+#+        */
+/*                                                +#+#+#+#+#+
+	+#+           */
 /*   Created: 2025/11/16 23:45:02 by knehal            #+#    #+#             */
 /*   Updated: 2025/11/16 23:45:02 by knehal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
 
 void	init_pipeline_and_fd(t_data *data, int *cmd_count, int pipefd[2])
 {
@@ -53,7 +57,7 @@ void	minishell_clean_exit(t_data *data, int status)
 
 int	is_numeric(char *s)
 {
-	int	i;
+	int i;
 
 	i = 0;
 	if (!s)
@@ -71,7 +75,7 @@ int	is_numeric(char *s)
 
 int	builtin_exit(t_data *data)
 {
-	long	code;
+	long code;
 
 	ft_putstr_fd("exit\n", 1);
 	if (!data->argv[1])

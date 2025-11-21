@@ -15,7 +15,6 @@
 
 #include "../../includes/minishell.h"
 
-
 void	init_shell(t_data *data)
 {
 	if (!data)

@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 19:02:12 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/20 18:54:44 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/11/21 21:17:35 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ typedef struct s_data
 
 }								t_data;
 
+int								builtin_cd(t_data *data, char **envp);
 void							free_argv_pipeline(t_data *data);
 void							free_pipeline_fds(t_data *data);
 void							free_pipeline_fd_two(t_data *data, int i);
@@ -93,11 +94,8 @@ void							pipeline_space(char *str, char *dest);
 void							init_variables_to_zero(int *i, int *j, int *k,
 									int *l);
 char							*clean_space(char *str);
-
 char							*get_next_line(int fd);
-
 void							alloc_without_limiter(t_data *data);
-
 void							tab_without_limiter(t_data *data);
 void							cpy_here_doc_argv(t_data *data);
 void							exe_heredoc(t_data *data, int outfile);
@@ -111,7 +109,6 @@ void							free_data_argv(t_data *data);
 void							ft_forkpid(pid_t *pid);
 void							signal_and_waitpid(t_data *data, pid_t pid);
 void							pipe_fd(int *fds);
-
 void							exe_pid_parent(int *prev_pipe_read_fd,
 									int pipeline_nb, int *fds, int *i);
 void							close_infile_outfile(t_data *data, pid_t pid);
@@ -131,7 +128,6 @@ void							set_input_fd(int prev_pipe_read_fd, int i,
 									t_data *data);
 void							reset_signals_child(void);
 int								builtin_echo(char **argv, t_data *data);
-
 void							expansion_here_doc(int fdin, int fdout,
 									t_data *data);
 void							free_all(t_data *data);
@@ -141,7 +137,6 @@ void							clean_quotes(t_data *data);
 void							cpy_clean_quotes_to_av(t_data *data);
 char							*remove_quotes(const char *str);
 int								check_if_is_only_space(char *str);
-
 int								check_nbr_limiter(t_data *data);
 void							find_all_limiters(t_data *data);
 int								exe_echox(t_data *data);
@@ -203,7 +198,6 @@ int								exe_echox(t_data *data);
 
 void							first_argv_in_tab(t_data *data, char *input,
 									char **env);
-
 int								check_directions_on_tab(t_data *data);
 void							close_signal(t_data *data,
 									int prev_pipe_read_fd, pid_t pid);
@@ -212,7 +206,6 @@ void							if_after_exeve(char *cmd_path);
 void							free_fd_array(int **fds);
 void							free_tab3(char ***tab3);
 void							free_tab(char **tab);
-
 void							ft_forkpid(pid_t *pid);
 void							pid_parent_zero(int *prev_pipe_read_fd,
 									int pipeline_nb, int *i, int *fds);
@@ -225,7 +218,6 @@ void							quotes_and_increment(int *in_single_quotes,
 									int *i);
 void							free_s1s2(int free_s1, int free_s2, char *s1,
 									char *s2);
-
 char							*expand_variables_in_string(char *str,
 									t_data *data);
 char							*append_variable(char *str, int *i,
@@ -234,24 +226,17 @@ char							*append_dollar_literal(char *result);
 char							*append_char(char *result, char c);
 char							*ft_strjoin_free(char *s1, char *s2,
 									int free_s1, int free_s2);
-
 void							free_utils2(t_data *data);
-
 void							free_utils3(t_data *data);
 void							int_var_stock(int *current, int *total,
 									t_data *data);
 void							write_outfiled(int current, int total,
 									int outfilefd, char *line);
-
 void							find_cpy_redirect(t_data *data);
-
 int								stock_to_here_doc(t_data *data, int outfilefd);
-
 void							execute_pipelines(t_data *data, int i,
 									int prev_pipe_read_fd, int pipeline_nb);
-
 int								check_redirect_slash(t_data *data);
-
 void							minishell_clean_exit(t_data *data, int status);
 void							update_argv_here_doc(t_data *data);
 char							*normalize_quotes(char *input);
@@ -269,7 +254,6 @@ void							first_argv_in_tab(t_data *data, char *input,
 									char **env);
 void							execute_with_slash(char *cmd, char **argv,
 									char **envp);
-
 void							handle_command_not_found(char **split_cmd);
 void							handle_sigint_heredoc(int sig);
 void							end_exe_heredoc(t_data *data, int fd,
@@ -283,7 +267,6 @@ void							current_total_cmp(int current, int total,
 int								check_nbr_limiter(t_data *data);
 void							int_var_stock(int *current, int *total,
 									t_data *data);
-
 void							run_heredoc_child(t_data *data);
 int								builtin_heredoc(t_data *data);
 int								wait_and_handle_heredoc(t_data *data,
