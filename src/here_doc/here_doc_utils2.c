@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 02:16:55 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/21 21:40:27 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/11/20 20:12:23 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	cpy_new_here_doc(t_data *data, char **argvcpy)
 	{
 		if (ft_strncmp(data->here_doc_argv[i], "|", 2) == 0
 			&& data->here_doc_argv[i + 1] && ft_strncmp(data->here_doc_argv[i
-				+ 1], "|", 2) == 0)
+					+ 1], "|", 2) == 0)
 		{
 			i++;
 			continue ;
@@ -71,7 +71,7 @@ void	update_argv_here_doc(t_data *data)
 	{
 		if (ft_strncmp(data->here_doc_argv[i], "|", 2) == 0
 			&& data->here_doc_argv[i + 1] && ft_strncmp(data->here_doc_argv[i
-				+ 1], "|", 2) == 0)
+					+ 1], "|", 2) == 0)
 		{
 			i++;
 			continue ;
@@ -81,9 +81,7 @@ void	update_argv_here_doc(t_data *data)
 	}
 	argvcpy = malloc(sizeof(char *) * (size_tab + 1));
 	if (!argvcpy)
-	{
 		return ;
-	}
 	cpy_new_here_doc(data, argvcpy);
 	free_tab(data->here_doc_argv);
 	data->here_doc_argv = argvcpy;

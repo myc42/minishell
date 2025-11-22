@@ -6,11 +6,18 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/16 15:29:48 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/16 16:16:58 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/11/22 21:11:26 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+void	handle_eacces_or_isdir(char *cmd_path)
+{
+	if (cmd_path)
+		free(cmd_path);
+	exit(126);
+}
 
 int	is_operator(char *token)
 {

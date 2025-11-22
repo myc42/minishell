@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 19:02:12 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/21 21:17:35 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/11/22 21:35:53 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ typedef struct s_data
 
 }								t_data;
 
+void							init_pipeline_fds_to_null(t_data *data);
 int								builtin_cd(t_data *data, char **envp);
 void							free_argv_pipeline(t_data *data);
 void							free_pipeline_fds(t_data *data);
@@ -120,7 +121,7 @@ int								ft_count_cmds_pipeline(t_data *data);
 void							remove_two_tokens(char **argv, int i);
 int								analyze_redirections(char **argv, int *in_fd,
 									int *out_fd, int *err_fd);
-void							setup_redirections(t_data *data);
+int								setup_redirections(t_data *data);
 
 void							set_output_fd(int i, int pipeline_nb,
 									t_data *data, int *fds);
@@ -287,5 +288,12 @@ char							*copy_variable(int *i, char *result, char *temp,
 									t_data *data);
 char							*space_or_null_after_sign(char *temp,
 									char *result);
+void							print_cd_error(char *target);
+void							handle_eacces_or_isdir(char *cmd_path);
+int								is_redirection_operator(char *av);
+int								is_redirection_operator2(char *token);
+void							handle_command_not_found2(char **split_cmd,
+									char *cmd_path);
+void							close_pipe_if_needed(int *pipefd);
 
 #endif

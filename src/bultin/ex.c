@@ -2,9 +2,12 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   ex.c                                               :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
+/*                                                    +:+ +:+
+	+:+     */
+/*   By: macoulib <macoulib@student.42.fr>          +#+  +:+
+	+#+        */
+/*                                                +#+#+#+#+#+
+	+#+           */
 /*   Created: 2025/11/16 23:10:19 by macoulib          #+#    #+#             */
 /*   Updated: 2025/11/16 23:10:19 by macoulib         ###   ########.fr       */
 /*                                                                            */
@@ -67,7 +70,7 @@ int	handle_builtin(t_data *data)
 
 char	*resolve_command(char *cmd, t_data *shell)
 {
-	char		*cmd_path;
+	char	*cmd_path;
 
 	cmd_path = find_command_path(cmd, shell);
 	if (!cmd_path)

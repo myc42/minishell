@@ -6,7 +6,7 @@
 #    By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/16 23:14:47 by macoulib          #+#    #+#              #
-#    Updated: 2025/11/20 20:27:10 by macoulib         ###   ########.fr        #
+#    Updated: 2025/11/22 20:58:19 by macoulib         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -61,6 +61,7 @@ SRCS = \
 	src/bultin/env.c \
 	src/bultin/exe_echo.c \
 	src/bultin/ex2.c \
+	src/bultin/biltin3.c \
 	src/bultin/shell.c \
 	src/bultin/biltin2.c \
 	src/bultin/utilis.c \

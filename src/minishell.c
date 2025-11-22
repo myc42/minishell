@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 18:57:07 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/21 20:52:58 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/11/22 20:54:16 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,25 @@ void	execute_and_clean(t_data *data)
 	data->input_clean = NULL;
 }
 
+int	init_and_check_data(int ac, char **av, t_data **data)
+{
+	if (redirect_av_enter())
+	{
+		return (1);
+	}
+	if (!ac_av_malloc_data(ac, av, data))
+	{
+		return (1);
+	}
+	return (0);
+}
+
 int	main(int ac, char **av, char **envp)
 {
 	char	*input;
 	t_data	*data;
 
-	if (redirect_av_enter())
-		return (1);
-	if (!ac_av_malloc_data(ac, av, &data))
+	if (init_and_check_data(ac, av, &data))
 		return (1);
 	init_data(data, envp);
 	while (1)
@@ -55,16 +66,18 @@ int	main(int ac, char **av, char **envp)
 		input = readline("minishell$ ");
 		if (!input)
 		{
-			ft_putstr_fd("exit", 1);
-			write(1, "\n", 1);
+			ft_putstr_fd("exit\n", 1);
 			minishell_clean_exit(data, data->last_status);
 		}
 		if (*input)
 			add_history(input);
 		if (ft_parsing(input, data))
-			execute_and_clean(data);
+		{
+			exe(data);
+		}
 		free(input);
+		free_all(data);
+		start_data(data);
 	}
-	free_all(data);
 	return (0);
 }

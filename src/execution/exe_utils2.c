@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 16:53:50 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/16 21:15:32 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/11/22 21:30:08 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,4 +46,13 @@ void	signal_and_waitpid(t_data *data, pid_t pid)
 	}
 	setup_signals();
 	update_status_from_signal(status, data);
+}
+
+void	handle_command_not_found2(char **split_cmd, char *cmd_path)
+{
+	if (cmd_path)
+		free(cmd_path);
+	if (split_cmd)
+		ft_free_split(split_cmd);
+	exit(127);
 }

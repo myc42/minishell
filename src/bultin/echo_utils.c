@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 19:23:03 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/21 22:15:38 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/11/22 21:35:37 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,7 @@ void	pid_zero_one(t_data *data, int i, int *pipefd, int infile_fd)
 	if (data->outfile_fd != -1)
 		close(data->outfile_fd);
 	if (i < cmd_count - 1)
-	{
-		close(pipefd[0]);
-		close(pipefd[1]);
-	}
+		close_pipe_if_needed(pipefd);
 }
 
 void	wait_management(int cmd_count)

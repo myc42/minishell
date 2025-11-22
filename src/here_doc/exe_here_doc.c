@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/15 19:50:49 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/20 19:49:22 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/11/22 21:09:33 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ void	exe_heredoc(t_data *data, int outfile)
 {
 	int	prev_pipe_read_fd;
 
+	prev_pipe_read_fd = -1;
 	if (data->argv_pipeline[0] != NULL && data->argv_pipeline != NULL)
 		execute_pipeline(data, outfile);
 	free_pipeline_fds(data);

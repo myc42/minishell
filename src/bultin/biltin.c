@@ -15,19 +15,9 @@
 
 #include "../../includes/minishell.h"
 
-int	is_redirection_operator2(char *token)
-{
-	if (!token)
-		return (0);
-	if (!ft_strcmp(token, "<") || !ft_strcmp(token, ">") || !ft_strcmp(token,
-			">>") || !ft_strcmp(token, "<<"))
-		return (1);
-	return (0);
-}
-
 int	c_pipe(t_data *data)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (!data->argv)
@@ -44,7 +34,7 @@ int	c_pipe(t_data *data)
 
 int	c_pipe2(t_data *data)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (data->argv[i])
@@ -59,8 +49,8 @@ int	c_pipe2(t_data *data)
 
 char	*get_env_value2(char **envp, const char *name)
 {
-	int i;
-	size_t len;
+	int		i;
+	size_t	len;
 
 	if (!envp || !name)
 		return (NULL);
@@ -77,14 +67,13 @@ char	*get_env_value2(char **envp, const char *name)
 
 int	builtin_cd(t_data *data, char **envp)
 {
-	char *target;
+	char	*target;
 
 	if (data->argv[1] && data->argv[2])
 	{
 		ft_putstr_fd("minishell: cd: too many arguments\n", 2);
 		return (1);
 	}
-
 	if (!data->argv[1])
 	{
 		target = get_env_value2(envp, "HOME");
@@ -96,49 +85,18 @@ int	builtin_cd(t_data *data, char **envp)
 	}
 	else
 		target = data->argv[1];
-
 	if (chdir(target) != 0)
 	{
-		ft_putstr_fd("minishell: cd: ", 2);
-		ft_putstr_fd(target, 2);
-		ft_putstr_fd(": ", 2);
-		ft_putstr_fd(strerror(errno), 2);
-		ft_putstr_fd("\n", 2);
-		return (1);
-	}
-
-	update_pwd(envp);
-	return (0);
-}
-
-/*int	builtin_cd(t_data *data, char **envp)
-{
-	if (!data->argv[1])
-	{
-		ft_putstr_fd("minishell: cd: missing argument\n", 2);
-		return (1);
-	}
-	if (data->argv[2])
-	{
-		ft_putstr_fd("minishell: cd: too many arguments\n", 2);
-		return (1);
-	}
-	if (chdir(data->argv[1]) != 0)
-	{
-		ft_putstr_fd("minishell: cd: ", 2);
-		ft_putstr_fd(data->argv[1], 2);
-		ft_putstr_fd(": ", 2);
-		ft_putstr_fd(strerror(errno), 2);
-		ft_putstr_fd("\n", 2);
+		print_cd_error(target);
 		return (1);
 	}
 	update_pwd(envp);
 	return (0);
 }
-*/
+
 int	execute_builtin(t_data *data)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (ft_strncmp(data->argv[0], "pwd", 4) == 0 && c_pipe(data))

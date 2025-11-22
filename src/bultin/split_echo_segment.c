@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 19:32:15 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/21 22:28:34 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/11/22 20:13:36 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ char	**ft_copy_segment(char **start, char **end)
 int	init_var_split(t_data *data, int *i, int *count, int *cmd_index)
 {
 	*count = ft_count_pipes(data->argv);
-	data->argv_pipeline = malloc(sizeof(char **) * (*count + 1));
+	data->argv_pipeline = malloc(sizeof(char **) * (*count + 2));
 	if (!data->argv_pipeline)
 		return (0);
 	*cmd_index = 0;
