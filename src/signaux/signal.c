@@ -12,20 +12,15 @@
 
 #include "../../includes/minishell.h"
 
+volatile sig_atomic_t	g_signal = 0;
+
 void	handle_sigint(int sig)
 {
 	(void)sig;
+	g_signal = SIGINT;
 	ft_putstr_fd("\n", 1);
+	rl_on_new_line();
 	rl_replace_line("", 0);
-	rl_on_new_line();
-	rl_redisplay();
-}
-
-void	handle_sigquit(int sig)
-
-{
-	(void)sig;
-	rl_on_new_line();
 	rl_redisplay();
 }
 
@@ -44,4 +39,10 @@ void	reset_signals_child(void)
 {
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
+}
+
+void	handle_eof(t_data *data)
+{
+	ft_putstr_fd("exit\n", 1);
+	minishell_clean_exit(data, data->last_status);
 }

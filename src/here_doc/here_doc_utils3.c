@@ -19,25 +19,6 @@ void	if_current_total(t_data *data, int current)
 	ft_putstr_fd("`)\n", 2);
 }
 
-void	stock_here_end(int outfilefd, char *line)
-{
-	write(outfilefd, line, ft_strlen(line));
-	write(outfilefd, "\n", 1);
-	free(line);
-}
-
-void	free_line_current_plus(char **line, int *current)
-{
-	free(*line);
-	(*current)++;
-}
-
-void	current_total_cmp(int current, int total, t_data *data)
-{
-	if (current < total)
-		if_current_total(data, current);
-}
-
 void	write_outfiled(int current, int total, int outfilefd, char *line)
 {
 	if (current == total - 1)

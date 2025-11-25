@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 18:28:34 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/22 21:32:10 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/11/22 22:02:19 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,9 +94,9 @@ int	setup_redirections(t_data *data)
 	i = 0;
 	while (i < cmd_count)
 	{
-		data->pipeline_in_fds[i] = malloc(sizeof(int));
-		data->pipeline_out_fds[i] = malloc(sizeof(int));
-		data->pipeline_err_fds[i] = malloc(sizeof(int));
+		data->pipeline_in_fds[i] = malloc(sizeof(int) * 2);
+		data->pipeline_out_fds[i] = malloc(sizeof(int) * 2);
+		data->pipeline_err_fds[i] = malloc(sizeof(int) * 2);
 		if (!data->pipeline_in_fds[i] || !data->pipeline_out_fds[i]
 			|| !data->pipeline_err_fds[i])
 			return (0);

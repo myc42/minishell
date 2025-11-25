@@ -21,8 +21,8 @@ void	handle_eacces_or_isdir(char *cmd_path)
 
 int	is_operator(char *token)
 {
-	return (strcmp(token, "|") == 0 || strcmp(token, "<") == 0 || strcmp(token,
-			">") == 0 || strcmp(token, ">>") == 0);
+	return (ft_strcmp(token, "|") == 0 || ft_strcmp(token, "<") == 0
+		|| ft_strcmp(token, ">") == 0 || ft_strcmp(token, ">>") == 0);
 }
 
 int	detect_bad_input(char **argv)

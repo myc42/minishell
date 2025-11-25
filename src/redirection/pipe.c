@@ -29,27 +29,6 @@ int	do_pipe(int fd, int pipe_fd[2], pid_t pid)
 	return (fd);
 }
 
-int	handle_pipe(char **tab_argv)
-{
-	int		i;
-	int		fd;
-	int		pipe_fd[2];
-	pid_t	pid;
-
-	i = 0;
-	fd = 0;
-	pid = fork();
-	while (tab_argv[i])
-	{
-		if (ft_strncmp(tab_argv[i], "|", ft_strlen(tab_argv[i])))
-		{
-			fd = do_pipe(fd, pipe_fd, pid);
-		}
-		i++;
-	}
-	return (0);
-}
-
 int	count_pipeline(t_data *data)
 {
 	int	i;

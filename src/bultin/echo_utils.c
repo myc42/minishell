@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 19:23:03 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/22 21:35:37 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/11/22 22:05:29 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,7 @@ void	pid_zero_one(t_data *data, int i, int *pipefd, int infile_fd)
 	cmd_count = ft_count_cmds_pipeline(data);
 	if (cmd_count == 0)
 		cmd_count = 1;
-	has_in = (data->pipeline_in_fds && data->pipeline_in_fds[i]);
-	has_out = (data->pipeline_out_fds && data->pipeline_out_fds[i]);
+	init_in_out(&has_in, &has_out, data, i);
 	if (i == 0 && infile_fd != -1)
 		dup2(infile_fd, STDIN_FILENO);
 	else if (has_in && *(data->pipeline_in_fds[i]) != STDIN_FILENO)
@@ -36,16 +35,27 @@ void	pid_zero_one(t_data *data, int i, int *pipefd, int infile_fd)
 	if (data->outfile_fd != -1)
 		close(data->outfile_fd);
 	if (i < cmd_count - 1)
-		close_pipe_if_needed(pipefd);
+	{
+		close(pipefd[0]);
+		close(pipefd[1]);
+	}
 }
 
-void	wait_management(int cmd_count)
+void	wait_management(t_data *data, int cmd_count, pid_t last_pid)
 {
-	int	i;
+	int		i;
+	int		status;
+	pid_t	w;
 
 	i = 0;
 	while (i++ < cmd_count)
-		wait(NULL);
+	{
+		w = wait(&status);
+		if (w == -1)
+			return ;
+		if (w == last_pid)
+			update_status_from_signal(status, data);
+	}
 }
 
 void	exe_end(int *prev_fd, int *pipefd, int cmd_count, int i)
@@ -92,5 +102,5 @@ void	execute_pipeline(t_data *data, int infile_fd)
 		}
 		exe_end(&data->outfile_fd, pipefd, cmd_count, i);
 	}
-	wait_management(cmd_count);
+	wait_management(data, cmd_count, pid);
 }

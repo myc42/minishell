@@ -39,16 +39,3 @@ void	remove_two_tokens(char **argv, int i)
 	argv[j] = NULL;
 	argv[j + 1] = NULL;
 }
-
-int	bult_echo(t_data *data)
-{
-	int	i;
-
-	i = 0;
-	while (data->argv[i])
-		i++;
-	if (i < 3)
-		return (builtin_echo(data->argv, data));
-	else
-		return (exe_echox(data));
-}

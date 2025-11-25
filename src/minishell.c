@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 18:57:07 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/22 20:54:16 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/11/24 14:57:59 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,6 @@ int	ac_av_malloc_data(int ac, char **av, t_data **data)
 	if (!*data)
 		return (0);
 	return (1);
-}
-
-void	execute_and_clean(t_data *data)
-{
-	exe(data);
-	free(data->input_clean);
-	data->input_clean = NULL;
 }
 
 int	init_and_check_data(int ac, char **av, t_data **data)
@@ -65,16 +58,16 @@ int	main(int ac, char **av, char **envp)
 	{
 		input = readline("minishell$ ");
 		if (!input)
+			handle_eof(data);
+		if (g_signal == SIGINT)
 		{
-			ft_putstr_fd("exit\n", 1);
-			minishell_clean_exit(data, data->last_status);
+			data->last_status = 130;
+			g_signal = 0;
 		}
 		if (*input)
 			add_history(input);
 		if (ft_parsing(input, data))
-		{
 			exe(data);
-		}
 		free(input);
 		free_all(data);
 		start_data(data);

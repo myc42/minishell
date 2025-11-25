@@ -19,23 +19,6 @@ void	alloc_str_for_ex(t_data *data, char *str)
 		return ;
 }
 
-void	init_variable(int *i, int *count, int *s, int *d)
-{
-	*i = -1;
-	*count = 0;
-	*d = 0;
-	*s = 0;
-}
-
-void	is_word(int *argv, int *count, int s, int d)
-{
-	if (*argv && !s && !d)
-	{
-		(*count)++;
-		*argv = !*argv;
-	}
-}
-
 void	init_iint(int *i, int *count, int *doublequotes, int *singlq)
 {
 	*i = 0;

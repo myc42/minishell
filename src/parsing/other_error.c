@@ -45,23 +45,6 @@ int	is_separator(char *str)
 			"<") || !ft_strcmp(str, "|"));
 }
 
-int	check_after_redirection(char **av)
-{
-	int	i;
-
-	i = 0;
-	while (av[i])
-	{
-		if (is_separator(av[i]))
-		{
-			if (av[i + 1] == NULL || is_separator(av[i + 1]))
-				return (1);
-		}
-		i++;
-	}
-	return (0);
-}
-
 int	direction_error(char *str, t_data *data)
 {
 	int	i;

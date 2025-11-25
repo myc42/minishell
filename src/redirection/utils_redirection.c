@@ -26,22 +26,6 @@ int	ft_strcmp(char *s1, char *s2)
 	return (0);
 }
 
-int	redirection_detected(char **av)
-{
-	int	i;
-
-	i = 0;
-	while (av && av[i])
-	{
-		if (!ft_strcmp(av[i], ">") || !ft_strcmp(av[i], "<")
-			|| !ft_strcmp(av[i], ">>") || !ft_strcmp(av[i], "<<")
-			|| !ft_strcmp(av[i], "2>"))
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
 int	is_redirection_operator(char *av)
 {
 	if (ft_strcmp(av, "<") == 0 || ft_strcmp(av, ">") == 0 || ft_strcmp(av,

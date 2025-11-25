@@ -64,27 +64,3 @@ void	find_cpy_redirect(t_data *data)
 	if (!setup_redirections(data))
 		return ;
 }
-
-int	bultin2(t_data *data, pid_t pid, int status, int sig)
-{
-	signal(SIGINT, SIG_IGN);
-	signal(SIGQUIT, SIG_IGN);
-	waitpid(pid, &status, 0);
-	setup_signals();
-	if (WIFSIGNALED(status))
-	{
-		sig = WTERMSIG(status);
-		if (sig == SIGQUIT)
-		{
-			ft_putstr_fd("Quit (core dumped)\n", 2);
-			data->last_status = 130;
-		}
-		else if (sig == SIGINT)
-			ft_putstr_fd("\n", 1);
-		data->last_status = 130;
-		return (0);
-	}
-	else
-		data->last_status = WEXITSTATUS(status);
-	return (0);
-}

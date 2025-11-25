@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/22 20:57:32 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/22 21:38:19 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/11/22 22:05:25 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ int	is_redirection_operator2(char *token)
 	return (0);
 }
 
-void	close_pipe_if_needed(int *pipefd)
+void	init_in_out(int *has_in, int *has_out, t_data *data, int i)
 {
-	close(pipefd[0]);
-	close(pipefd[1]);
+	*has_in = (data->pipeline_in_fds && data->pipeline_in_fds[i]);
+	*has_out = (data->pipeline_out_fds && data->pipeline_out_fds[i]);
 }

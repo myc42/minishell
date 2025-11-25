@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 19:22:59 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/16 20:31:35 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/11/24 15:14:21 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	close_signal(t_data *data, int prev_pipe_read_fd, pid_t pid)
 	signal_and_waitpid(data, pid);
 }
 
-void	first_argv_in_tab(t_data *data, char *input, char **env)
+int	first_argv_in_tab(t_data *data, char *input, char **env)
 {
 	int		i;
 	char	**av;
@@ -55,9 +55,10 @@ void	first_argv_in_tab(t_data *data, char *input, char **env)
 	(void)env;
 	av = argv_valid_tab(input);
 	if (!av)
-		return ;
+		return (0);
 	data->argv = av;
 	update_argv_in_tab(data);
+	return (1);
 }
 
 void	execute_with_slash(char *cmd, char **argv, char **envp)

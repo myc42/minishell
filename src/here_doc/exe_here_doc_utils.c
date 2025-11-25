@@ -6,18 +6,11 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 15:29:02 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/22 19:28:53 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/11/24 18:24:17 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-void	ft_waitpid(pid_t pid)
-{
-	int	status;
-
-	waitpid(pid, &status, 0);
-}
 
 void	pipe_fd(int *fds)
 {
@@ -26,14 +19,6 @@ void	pipe_fd(int *fds)
 		perror("pipe");
 		return ;
 	}
-}
-
-void	init_var_heredoc(t_data *data, int *prev_pipe_read_fd, int *pipeline_nb,
-		int *i)
-{
-	*i = 0;
-	*prev_pipe_read_fd = -1;
-	*pipeline_nb = count_pipeline(data) + 1;
 }
 
 void	handle_sigint_heredoc(int sig)
@@ -52,5 +37,4 @@ void	end_exe_heredoc(t_data *data, int fd, int *prev)
 	free_fds_and_pipelines(data);
 	unlink(".test");
 	unlink(".test2");
-	free_all(data);
 }

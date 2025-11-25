@@ -6,7 +6,7 @@
 /*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 20:09:52 by macoulib          #+#    #+#             */
-/*   Updated: 2025/11/22 21:28:09 by macoulib         ###   ########.fr       */
+/*   Updated: 2025/11/24 15:36:20 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,8 @@ int	execute_builtin_in_child(t_data *data)
 {
 	int	i;
 
-	i = -1;
-	if (!data->argv || !data->argv[0])
-		return (-1);
+	i = 0;
+	check_data_bultin(data);
 	if (ft_strncmp(data->argv[0], "pwd", 4) == 0)
 		return (builtin_pwd());
 	if (ft_strncmp(data->argv[0], "echo", 5) == 0)
@@ -33,10 +32,11 @@ int	execute_builtin_in_child(t_data *data)
 		return (builtin_unset(data->argv, &data->envp));
 	if (ft_strncmp(data->argv[0], "exit", 5) == 0)
 		return (builtin_exit(data));
-	while (data->argv[++i])
+	while (data->argv[i])
 	{
-		if (ft_strncmp(data->argv[i - 1], "<<", 3) == 0)
+		if (ft_strncmp(data->argv[i], "<<", 3) == 0)
 			return (builtin_heredoc(data));
+		i++;
 	}
 	return (-1);
 }
@@ -83,37 +83,10 @@ void	exe_cmd(t_data *data, int *i, char **envp)
 	exe_execve_logic(data, *i, envp);
 }
 
-void	execute_pipelines(t_data *data, int i, int prev_pipe_read_fd,
-		int pipeline_nb)
-{
-	int		fds[2];
-	pid_t	pid;
-
-	while (i < pipeline_nb)
-	{
-		if (i < pipeline_nb - 1)
-			pipe_fd(fds);
-		ft_forkpid(&pid);
-		if (pid == 0)
-		{
-			reset_signals_child();
-			set_input_fd(prev_pipe_read_fd, i, data);
-			set_output_fd(i, pipeline_nb, data, fds);
-			exe_cmd(data, &i, data->envp);
-			exit(EXIT_FAILURE);
-		}
-		else
-		{
-			exe_pid_parent(&prev_pipe_read_fd, pipeline_nb, fds, &i);
-		}
-	}
-	free_fds_and_pipelines(data);
-	close_signal(data, prev_pipe_read_fd, pid);
-}
-
 void	exe(t_data *data)
 {
-	first_argv_in_tab(data, data->input_clean, data->envp);
+	if (!first_argv_in_tab(data, data->input_clean, data->envp))
+		return ;
 	if (check_redirect_slash(data))
 		return ;
 	if (!detect_bad_input(data->argv))

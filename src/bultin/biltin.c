@@ -2,14 +2,11 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   biltin.c                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+
-	+:+     */
-/*   By: knehal <knehal@student.42.fr>              +#+  +:+
-	+#+        */
-/*                                                +#+#+#+#+#+
-	+#+           */
-/*   Created: 2025/11/16 23:43:54 by knehal            #+#    #+#             */
-/*   Updated: 2025/11/16 23:43:54 by knehal           ###   ########.fr       */
+/*                                                    +:+ +:+         +:+     */
+/*   By: macoulib <macoulib@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/24 18:25:12 by macoulib          #+#    #+#             */
+/*   Updated: 2025/11/24 18:25:12 by macoulib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,21 +23,6 @@ int	c_pipe(t_data *data)
 	{
 		if (!ft_strcmp(data->argv[i], "|")
 			|| is_redirection_operator2(data->argv[i]))
-			return (0);
-		i++;
-	}
-	return (1);
-}
-
-int	c_pipe2(t_data *data)
-{
-	int	i;
-
-	i = 0;
-	while (data->argv[i])
-	{
-		if (ft_strcmp(data->argv[i], "|") == 0
-			|| is_redirection_operator(data->argv[i]))
 			return (0);
 		i++;
 	}
