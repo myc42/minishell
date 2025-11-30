@@ -1,89 +1,91 @@
-<div align="center">
-  <img src="./minishelle.png" alt="(minishell)" />
-</div>
+# 🐚 Minishell : Un Interpréteur de Commandes POSIX-like 
 
-</br>
+\<div align="center"\>
+\<img src="./minishelle.png" alt="Interface du Minishell" /\>
+\</div\>
 
+## 🚀 Introduction
 
+Le projet **Minishell** constitue une étape fondamentale du cursus 42, visant à l'**implémentation complète d'un interpréteur de commandes (shell) à partir de zéro**, fonctionnellement comparable à **Bash** ou à d'autres shells Unix courants.
 
-🐚 Minishell : L'interpréteur de Commandes de 42
+**Le but est de recoder un shell**, en maîtrisant les mécanismes fondamentaux pour exécuter des commandes, gérer les processus et les entrées/sorties du système.
 
-🚀 Introduction
+En recréant les mécanismes internes du shell, ce projet permet d'acquérir une **maîtrise approfondie** des interactions entre un programme utilisateur et le système d'exploitation, consolidant ainsi la compréhension des concepts clés de la **programmation système** et de l'architecture Unix.
 
-Ce projet, Minishell, est une étape fondamentale dans le cursus 42. Son objectif est de créer notre propre interpréteur de commandes (shell), fonctionnellement similaire à Bash (ou d'autres shells Unix courants).
+-----
 
-En recréant les mécanismes internes d'un shell, nous visons à maîtriser l'interaction entre un programme utilisateur et le système d'exploitation, ainsi qu'à renforcer notre compréhension des concepts clés de la programmation système.
+## ✨ Fonctionnalités Implémentées
 
-🖼️ Structure du Projet
+Notre interpréteur supporte l'ensemble des fonctionnalités essentielles d'un shell moderne, notamment :
 
-Voici un aperçu de la structure de l'interpréteur et du flux des données.
+### 1\. Gestion des Processus et I/O (Le Cœur du Shell)
 
-**
+  * **Processus Enfants** : Utilisation des appels système de bas niveau (`fork()`, `execve()`, `waitpid()`) pour exécuter les commandes externes.
+  * **Pipes (`|`)** : Implémentation de la communication inter-processus, permettant d'enchaîner des commandes où la sortie de l'une devient l'entrée de la suivante.
+  * **Redirections I/O** :
+      * Sortie simple (`>`), Redirection d'ajout (`>>`).
+      * Redirection d'entrée (`<`).
+      * **Here Document (`<<`)** : Gestion de l'entrée en ligne jusqu'à un délimiteur spécifié.
+  * **Gestion des Signaux** : Implémentation de `sigaction()` pour gérer les signaux système (`SIGINT` / Ctrl+C, `SIGQUIT` / Ctrl+), assurant la robustesse en mode interactif.
 
-✨ Fonctionnalités Implémentées
+### 2\. Analyse et Interprétation (Parsing)
 
-Notre minishell supporte une grande partie des fonctionnalités essentielles d'un shell moderne, notamment :
+  * **Tokenisation** : Découpage précis de la ligne de commande en éléments logiques (tokens : commandes, arguments, opérateurs).
+  * **Gestion des Quotes** : Interprétation correcte des guillemets doubles (`"`) et simples (`'`) pour contrôler l'expansion des variables et la tokenisation.
+  * **Expansion des Variables** : Remplacement des variables d'environnement (`$USER`, `$HOME`, `$?`) par leur valeur avant exécution.
 
-1. Gestion des Commandes et de l'Environnement
+### 3\. Commandes Intégrées (Built-ins) et Environnement
 
-    Gestion des variables d'environnement: Manipulation des variables d'environnement (PATH, HOME, etc.) et implémentation des fonctions primitives (built-ins) comme cd, echo, pwd, export, unset, et exit.
+  * **Variables d'Environnement** : Manipulation de l'environnement (ex: `$PATH`, `$HOME`) et gestion des fonctions primitives (built-ins) :
+      * `cd`, `echo`, `pwd`, `export`, `unset`, `exit`.
+  * **Statut de Sortie** : Gestion et retour précis du statut de sortie (`exit status`, `$?`) de la dernière commande exécutée.
+  * **Recherche d'Exécutable** : Résolution du chemin des commandes via la variable `$PATH`.
 
-    Recherche de commandes: Identification et résolution des chemins des exécutables en utilisant la variable $PATH.
+-----
 
-    Exit status ($?): Correctement gérer et retourner le statut de sortie de la dernière commande exécutée.
+## 🛠️ Compétences et Concepts Maîtrisés
 
-2. Le cœur du Shell : Processus et I/O
+| Catégorie | Compétences Clés Développées |
+| :--- | :--- |
+| **Programmation Système** | Maîtrise des appels système de processus (`fork`, `execve`, `waitpid`), des I/O de bas niveau (`open`, `read`, `write`, `close`), et des opérations sur descripteurs de fichiers (`dup2`, `pipe`). |
+| **Architecture du Shell** | **Compréhension complète du cycle de vie d'une commande** (lecture, parsing, expansion, exécution) nécessaire pour **recoder un shell complet**. |
+| **Robustesse et Mémoire** | Implémentation modulaire et conforme à la norme 42. **Gestion rigoureuse des allocations** (absence de fuites mémoire) et gestion sécurisée des chaînes de caractères. |
+| **Structure de Données** | Conception de structures de données adaptées (arbres syntaxiques, listes chaînées de commandes/tokens) pour représenter la ligne de commande. |
 
-    Gestion des processus : Utilisation des appels système de bas niveau (fork(), execve(), waitpid()) pour exécuter des commandes externes en tant que processus enfants.
+-----
 
-    Redirection des Entrées/Sorties (I/O) :
+## ⚙️ Installation et Compilation
 
-        Redirection de sortie simple (>): Écrire la sortie dans un fichier (création ou écrasement).
+### Prérequis
 
-        Redirection d'ajout (>>): Écrire la sortie en ajoutant à la fin d'un fichier.
+  * `make`
+  * `cc` (Compilateur C)
+  * La librairie **`readline`** (souvent disponible via `libreadline-dev` sur Linux ou `brew install readline` sur macOS).
 
-        Redirection d'entrée (<): Lire l'entrée depuis un fichier.
+### ⚠️ Note Importante : Dépendance `libft`
 
-        Here Document (<<): Lire des lignes d'entrée directement depuis le terminal jusqu'à ce qu'un délimiteur spécifique soit rencontré.
+Ce projet utilise des fonctions utilitaires issues de ma librairie personnelle, **`libft`**.
 
-    Gestion des Pipes (|) : Enchaîner des commandes pour que la sortie de la première devienne l'entrée de la suivante (ls | grep). Cela nécessite la manipulation des descripteurs de fichiers et des processus.
+Si la compilation échoue, c'est que la librairie `libft` n'est pas présente. Vous pouvez la cloner directement depuis mon répertoire GitHub et la placer dans le dossier racine du projet `minishell` :
 
-3. Parsing et Interprétation
+> `git clone https://github.com/myc42/libft`
 
-    Tokenisation : Découpage de la ligne de commande brute en éléments logiques (tokens : commandes, arguments, opérateurs, redirections).
+### Instructions de Compilation
 
-    Gestion des Quotes : Interprétation correcte des guillemets doubles (") et guillemets simples (') pour prévenir l'interprétation ou l'expansion des variables.
-
-    Expansion des Variables : Remplacement des variables d'environnement ($USER, $HOME, etc.) par leur valeur avant l'exécution.
-
-4. Robustesse et Gestion des Signaux
-
-    Gestion des Signaux : Capturer et gérer les signaux du système (avec sigaction()):
-
-        Ctrl+C (SIGINT) : Afficher un nouveau prompt ou terminer la commande en cours.
-
-        Ctrl+\ (SIGQUIT) : Ignoré en mode interactif.
-
-        Ctrl+D (EOF) : Fermeture du shell (exit).
-
-🛠️ Compétences et Concepts Maîtrisés
-
-Ce projet a permis de développer une compréhension profonde des concepts suivants :
-Catégorie	Compétences Clés
-Programmation Système	<ul><li>Utilisation et manipulation des appels système de processus (fork, execve, waitpid).</li><li>Maîtrise de la gestion des descripteurs de fichiers et des I/O (open, read, write, close, dup2).</li><li>Création et gestion des pipes (pipe()).</li></ul>
-Gestion de la Mémoire	<ul><li>Gestion rigoureuse des allocations (pas de fuites mémoire).</li><li>Manipulation sécurisée des chaînes de caractères et des tableaux de chaînes.</li></ul>
-Structure de Données	<ul><li>Conception de structures de données pour représenter la ligne de commande (ex: liste chaînée de tokens ou de commandes).</li></ul>
-Code et Robustesse	<ul><li>Modularité et lisibilité du code (norme 42).</li><li>Gestion des erreurs et robustesse face aux entrées utilisateur inattendues.</li></ul>
-⚙️ Installation et Utilisation
-
-Prérequis
-
+1.  Clonez le projet :
+    ```bash
+    git clone https://github.com/myc42/minishell
+    cd minishell
+    ```
+2.  Lancez la compilation :
+    ```bash
     make
+    ```
+3.  Exécutez l'interpréteur :
+    ```bash
+    ./minishell
+    ```
 
-    cc (compilateur C)
-
-    La librairie readline (souvent disponible via brew install readline sur macOS ou sudo apt-get install libreadline-dev sur Linux).
-    git clone https://github.com/donmo42/minishell
-cd minishell - 
-make -
-./minishell
+\<div align="center"\>
+\<img src="./screen.png" alt="Flux de données Minishell" /\>
+\</div\>
