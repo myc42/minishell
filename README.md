@@ -1,8 +1,13 @@
 # 🐚 Minishell : Un Interpréteur de Commandes POSIX-like 
 
-\<div align="center"\>
-\<img src="./minishelle.png" alt="Interface du Minishell" /\>
-\</div\>
+ <div align="center">
+
+  <img src="./minishelle.png" alt="(minishell)" />
+
+</div>
+
+
+</br> 
 
 ## 🚀 Introduction
 
@@ -13,6 +18,19 @@ Le projet **Minishell** constitue une étape fondamentale du cursus 42, visant �
 En recréant les mécanismes internes du shell, ce projet permet d'acquérir une **maîtrise approfondie** des interactions entre un programme utilisateur et le système d'exploitation, consolidant ainsi la compréhension des concepts clés de la **programmation système** et de l'architecture Unix.
 
 -----
+ 🖼️ Structure du Projet
+
+
+Voici un aperçu de la structure de l'interpréteur et du flux des données.
+
+
+**
+
+<div align="center">
+
+  <img src="./screen.png" alt="(minishell)" />
+
+</div> 
 
 ## ✨ Fonctionnalités Implémentées
 
