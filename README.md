@@ -104,6 +104,4 @@ Si la compilation échoue, c'est que la librairie `libft` n'est pas présente. V
     ./minishell
     ```
 
-\<div align="center"\>
-\<img src="./screen.png" alt="Flux de données Minishell" /\>
-\</div\>
+
